@@ -1,5 +1,5 @@
-const config = require('../config');
-const { cmd, commands } = require('../command');
+const {readEnv} = require('../lib/database')
+const {cmd , commands} = require('../command')
 const { getBuffer, getGroupAdmins, getRandom, h2k, isUrl, Json, runtime, sleep, fetchJson } = require('../lib/functions');
 
 function genMsgId() {
