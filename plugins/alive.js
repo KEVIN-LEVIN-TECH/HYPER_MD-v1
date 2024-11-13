@@ -26,7 +26,7 @@ type as owner and direct the question to me. Good day.
 
  ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`
 const config = await readEnv();
-return await conn.sendMessage(from,{image: {url: config.ALIVE_IMG},},{quoted: mek})
+return await conn.sendMessage(from,{image: {url: config.ALIVE_IMG},caption: des},{quoted: mek})
 }catch(e){
 console.log(e)
 reply(`${e}`)
