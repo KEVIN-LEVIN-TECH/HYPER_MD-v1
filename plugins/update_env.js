@@ -1,5 +1,7 @@
-const {readEnv} = require('../lib/database')
-const {cmd , commands} = require('../command')
+const { updateEnv, readEnv } = require('../lib/database');
+const EnvVar = require('../lib/mongodbenv');
+const { cmd } = require('../command');
+
 cmd({
     pattern: "update",
     alias: ["updateenv"],
@@ -11,7 +13,7 @@ async (conn, mek, m, { from, q, reply, isOwner }) => {
     if (!isOwner) return;
 
     if (!q) {
-        return reply(" *Please provide the environment variable and its new value.* \n\nExample: `.update ALIVE_IMG: Enter Img Url`");
+        return reply("🙇‍♂️ *Please provide the environment variable and its new value.* \n\nExample: `.update ALIVE_MSG: hello i am hyper md`");
     }
 
     // Find the position of the first colon or comma
