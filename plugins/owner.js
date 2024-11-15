@@ -20,8 +20,7 @@ let dec = `Hyper MD Whatsapp Bot
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `
-await conn.sendMessage(from,{image:{url: `https://i.ibb.co/820JmBT/Colorful-Modern-Infinity-Technology-Free-Logo.png`},caption:dec},{quoted:mek});
-
+return await conn.sendMessage(from,{image: {url: config.ALIVE_IMG},caption: des},{quoted: mek})
 }catch(e){
 console.log(e)
 reply(`${e}`)
