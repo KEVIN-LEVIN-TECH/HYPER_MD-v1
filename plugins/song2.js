@@ -26,12 +26,17 @@ let message = `‎‎
 🎶 Hyper-MD YT SONG DOWNLOADER 🎶
 
 
- ‎Title: ${data.title}
- Duration: ${data.timestamp}
- Uploaded: ${data.ago}
- Views: ${data.views}
- Author: ${data.author.name}
-Url: ${data.url}
+| ➤ ‎Title: ${data.title}
+ 
+| ➤ Duration: ${data.timestamp}
+ 
+| ➤ Uploaded: ${data.ago}
+ 
+| ➤ Views: ${data.views}
+ 
+| ➤ Author: ${data.author.name}
+ 
+| ➤ Url: ${data.url}
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `
