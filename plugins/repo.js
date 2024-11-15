@@ -27,7 +27,7 @@ let dec = `👨‍💻 Hyper MD Repastitory Information
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `
-return await conn.sendMessage(from,{image:{url: config.ALIVE_IMG},caption:dec},{quoted:mek});
+return await conn.sendMessage(from,{image:{url: `https://pomf2.lain.la/f/ozh9ihol.png`},caption:dec},{quoted:mek});
 }catch(e){
 console.log(e)
 reply(`${e}`)
