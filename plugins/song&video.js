@@ -22,17 +22,17 @@ let desc = `
 
 ◆Hyper-MD SONG DOWNLOADER◆
 
-> title: ${data.title}
+title: ${data.title}
 
-> description: ${data.description}
+description: ${data.description}
 
-> time: ${data.timestamp}
+time: ${data.timestamp}
 
-> ago: ${data.ago}
+ago: ${data.ago}
 
-> views: ${data.views}
+views: ${data.views}
 
-@ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 
 `
 await conn.sendMessage(from,{image:{url: data.thumbnail},caption:desc},{quoted:mek});
@@ -72,17 +72,17 @@ const url = data.url
 let desc = `
 ◆Hyper-MD  SONG DOWNLOADER◆
 
-> title: ${data.title}
+title: ${data.title}
 
-> description: ${data.description}
+description: ${data.description}
 
-> time: ${data.timestamp}
+time: ${data.timestamp}
 
-> ago: ${data.ago}
+ago: ${data.ago}
 
-> views: ${data.views}
+views: ${data.views}
 
-©@ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 
 `
 await conn.sendMessage(from,{image:{url: data.thumbnail},caption:desc},{quoted:mek});
