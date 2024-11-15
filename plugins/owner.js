@@ -11,7 +11,7 @@ cmd({
 async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
 try{
 
-let dec = `Hyper MD Whatsapp Bot
+let dec = `Hyper MD Whatsapp Bot Owner
 
 | ᴏᴡɴᴇʀ ɴᴀᴍᴇ: Mr Senesh (KEVIN)
 | ɴᴜᴍʙᴇʀ: 94784337506
@@ -20,7 +20,8 @@ let dec = `Hyper MD Whatsapp Bot
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `
-return await conn.sendMessage(from,{image: {url: config.ALIVE_IMG},caption: des},{quoted: mek})
+await conn.sendMessage(from,{image:{url: `https://pomf2.lain.la/f/ozh9ihol.png`},caption:dec},{quoted:mek});
+
 }catch(e){
 console.log(e)
 reply(`${e}`)
