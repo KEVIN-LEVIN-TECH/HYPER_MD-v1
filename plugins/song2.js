@@ -5,8 +5,8 @@ const { fetchJson } = require('../lib/functions')
 const apilink = 'https://dark-yasiya-api-new.vercel.app' 
 
 cmd({
-    pattern: "song2",
-    desc: "download songs.",
+    pattern: "yts",
+    desc: "download yt songs.",
     category: "download",
     react: "🎧",
     filename: __filename
