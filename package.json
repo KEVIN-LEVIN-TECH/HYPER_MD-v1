@@ -4,7 +4,9 @@
   "description": "A WhatsApp bot created using Node.js",
   "main": "index.js",
   "scripts": {
-    "start": "npm install && node ."
+    "start": "pm2 start index.js --deep-monitoring --attach --name hyper-md",
+    "stop": "pm2 stop hyper-md",
+    "restart": "pm2 restart hyper-md"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "6.6.0",
