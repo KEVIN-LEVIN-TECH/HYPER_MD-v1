@@ -11,7 +11,7 @@ cmd({
 async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
 try{
 await conn.sendMessage(from, {
-            audio: { url: 'https://github.com/Lakshanteach/RAW/raw/refs/heads/main/PTT-20241016-WA0053.m4a' },
+            audio: { url: 'https://github.com/KEVIN-LEVIN-TECH/Hyper-md-voice/raw/refs/heads/main/auto_voice/a66ff105-7c8a-4f6a-805f-cbe9bfe8fe86.mp3' },
             mimetype: 'audio/mp4',
             ptt: true
         }, { quoted: mek });
