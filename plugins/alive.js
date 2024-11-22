@@ -27,7 +27,7 @@ type as owner and direct the question to me. Good day.
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`
 const config = await readEnv();
 await conn.sendMessage(from, {
-            audio: { url: 'https://github.com/KEVIN-LEVIN-TECH/Hyper-md-voice/raw/refs/heads/main/auto_voice/a66ff105-7c8a-4f6a-805f-cbe9bfe8fe86.mp3' },
+            audio: { url: 'https://github.com/KEVIN-LEVIN-TECH/Hyper-md-voice/raw/refs/heads/main/auto_voice/ca15f4b2-da73-4901-90ad-6ed40b743bfe.mp3' },
             mimetype: 'audio/mp4',
             ptt: true
         }, { quoted: mek });
