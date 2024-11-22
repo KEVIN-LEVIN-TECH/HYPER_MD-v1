@@ -10,7 +10,11 @@ cmd({
 },
 async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
 try{
-    
+await conn.sendMessage(from, {
+            audio: { url: 'https://github.com/Lakshanteach/RAW/raw/refs/heads/main/PTT-20241016-WA0053.m4a' },
+            mimetype: 'audio/mp4',
+            ptt: true
+        }, { quoted: mek });
 let des = `👋 𝙷𝚎𝚕𝚕𝚘 ${pushname} 𝙸'𝚖 𝚊𝚕𝚒𝚟𝚎 𝚗𝚘𝚠
 
 Im Hyper-MD Whatsapp Bot Create By Mr Senesh 🍂✨
