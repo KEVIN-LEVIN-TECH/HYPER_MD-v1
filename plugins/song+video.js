@@ -18,7 +18,21 @@ const data = search.videos[0];
 const url = data.url
 
 let desc = `
-_*Hyper-MD Song Downloader 🎵*_
+🎶HYPER-MD SONG DOWNLOADER🎶
+
+| ➤ ‎Title: ${data.title}
+ 
+| ➤ Duration: ${data.timestamp}
+ 
+| ➤ Uploaded: ${data.ago}
+ 
+| ➤ Views: ${data.views}
+ 
+| ➤ Author: ${data.author.name}
+ 
+| ➤ Url: ${data.url}
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `
 await conn.sendMessage(from,{image:{url: data.thumbnail},caption:desc},{quoted:mek});
 
@@ -56,7 +70,21 @@ const data = search.videos[0];
 const url = data.url
 
 let desc = `
-_*Hyper-MD Video Downloader 🎥*_
+🎶HYPER-MD VIDEO DOWNLOADER🎶
+
+| ➤ ‎Title: ${data.title}
+ 
+| ➤ Duration: ${data.timestamp}
+ 
+| ➤ Uploaded: ${data.ago}
+ 
+| ➤ Views: ${data.views}
+ 
+| ➤ Author: ${data.author.name}
+ 
+| ➤ Url: ${data.url}
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `
 await conn.sendMessage(from,{image:{url: data.thumbnail},caption:desc},{quoted:mek});
 
