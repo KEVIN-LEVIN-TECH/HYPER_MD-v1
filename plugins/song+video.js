@@ -1,8 +1,9 @@
-const { eypz, commands } = require('../command');
+const { cmd, commands } = require('../command');
 const fg = require('api-dylux');
 const yts = require('yt-search');
 const config = require('../config');
 
+// ============ SONG DOWNLOAD COMMAND ============
 cmd({
     pattern: "song",
     desc: "Download songs",
@@ -62,8 +63,7 @@ async (conn, mek, m, {
     }
 });
 
-// ============= VIDEO DOWNLOAD COMMAND =============
-
+// ============ VIDEO DOWNLOAD COMMAND ============
 cmd({
     pattern: "video",
     desc: "Download videos",
@@ -114,7 +114,7 @@ async (conn, mek, m, {
             document: { url: downloadUrl }, 
             mimetype: "video/mp4", 
             fileName: `${data.title}.mp4`, 
-            caption:  "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
+            caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
         }, { quoted: mek });
 
     } catch (e) {
