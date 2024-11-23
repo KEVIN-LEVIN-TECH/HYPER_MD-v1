@@ -16,12 +16,11 @@ let dec = `Hyper MD Whatsapp Bot Owner
 | ᴏᴡɴᴇʀ ɴᴀᴍᴇ: Mr Senesh (KEVIN)
 | ɴᴜᴍʙᴇʀ: 94784337506
 | ʏᴏᴜᴛᴜʙᴇ: 
-| ᴡʜᴀᴛꜱᴀᴘᴘ ᴄʜᴀɴɴᴇʟ: 
+| ᴡʜᴀᴛꜱᴀᴘᴘ ᴄʜᴀɴɴᴇʟ: https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `
-
-await conn.sendMessage(from,{image:{url: config.ALIVE_IMG},caption:dec},{quoted:mek});
+await conn.sendMessage(from,{image:{url:config.OWNER_IMG},caption:dec},{quoted:mek});
 
 }catch(e){
 console.log(e)
