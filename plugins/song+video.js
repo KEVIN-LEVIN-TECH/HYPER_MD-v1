@@ -53,7 +53,7 @@ async (conn, mek, m, {
             document: { url: downloadUrl }, 
             mimetype: "audio/mpeg", 
             fileName: `${data.title}.mp3`, 
-            caption: ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+            caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ",
         }, { quoted: mek });
 
     } catch (e) {
