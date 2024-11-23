@@ -3,7 +3,7 @@ const fg = require('api-dylux');
 const yts = require('yt-search');
 const config = require('../config');
 
-eypz({
+cmd({
     pattern: "song",
     desc: "Download songs",
     category: "download",
@@ -64,7 +64,7 @@ async (conn, mek, m, {
 
 // ============= VIDEO DOWNLOAD COMMAND =============
 
-eypz({
+cmd({
     pattern: "video",
     desc: "Download videos",
     category: "download",
