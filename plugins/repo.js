@@ -27,7 +27,7 @@ let dec = `👨‍💻 Hyper MD Repastitory Information
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `
-return await conn.sendMessage(from,{image:{url:config.LOGO_IMG},caption:dec},{quoted:mek});
+return await conn.sendMessage(from,{image:{url: `https://github.com/KEVIN-LEVIN-TECH/HYPER_MD-v1/blob/main/midea/20241122_203120.jpg` },caption:dec},{quoted:mek});
 }catch(e){
 console.log(e)
 reply(`${e}`)
