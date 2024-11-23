@@ -66,7 +66,7 @@ await conn.sendMessage(from, {
             mimetype: 'audio/mp4',
             ptt: true
         }, { quoted: mek });
-await conn.sendMessage(from,{image:{url:confi.MENU_IMG},caption:madeMenu},{quoted:mek})
+await conn.sendMessage(from,{image:{url: `https://github.com/KEVIN-LEVIN-TECH/HYPER_MD-v1/blob/main/midea/20241123_121425.jpg'},caption:madeMenu` },{quoted:mek})
     
 }catch(e){
 console.log(e);
