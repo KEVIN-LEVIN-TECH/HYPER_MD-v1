@@ -33,12 +33,14 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => 
 
         // Message to show video options
         let infoMessage = `
-📥 Facebook Video Download Options
-
-| ➤ Title: ${videoTitle}
-| ➤ HD Quality: Available
-| ➤ SD Quality: Available
-| ➤ Audio Quality: Available
+╭────❮ Facebook Video Download ❯──
+│
+│ ➤ Title: ${videoTitle}
+│ ➤ HD Quality: Available
+│ ➤ SD Quality: Available
+│ ➤ Audio Quality: Available
+│
+╰───────────────────────
 
 🔢 Reply Below Number
 
