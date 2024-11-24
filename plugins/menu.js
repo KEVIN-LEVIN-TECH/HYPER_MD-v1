@@ -1,6 +1,8 @@
 const { readEnv } = require('../lib/database');
-const { cmd, commands } = require('../command');
+const { cmd } = require('../command');
+const os = require('os');
 
+// Menu command
 cmd({
     pattern: "menu",
     react: '📜',
@@ -9,50 +11,36 @@ cmd({
     filename: __filename
 },
 async (conn, mek, m, { 
-    from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply 
+    from, quoted, pushname, reply 
 }) => {
     try {
         const config = await readEnv();
-        let menu = {
-            main: '',
-            download: '',
-            group: '',
-            owner: '',
-            convert: '',
-            search: '',
-        };
 
-        // Categorize commands into sections
-        for (let i = 0; i < commands.length; i++) {
-            if (commands[i].pattern && !commands[i].dontAddCommandList) {
-                menu[commands[i].category] += `${config.PREFIX}${commands[i].pattern}\n`;
-            }
-        }
-
-        // Prompt user to select a menu
+        // Menu selection message
         const selectionMessage = `
-Hello 👋 ${pushname},
+👋 Hello ${pushname},
 
-╭━━━━ Cᴏᴍᴍᴀɴᴅꜱ Pᴀɴᴇʟ━━━━━━
-│ Ram usage: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
-│ Prefix: ${config.PREFIX}
-│ Versions: 1.0.0
-╰━━━━━━━━━━━━━━━━━━━ 
-
- Hʏᴘᴇʀ-MD Cᴏᴍᴍᴀɴᴅꜱ Pᴀɴᴇʟ
+╭──❮ System Information ❯──
+│ 
+│Memory: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${(os.totalmem() / 1024 / 1024).toFixed(2)}MB  
+│Prefix: ${config.PREFIX}  
+│Version: 1.0.0  
+│
+╰────────────────
 
 🔢 Reply Below Number
 
-1| DOWNLOAD MENU
-2| MAIN MENU
-3| GROUP MENU
-4| OWNER MENU
-5| CONVERT MENU
-6| SEARCH MENU
+1 | DOWNLOAD MENU  
+2 | MAIN MENU  
+3 | GROUP MENU  
+4 | OWNER MENU  
+5 | CONVERT MENU  
+6 | SEARCH MENU  
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
 
+        // Send the selection message
         const sentMessage = await conn.sendMessage(from, {
             text: selectionMessage,
         }, { quoted: mek });
@@ -62,45 +50,117 @@ Hello 👋 ${pushname},
             const msg = msgUpdate.messages[0];
             if (!msg.message || !msg.message.extendedTextMessage) return;
 
-            const selectedOption = msg.message.extendedTextMessage.text.trim();
-
-            // Check if the reply is valid and related to the menu prompt
+            const userResponse = msg.message.extendedTextMessage.text.trim();
             if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === sentMessage.key.id) {
-                let selectedMenu;
+                let responseText;
 
-                switch (selectedOption) {
+                // Command templates
+                switch (userResponse) {
                     case '1': // DOWNLOAD MENU
-                        selectedMenu = `DOWNLOAD MENU\n\n${menu.download}`;
+                        responseText = `
+◈╾───DOWNLOAD MENU──╼◈
+
+╭────────●●►
+│ ⦁ .fb
+│ ⦁ .img
+│ ⦁ .mediafire
+│ ⦁ .tiktok
+│ ⦁ .mfire
+│ ⦁ .fb2
+│ ⦁ .song
+│ ⦁ .video
+│ ⦁ .0.1
+│ ⦁ .xvideo
+│ ⦁ .apk
+│ ⦁ .ig1
+│ ⦁ .mvdl
+│ ⦁ .slsub
+│ ⦁ .play
+╰─────────────────●●►
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+`;
                         break;
                     case '2': // MAIN MENU
-                        selectedMenu = `MAIN MENU\n\n${menu.main}`;
+                        responseText = `
+◈╾───MAIN MENU──╼◈
+
+╭────────●●►
+│ ⦁ .alive
+│ ⦁ .menu
+│ ⦁ .ping
+│ ⦁ .repo
+╰─────────────────●●►
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+`;
                         break;
                     case '3': // GROUP MENU
-                        selectedMenu = `GROUP MENU\n\n${menu.group}`;
+                        responseText = `
+◈╾───GROUP MENU──╼◈
+
+╭────────●●►
+│ ⦁ .add
+│ ⦁ .kick
+│ ⦁ .promote
+│ ⦁ .demote
+│ ⦁ .tagall
+│ ⦁ .linkgroup
+╰─────────────────●●►
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+`;
                         break;
                     case '4': // OWNER MENU
-                        selectedMenu = `OWNER MENU\n\n${menu.owner}`;
+                        responseText = `
+◈╾───OWNER MENU──╼◈
+
+╭────────●●►
+│ ⦁ .ban
+│ ⦁ .unban
+│ ⦁ .block
+│ ⦁ .unblock
+│ ⦁ .setppbot
+│ ⦁ .restart
+╰─────────────────●●►
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+`;
                         break;
                     case '5': // CONVERT MENU
-                        selectedMenu = `CONVERT MENU\n\n${menu.convert}`;
+                        responseText = `
+◈╾───CONVERT MENU──╼◈
+
+╭────────●●►
+│ ⦁ .toimg
+│ ⦁ .sticker
+│ ⦁ .tomp3
+│ ⦁ .tomp4
+╰─────────────────●●►
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+`;
                         break;
                     case '6': // SEARCH MENU
-                        selectedMenu = `SEARCH MENU\n\n${menu.search}`;
+                        responseText = `
+◈╾───SEARCH MENU──╼◈
+
+╭────────●●►
+│ ⦁ .ytsearch
+│ ⦁ .play
+│ ⦁ .lyrics
+│ ⦁ .wiki
+╰─────────────────●●►
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+`;
                         break;
                     default:
-                        return reply("Invalid option. Please reply with a valid number.");
+                        responseText = "❌ Invalid option. Please enter a valid number (1-6).";
                 }
 
-                // Send the selected menu
-                await conn.sendMessage(from, {
-                    text: selectedMenu,
-                }, { quoted: mek });
-
-                // Send an image related to the menu
-                await conn.sendMessage(from, {
-                    image: { url: 'https://i.ibb.co/1zTvSVj/20241123-121425.jpg' },
-                    caption:madeMenu,
-                }, { quoted: mek });
+                // Show the selected menu
+                await conn.sendMessage(from, { text: responseText }, { quoted: mek });
             }
         });
 
