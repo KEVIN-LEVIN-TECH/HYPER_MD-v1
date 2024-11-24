@@ -20,7 +20,7 @@ let dec = `Hyper MD Whatsapp Bot Owner
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `
-await conn.sendMessage(from,{image:{url: `https://github.com/KEVIN-LEVIN-TECH/HYPER_MD-v1/blob/main/midea/20241123_124107.jpg` },caption:dec},{quoted:mek});
+await conn.sendMessage(from,{image:{url: `https://i.ibb.co/3cmC926/20241123-124107.jpg` },caption:dec},{quoted:mek});
 
 }catch(e){
 console.log(e)
