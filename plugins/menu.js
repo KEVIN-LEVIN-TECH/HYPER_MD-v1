@@ -34,7 +34,6 @@ async (conn, mek, m, {
  Hello 👋 ${pushname}
  
 ╭━━━━ Cᴏᴍᴍᴀɴᴅꜱ Pᴀɴᴇʟ━━━━━━
-│ Uptime:  ${runtime(process.uptime())}
 │ Ram usage: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
 │ Prefix: ${config.PREFIX}
 │ Versions: 1.0.0
@@ -73,7 +72,7 @@ ${menu.search}
 
         // Send menu image with caption
         await conn.sendMessage(from, {
-            image: { url: `https://github.com/KEVIN-LEVIN-TECH/HYPER_MD-v1/blob/main/midea/20241123_121425.jpg` },
+            image: { url: `https://i.ibb.co/1zTvSVj/20241123-121425.jpg` },
             caption: madeMenu
         }, { quoted: mek });
 
