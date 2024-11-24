@@ -39,7 +39,7 @@ async (conn, mek, m, {
 
 | ➤ URL: ${data.url}
 
-Reply Below Number
+🔢 Reply Below Number
 
 1| Audio Type
 2| Document Type
@@ -119,27 +119,64 @@ async (conn, mek, m, {
 
 | ➤ URL: ${data.url}
 
+🔢 Reply Below Number
+
+1| Audio Type
+2| Document Type
+
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-        await conn.sendMessage(from, { image: { url: data.thumbnail }, caption: desc }, { quoted: mek });
+        const vv = await conn.sendMessage(from, { image: { url: data.thumbnail }, caption: desc }, { quoted: mek });
 
-        // Download video
-        const down = await fg.ytv(url);
-        if (!down || !down.dl_url) return reply("Failed to fetch the download link. Please try again.");
+        // Wait for user response
+        conn.ev.on('messages.upsert', async (msgUpdate) => {
+            const msg = msgUpdate.messages[0];
+            if (!msg.message || !msg.message.extendedTextMessage) return;
 
-        const downloadUrl = down.dl_url;
+            const selectedOption = msg.message.extendedTextMessage.text.trim();
 
-        // Send video
-        await conn.sendMessage(from, { video: { url: downloadUrl }, mimetype: "video/mp4" }, { quoted: mek });
-        await conn.sendMessage(from, { 
-            document: { url: downloadUrl }, 
-            mimetype: "video/mp4", 
-            fileName: `${data.title}.mp4`, 
-            caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
-        }, { quoted: mek });
+            // Validate the user response
+            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
+                switch (selectedOption) {
+                    case '1': {
+                        // Download video as a file
+                        const down = await fg.ytv(url);
+                        const downloadUrl = down.dl_url;
+                        if (!downloadUrl) return reply("Failed to fetch the video file. Please try again.");
+
+                        await conn.sendMessage(from, { 
+                            video: { url: downloadUrl },
+                            mimetype: "video/mp4",
+                            caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
+                        }, { quoted: mek });
+                        break;
+                    }
+                    case '2': {
+                        // Download video as a document
+                        const downDoc = await fg.ytv(url);
+                        const downloadDocUrl = downDoc.dl_url;
+                        if (!downloadDocUrl) return reply("Failed to fetch the video document. Please try again.");
+
+                        await conn.sendMessage(from, { 
+                            document: { url: downloadDocUrl },
+                            mimetype: "video/mp4",
+                            fileName: `${data.title}.mp4`,
+                            caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
+                        }, { quoted: mek });
+
+                        await conn.sendMessage(from, { react: { text: '✅', key: mek.key } });
+                        break;
+                    }
+                    default:
+                        reply("Invalid option. Please select a valid option 🔴");
+                }
+            }
+        });
 
     } catch (e) {
         console.error(e);
-        reply(`Error: ${e.message}`);
+        // Handle errors
+        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+        reply('An error occurred while processing your request.');
     }
 });
