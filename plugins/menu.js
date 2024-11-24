@@ -99,7 +99,7 @@ Hello 👋 ${pushname},
                 // Send an image related to the menu
                 await conn.sendMessage(from, {
                     image: { url: 'https://i.ibb.co/1zTvSVj/20241123-121425.jpg' },
-                    caption: `Here is your requested menu: ${selectedOption}`,
+                    caption:madeMenu,
                 }, { quoted: mek });
             }
         });
