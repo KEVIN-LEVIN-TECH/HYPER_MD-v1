@@ -34,7 +34,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => 
 ╭───❮ APK File Info ❯────────
 │
 │ ➤ File Name: ${apkName}
-│ ➤ Size: ${apkSize} MB
+│ ➤ Size: ${apkSize} 
 │ ➤ File Type: ${apkType}
 │ ➤ Download URL: ${downloadUrl}
 │
