@@ -1,39 +1,81 @@
-const {readEnv} = require('../lib/database')
-const {cmd , commands} = require('../command')
+const {readEnv} = require('../lib/database)
+const { cmd } = require('../command');
 
+// ========== ALIVE COMMAND ==========
 cmd({
     pattern: "alive",
     react: "👋",
-    desc: "Check bot online or no.",
+    desc: "Check bot status and display interactive menu",
     category: "main",
-    filename: __filename
+    filename: __filename,
 },
-async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-try{
+async (conn, mek, m, { from, reply }) => {
+    try {
+        // Alive Message Content
+        const aliveDesc = `
+👋 Hello, ${pushname}
 
-let des = `👋 𝙷𝚎𝚕𝚕𝚘 ${pushname} 𝙸'𝚖 𝚊𝚕𝚒𝚟𝚎 𝚗𝚘𝚠
+I'm Hyper-MD WhatsApp Bot!
 
-Im Hyper-MD Whatsapp Bot Create By Mr Senesh 🍂✨
-┏━━━━━━━━━━━━━━━━━━━━━
-┃ Version: 1.0.0
-┃ Memory: 38.09MB/7930MB
-┃ Runtime: 1 minute,25 seconds
-┃ Owner: Mr Senesh
-┗━━━━━━━━━━━━━━━━━━━━━
-I am hyper md whatsapp bot. How can I help you.
-To get the menu, type as menu. If you need to know something about the bot,
-type as owner and direct the question to me. Good day.
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`
-const config = await readEnv();
-await conn.sendMessage(from, {
-            audio: { url: 'https://github.com/KEVIN-LEVIN-TECH/Hyper-md-voice/raw/refs/heads/main/auto_voice/ca15f4b2-da73-4901-90ad-6ed40b743bfe.mp3' },
-            mimetype: 'audio/mp4',
-            ptt: true
-        }, { quoted: mek });
-return await conn.sendMessage(from,{image: {url: config.ALIVE_IMG},caption: des},{quoted: mek})
-}catch(e){
-console.log(e)
-reply(`${e}`)
-}
-})
+🔢 Reply Below Number:
+
+1 || View Bot Status
+2 || Contact Bot Owner
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+`;
+
+        // Sending Alive Message with Options
+        const msg = await conn.sendMessage(from, { text: aliveDesc }, { quoted: mek });
+
+        // Listen for User Response
+        conn.ev.on('messages.upsert', async (msgUpdate) => {
+            const msg = msgUpdate.messages[0];
+            if (!msg.message || !msg.message.extendedTextMessage) return;
+
+            const selectedOption = msg.message.extendedTextMessage.text.trim();
+
+            // Validate if the response matches the `.alive` message
+            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === msg.key.id) {
+                switch (selectedOption) {
+                    case '1': {
+                        // Option 1: Show Bot Status
+                        const botStatus = `
+✅ Bot Status: Online
+📅 Date: ${new Date().toLocaleDateString()}
+🕒 Time: ${new Date().toLocaleTimeString()}
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+                        `;
+                        await conn.sendMessage(from, { text: botStatus }, { quoted: mek });
+                        break;
+                        
+                    }
+                    case '2': {
+                        // Option 2: Contact Bot Owner
+                        const ownerContact = `
+📞 Owner Contact:
+Name: Mr. Senesh
+WhatsApp: wa.me/94784337506
+
+Feel free to reach out for inquiries or assistance!
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+                        `;
+                        await conn.sendMessage(from, { text: ownerContact }, { quoted: mek });
+                        break;
+                    }
+                    default: {
+                        // Invalid Option
+                        await conn.sendMessage(from, { text: "❌ Invalid option. Please select a valid number." }, { quoted: mek });
+                        break;
+                    }
+                }
+            }
+        });
+    } catch (e) {
+        console.error(e);
+        reply("❌ An error occurred while processing your request.");
+    }
+});
