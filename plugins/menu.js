@@ -57,7 +57,7 @@ async (conn, mek, m, {
             if (!msg.message || !msg.message.extendedTextMessage) return;
 
             const userResponse = msg.message.extendedTextMessage.text.trim();
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === sentMessage.key.id) {
+            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === sentMsg.key.id) {
                 let responseText;
 
                 // Command templates
