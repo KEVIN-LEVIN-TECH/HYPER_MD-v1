@@ -1,7 +1,7 @@
 const { readEnv } = require('../lib/database');
 const { cmd } = require('../command');
 const os = require('os');
-
+const imageUrl = 'https://pomf2.lain.la/f/147pvvp2.jpg';
 // Menu command
 cmd({
     pattern: "menu",
@@ -40,6 +40,11 @@ async (conn, mek, m, {
 ╰───────────────
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
+        const sentMsg = await conn.sendMessage(from, {
+            image: { url: imageUrl },
+            caption: desc,
+            contextInfo: { forwardingScore: 999, isForwarded: true },
+        }, { quoted: mek });
 
         // Send the selection message
         const sentMessage = await conn.sendMessage(from, {
@@ -58,7 +63,8 @@ async (conn, mek, m, {
                 // Command templates
                 switch (userResponse) {
                     case '1': // DOWNLOAD MENU
-                        responseText = `
+                              await conn.sendMessage(from, { image: { url: imageUrl }, caption: `
+                              
 ◈───❮ DOWNLOAD MENU ❯──◈
 
 ╭─────────────────●●►
@@ -75,11 +81,10 @@ async (conn, mek, m, {
 │ ⦁ .gdrive
 ╰─────────────────●●►
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ` }, { quoted: mek });
                         break;
                     case '2': // MAIN MENU
-                        responseText = `
+                        await conn.sendMessage(from, { image: { url: imageUrl }, caption: `
 ◈───❮ MAIN MENU ❯──◈
 
 ╭─────────────────●●►
@@ -90,8 +95,7 @@ async (conn, mek, m, {
 │ ⦁ .system
 ╰─────────────────●●►
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ` }, { quoted: mek });
                         break;
                     case '3': // GROUP MENU
                         responseText = `
