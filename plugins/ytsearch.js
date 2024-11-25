@@ -1,79 +1,47 @@
 const { cmd } = require('../command');
-const yts = require('yt-search'); // YouTube search library
-const fg = require('ytdl-core'); // For downloading videos
+const axios = require('axios');
 
+// ========== YTSEARCH COMMAND ==========
 cmd({
     pattern: "ytsearch",
-    react: "🔍",
-    desc: "Search and download YouTube videos",
-    category: "download",
-    filename: __filename
+    react: "🔎",
+    desc: "Search for YouTube videos",
+    category: "media",
+    filename: __filename,
 },
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => {
+async (conn, mek, m, { from, reply, args }) => {
     try {
-        if (!q) return reply("❌ Please provide a search term.\nExample: .ytsearch relaxing music");
+        if (!args || args.length === 0) {
+            return reply("❌ Please provide a search query.\n\nUsage: *ytsearch [query]*");
+        }
 
-        // Search for YouTube videos
-        const search = await yts(q);
-        const data = search.videos[0];
-        if (!data) return reply("❌ No results found for your query. Please try again.");
+        const searchQuery = args.join(" ");
+        reply("🔎 Searching YouTube for: " + searchQuery + "...");
 
-        const url = data.url;
+        // YouTube API Key (Replace this with your actual API key)
+        const apiKey = "YOUR_YOUTUBE_API_KEY"; // Add your YouTube API Key here
+        const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&q=${encodeURIComponent(searchQuery)}&key=${apiKey}`;
 
-        let desc = `
-🎶 HYPER-MD YOUTUBE VIDEO DOWNLOADER 🎶
+        const response = await axios.get(apiUrl);
 
-| ➤ Title: ${data.title}
+        if (response.status !== 200 || !response.data.items) {
+            return reply("❌ No results found for: " + searchQuery);
+        }
 
-| ➤ Duration: ${data.timestamp}
+        const results = response.data.items;
+        let resultText = `🔎 YouTube Search Results for: ${searchQuery}\n\n`;
 
-| ➤ Uploaded: ${data.ago}
-
-| ➤ Views: ${data.views}
-
-| ➤ Author: ${data.author.name}
-
-| ➤ URL: ${data.url}
-
-🔢 Reply Below Number
-
-1️ | Audio Type (MP3)
-2️ | Document Type (MP4)
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
-
-        const vv = await conn.sendMessage(from, { image: { url: data.thumbnail }, caption: desc }, { quoted: mek });
-
-        conn.ev.on('messages.upsert', async (msgUpdate) => {
-            const msg = msgUpdate.messages[0];
-            if (!msg.message || !msg.message.extendedTextMessage) return;
-
-            const selectedOption = msg.message.extendedTextMessage.text.trim();
-
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
-                switch (selectedOption) {
-                    case '1': // Audio type
-                        let audioDownload = await fg.yta(url);
-                        let audioUrl = audioDownload.dl_url;
-                        await conn.sendMessage(from, { audio: { url: audioUrl }, caption: '©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ', mimetype: 'audio/mpeg' }, { quoted: mek });
-                        break;
-
-                    case '2': // Document type (Video)
-                        let videoDownload = await fg.ytv(url);
-                        let videoUrl = videoDownload.dl_url;
-                        await conn.sendMessage(from, { document: { url: videoUrl }, caption: '©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ', mimetype: 'video/mp4', fileName: `${data.title}.mp4` }, { quoted: mek });
-                        break;
-
-                    default:
-                        reply("❌ Invalid option. Please select a valid number (1 or 2).");
-                }
-            }
+        results.forEach((item, index) => {
+            const { title } = item.snippet;
+            const videoId = item.id.videoId;
+            const url = `https://www.youtube.com/watch?v=${videoId}`;
+            resultText += `${index + 1}. ${title}\n   🌐 [Watch Here](${url})\n\n`;
         });
 
-    } catch (e) {
-        console.error(e);
-        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-        reply('❌ An error occurred while processing your request.');
+        // Send results
+        await conn.sendMessage(from, { text: resultText.trim() }, { quoted: mek });
+    } catch (error) {
+        console.error(error);
+        reply("❌ An error occurred while searching YouTube.");
     }
 });
