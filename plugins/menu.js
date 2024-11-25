@@ -42,14 +42,14 @@ async (conn, mek, m, {
 `;
         const sentMsg = await conn.sendMessage(from, {
             image: { url: imageUrl },
-            caption: desc,
+            caption: selectionMessage,
             contextInfo: { forwardingScore: 999, isForwarded: true },
         }, { quoted: mek });
 
         // Send the selection message
-        const sentMessage = await conn.sendMessage(from, {
-            text: selectionMessage,
-        }, { quoted: mek });
+        // const sentMessage = await conn.sendMessage(from, {
+        //     text: selectionMessage,
+        // }, { quoted: mek });
 
         // Wait for the user's response
         conn.ev.on('messages.upsert', async (msgUpdate) => {
