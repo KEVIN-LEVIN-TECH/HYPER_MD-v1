@@ -75,18 +75,6 @@ I'm Hyper-MD WhatsApp Bot!
             + 'TEL;type=CELL;type=VOICE;waid=94784337506:+94 78 433 7506\n'
             + 'EMAIL:senesh@gmail.com\n'
             + 'END:VCARD';
-                        
-//                         const ownerContact = `
-// ╭───❮ Owner Contact❯────
-// │
-// │ Name: Mr. Senesh
-// │ WhatsApp: wa.me/94784337506
-// │
-// ╰─────────────────
-// Feel free to reach out for inquiries or assistance!
-
-// © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-//                         `;
                         await conn.sendMessage(from, { 
         contacts: { 
             displayName: 'Mr. Senesh', 
