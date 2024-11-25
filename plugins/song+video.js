@@ -41,8 +41,8 @@ async (conn, mek, m, {
 
 🔢 Reply Below Number
 
-1| Audio Type
-2| Document Type
+1 || Audio Type
+2 || Document Type
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `;
@@ -121,8 +121,8 @@ async (conn, mek, m, {
 
 🔢 Reply Below Number
 
-1| Video Type
-2| Document Type
+1 || Video Type
+2 || Document Type
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
