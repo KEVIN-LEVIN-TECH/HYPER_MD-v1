@@ -1,7 +1,7 @@
 const { readEnv } = require('../lib/database');
 const { cmd } = require('../command');
 const os = require('os');
-const imageUrl = 'https://pomf2.lain.la/f/147pvvp2.jpg';
+const imageUrl = 'https://i.ibb.co/1zTvSVj/20241123-121425.jpg';
 // Menu command
 cmd({
     pattern: "menu",
