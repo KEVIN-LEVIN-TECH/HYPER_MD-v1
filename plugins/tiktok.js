@@ -8,7 +8,7 @@ cmd({
     category: "download",
     filename: __filename
 },
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => {
+async (conn, mek, m, { from, quoted, q, reply }) => {
     try {
         if (!q) {
             return reply("❌ Please provide the TikTok video URL.");
@@ -18,9 +18,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => 
 
         // Use TikTok's video downloading service or API to get the video URL
         const response = await axios.get(`https://api.tiktokvideodownloader.com/api/v1/${tiktokUrl}`);
-        const videoUrl = response.data.videoUrl;
-        const audioUrl = response.data.audioUrl;
-        const videoWithoutWatermarkUrl = response.data.videoUrlWithoutWatermark; // Assuming the API returns this
+        const { videoUrl, audioUrl, videoUrlWithoutWatermark } = response.data;
 
         if (!videoUrl) {
             return reply("❌ Could not find the video on TikTok.");
@@ -43,7 +41,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
 
-        const vv = await conn.sendMessage(from, { caption: tiktokDesc }, { quoted: mek });
+        const sentMessage = await conn.sendMessage(from, { text: tiktokDesc }, { quoted: mek });
 
         conn.ev.on('messages.upsert', async (msgUpdate) => {
             const msg = msgUpdate.messages[0];
@@ -51,28 +49,28 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => 
 
             const selectedOption = msg.message.extendedTextMessage.text.trim();
 
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
+            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === sentMessage.key.id) {
                 switch (selectedOption) {
                     case '1':
                         // Send the TikTok video with watermark
-                        await conn.sendMessage(from, { video: { url: videoUrl }, caption: 'ʜʏᴘᴇʀ-ᴍᴅ ᴡɪᴛʜ ᴡᴀᴛᴇʀᴍᴀʀᴋ ᴛɪᴋᴛᴏᴋ ᴅᴏᴡɴʟᴏᴀᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟ.' }, { quoted: mek });
+                        await conn.sendMessage(from, { video: { url: videoUrl }, caption: 'TikTok video with watermark downloaded successfully.' }, { quoted: mek });
                         break;
                     case '2':
                         // Send the TikTok video without watermark
-                        if (!videoWithoutWatermarkUrl) {
+                        if (!videoUrlWithoutWatermark) {
                             return reply("❌ Unable to fetch video without watermark.");
                         }
-                        await conn.sendMessage(from, { video: { url: videoWithoutWatermarkUrl }, caption: 'ʜʏᴘᴇʀ-ᴍᴅ ᴡɪᴛʜᴏᴜᴛ ᴡᴀᴛᴇʀᴍᴀʀᴋ ᴛɪᴋᴛᴏᴋ ᴅᴏᴡɴʟᴏᴀᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟ.'' }, { quoted: mek });
+                        await conn.sendMessage(from, { video: { url: videoUrlWithoutWatermark }, caption: 'TikTok video without watermark downloaded successfully.' }, { quoted: mek });
                         break;
                     case '3':
                         // Send the TikTok audio
                         if (!audioUrl) {
                             return reply("❌ Unable to fetch audio.");
                         }
-                        await conn.sendMessage(from, { audio: { url: audioUrl }, caption: 'ʜʏᴘᴇʀ-ᴍᴅ ᴛɪᴋᴛᴏᴋ ᴀᴜᴅɪᴏ ᴅᴏᴡɴʟᴏᴀᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟ.' }, { quoted: mek });
+                        await conn.sendMessage(from, { audio: { url: audioUrl }, caption: 'TikTok audio downloaded successfully.' }, { quoted: mek });
                         break;
                     default:
-                        reply("❌ Invalid option. Please select a valid option🔴");
+                        reply("❌ Invalid option. Please select a valid option.");
                 }
             }
         });
@@ -80,4 +78,4 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => 
         console.error(e);
         reply("❌ An error occurred while processing your request.");
     }
-}); 
+});
