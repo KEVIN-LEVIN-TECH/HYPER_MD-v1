@@ -26,17 +26,18 @@ async (conn, mek, m, {
 │Prefix: ${config.PREFIX}  
 │Version: 1.0.0  
 │
-╰────────────────
+╰──────────────────
 
 🔢 Reply Below Number
 
-1 | DOWNLOAD MENU  
-2 | MAIN MENU  
-3 | GROUP MENU  
-4 | OWNER MENU  
-5 | CONVERT MENU  
-6 | SEARCH MENU  
-
+╭───────────────
+│ 1 || DOWNLOAD MENU  
+│ 2 || MAIN MENU  
+│ 3 || GROUP MENU  
+│ 4 || OWNER MENU  
+│ 5 || CONVERT MENU  
+│ 6 || SEARCH MENU  
+╰───────────────
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
 
@@ -58,9 +59,9 @@ async (conn, mek, m, {
                 switch (userResponse) {
                     case '1': // DOWNLOAD MENU
                         responseText = `
-◈╾───DOWNLOAD MENU──╼◈
+◈───❮ DOWNLOAD MENU ❯──◈
 
-╭────────●●►
+╭─────────────────●●►
 │ ⦁ .fb
 │ ⦁ .img
 │ ⦁ .mediafire
@@ -69,12 +70,7 @@ async (conn, mek, m, {
 │ ⦁ .fb2
 │ ⦁ .song
 │ ⦁ .video
-│ ⦁ .0.1
-│ ⦁ .xvideo
 │ ⦁ .apk
-│ ⦁ .ig1
-│ ⦁ .mvdl
-│ ⦁ .slsub
 │ ⦁ .play
 ╰─────────────────●●►
 
@@ -83,13 +79,14 @@ async (conn, mek, m, {
                         break;
                     case '2': // MAIN MENU
                         responseText = `
-◈╾───MAIN MENU──╼◈
+◈───❮ MAIN MENU ❯──◈
 
-╭────────●●►
+╭─────────────────●●►
 │ ⦁ .alive
 │ ⦁ .menu
 │ ⦁ .ping
 │ ⦁ .repo
+│ ⦁ .system
 ╰─────────────────●●►
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
@@ -97,9 +94,9 @@ async (conn, mek, m, {
                         break;
                     case '3': // GROUP MENU
                         responseText = `
-◈╾───GROUP MENU──╼◈
+◈───❮ GROUP MENU ❯──◈
 
-╭────────●●►
+╭─────────────────●●►
 │ ⦁ .add
 │ ⦁ .kick
 │ ⦁ .promote
@@ -113,15 +110,16 @@ async (conn, mek, m, {
                         break;
                     case '4': // OWNER MENU
                         responseText = `
-◈╾───OWNER MENU──╼◈
+◈───❮ OWNER MENU ❯──◈
 
-╭────────●●►
+╭─────────────────●●►
 │ ⦁ .ban
 │ ⦁ .unban
 │ ⦁ .block
 │ ⦁ .unblock
 │ ⦁ .setppbot
 │ ⦁ .restart
+│ ⦁ .update
 ╰─────────────────●●►
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
@@ -129,13 +127,14 @@ async (conn, mek, m, {
                         break;
                     case '5': // CONVERT MENU
                         responseText = `
-◈╾───CONVERT MENU──╼◈
+◈───❮ CONVERT MENU ❯──◈
 
-╭────────●●►
+╭─────────────────●●►
 │ ⦁ .toimg
 │ ⦁ .sticker
 │ ⦁ .tomp3
 │ ⦁ .tomp4
+│ ⦁ .img2url
 ╰─────────────────●●►
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
@@ -143,9 +142,9 @@ async (conn, mek, m, {
                         break;
                     case '6': // SEARCH MENU
                         responseText = `
-◈╾───SEARCH MENU──╼◈
+◈───❮ SEARCH MENU ❯──◈
 
-╭────────●●►
+╭─────────────────●●►
 │ ⦁ .ytsearch
 │ ⦁ .play
 │ ⦁ .lyrics
