@@ -1,4 +1,4 @@
-const {readEnv} = require('../lib/database)
+const { readEnv } = require('../lib/database');
 const { cmd } = require('../command');
 
 // ========== ALIVE COMMAND ==========
@@ -9,21 +9,20 @@ cmd({
     category: "main",
     filename: __filename,
 },
-async (conn, mek, m, { from, reply }) => {
+async (conn, mek, m, { from, reply, pushname }) => {
     try {
         // Alive Message Content
         const aliveDesc = `
-👋 Hello, ${pushname}
+👋 Hello, ${pushname || "User"}
 
 I'm Hyper-MD WhatsApp Bot!
 
-
-🔢 Reply Below Number:
+🔢 Reply Below Number
 
 1 || View Bot Status
 2 || Contact Bot Owner
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `;
 
         // Sending Alive Message with Options
@@ -37,31 +36,35 @@ I'm Hyper-MD WhatsApp Bot!
             const selectedOption = msg.message.extendedTextMessage.text.trim();
 
             // Validate if the response matches the `.alive` message
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === msg.key.id) {
+            if (
+                msg.message.extendedTextMessage.contextInfo &&
+                msg.message.extendedTextMessage.contextInfo.stanzaId === mek.key.id
+            ) {
                 switch (selectedOption) {
                     case '1': {
                         // Option 1: Show Bot Status
                         const botStatus = `
 ✅ Bot Status: Online
+
 📅 Date: ${new Date().toLocaleDateString()}
 🕒 Time: ${new Date().toLocaleTimeString()}
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
                         `;
                         await conn.sendMessage(from, { text: botStatus }, { quoted: mek });
                         break;
-                        
                     }
                     case '2': {
                         // Option 2: Contact Bot Owner
                         const ownerContact = `
-📞 Owner Contact:
+📞 Owner Contactල
+
 Name: Mr. Senesh
 WhatsApp: wa.me/94784337506
 
 Feel free to reach out for inquiries or assistance!
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
                         `;
                         await conn.sendMessage(from, { text: ownerContact }, { quoted: mek });
                         break;
