@@ -70,8 +70,9 @@ async (conn, mek, m, {
 │ ⦁ .fb2
 │ ⦁ .song
 │ ⦁ .video
-│ ⦁ .apk
+│ ⦁ .apkd
 │ ⦁ .play
+│ ⦁ .gdrive
 ╰─────────────────●●►
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
