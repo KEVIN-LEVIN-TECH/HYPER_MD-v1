@@ -68,19 +68,32 @@ I'm Hyper-MD WhatsApp Bot!
                         break;
                     }
                     case '2': {
-                        // Option 2: Contact Bot Owner
-                        const ownerContact = `
-╭───❮ Owner Contact❯────
-│
-│ Name: Mr. Senesh
-│ WhatsApp: wa.me/94784337506
-│
-╰─────────────────
-Feel free to reach out for inquiries or assistance!
+                        const vcard = 'BEGIN:VCARD\n' // metadata of the contact card
+            + 'VERSION:3.0\n' 
+            + 'FN:Mr. Senesh\n'
+            + 'ORG:Mr. Senesh\n'
+            + 'TEL;type=CELL;type=VOICE;waid=94784337506:+94 78 433 7506\n'
+            + 'EMAIL:senesh@gmail.com\n'
+            + 'END:VCARD';
+                        
+//                         const ownerContact = `
+// ╭───❮ Owner Contact❯────
+// │
+// │ Name: Mr. Senesh
+// │ WhatsApp: wa.me/94784337506
+// │
+// ╰─────────────────
+// Feel free to reach out for inquiries or assistance!
 
-© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-                        `;
-                        await conn.sendMessage(from, { text: ownerContact }, { quoted: userMsg });
+// © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+//                         `;
+                        await conn.sendMessage(from, { 
+        contacts: { 
+            displayName: 'Mr. Senesh', 
+            contacts: [{ vcard }] 
+        }
+    }
+);
                         break;
                     }
                     default: {
