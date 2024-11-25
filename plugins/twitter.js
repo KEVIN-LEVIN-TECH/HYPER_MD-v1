@@ -8,7 +8,7 @@ cmd({
     category: "download",
     filename: __filename
 },
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => {
+async (conn, mek, m, { from, quoted, q, reply }) => {
     try {
         if (!q) {
             return reply("❌ Please provide the Twitter video URL.");
@@ -16,8 +16,8 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => 
 
         const twitterUrl = q;
 
-        // Use a service or API to fetch Twitter video URLs (HD and SD)
-        const response = await axios.get(`https://api.twittervideodownloader.com/api/v1/${twitterUrl}`);
+        // Fetch video URLs using an API
+        const response = await axios.get(`https://api.twittervideodownloader.com/api/v1/${encodeURIComponent(twitterUrl)}`);
         const videoUrlHD = response.data.hd_url; // URL for HD video
         const videoUrlSD = response.data.sd_url; // URL for SD video
 
@@ -40,7 +40,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
 
-        const vv = await conn.sendMessage(from, { caption: twitterDesc }, { quoted: mek });
+        const sentMessage = await conn.sendMessage(from, { text: twitterDesc }, { quoted: mek });
 
         conn.ev.on('messages.upsert', async (msgUpdate) => {
             const msg = msgUpdate.messages[0];
@@ -48,29 +48,29 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => 
 
             const selectedOption = msg.message.extendedTextMessage.text.trim();
 
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
+            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === sentMessage.key.id) {
                 switch (selectedOption) {
                     case '1':
                         // Send the HD video
                         if (!videoUrlHD) {
                             return reply("❌ HD video not available.");
                         }
-                        await conn.sendMessage(from, { video: { url: videoUrlHD }, caption: 'ʜʏᴘᴇʀ-ᴍᴅ ʜᴅ ᴠɪᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟ.' }, { quoted: mek });
+                        await conn.sendMessage(from, { video: { url: videoUrlHD }, caption: 'HD video download successful.' }, { quoted: mek });
                         break;
                     case '2':
                         // Send the SD video
                         if (!videoUrlSD) {
                             return reply("❌ SD video not available.");
                         }
-                        await conn.sendMessage(from, { video: { url: videoUrlSD }, caption: 'ʜʏᴘᴇʀ-ᴍᴅ ꜱᴅ ᴠɪᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟ.' }, { quoted: mek });
+                        await conn.sendMessage(from, { video: { url: videoUrlSD }, caption: 'SD video download successful.' }, { quoted: mek });
                         break;
                     default:
-                        reply("❌ Invalid option. Please select a valid option🔴");
+                        reply("❌ Invalid option. Please select a valid option.");
                 }
             }
         });
-    } catch (e) {
-        console.error(e);
+    } catch (error) {
+        console.error(error.message || error);
         reply("❌ An error occurred while processing your request.");
     }
 });
