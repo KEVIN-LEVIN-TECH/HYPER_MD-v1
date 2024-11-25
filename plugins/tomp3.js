@@ -15,7 +15,7 @@ cmd({
 async (conn, mek, m, { from, reply, args, pushname }) => {
     try {
         if (!args || args.length === 0) {
-            return reply("❌ Please provide a YouTube link.\n\nUsage: *tomp3 [YouTube URL]*");
+            return reply("❌ Please provide a YouTube link.\n\nUsage: tomp3 [YouTube URL]");
         }
 
         const videoUrl = args[0];
@@ -25,11 +25,12 @@ async (conn, mek, m, { from, reply, args, pushname }) => {
 
         // Send interactive menu
         const menuMessage = `
-👋 Hello, ${pushname || "User"}!
+╭──────────────────◆•
+│ YouTube to MP3 Converter
+╰──────────────────◆•
+🔢 Reply Below Number
 
-🎵 YouTube to MP3 Converter
 
-🔢 Reply Below Number:
 1 || Send as Audio
 2 || Send as Document
 
