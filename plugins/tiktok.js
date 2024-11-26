@@ -14,25 +14,28 @@ async (conn, mek, m, { from, quoted, q, reply }) => {
             return reply("❌ Please provide the TikTok video URL.");
         }
 
-        const tiktokUrl = q;
+        const tiktokUrl = q.trim();
 
-        // Use TikTok's video downloading service or API to get the video URL
-        const response = await axios.get(`https://api.tiktokvideodownloader.com/api/v1/${tiktokUrl}`);
-        const { videoUrl, audioUrl, videoUrlWithoutWatermark } = response.data;
+        // TikTok API call to fetch video details
+        const apiKey = "YOUR_API_KEY"; // Replace with your actual API key
+        const apiEndpoint = `https://api.tiktokdownloader.org/v1/video?url=${encodeURIComponent(tiktokUrl)}&key=${apiKey}`;
 
-        if (!videoUrl) {
-            return reply("❌ Could not find the video on TikTok.");
+        const response = await axios.get(apiEndpoint);
+
+        if (response.data.status !== "success") {
+            return reply("❌ Unable to fetch TikTok video details. Please check the URL or try again.");
         }
+
+        const { video_with_watermark, video_without_watermark, audio } = response.data.data;
 
         const tiktokDesc = `
 ╭──❮ TikTok Video Download ❯────
 │
 │➤ Video: ${tiktokUrl}
-│➤ Link: ${videoUrl}
 │
 ╰───────────────────
 
-🔢 Reply Below Number
+🔢 Reply Below Number:
 
 1 | Download Video with Watermark
 2 | Download Video without Watermark
@@ -53,29 +56,41 @@ async (conn, mek, m, { from, quoted, q, reply }) => {
                 switch (selectedOption) {
                     case '1':
                         // Send the TikTok video with watermark
-                        await conn.sendMessage(from, { video: { url: videoUrl }, caption: 'TikTok video with watermark downloaded successfully.' }, { quoted: mek });
+                        await conn.sendMessage(
+                            from,
+                            { video: { url: video_with_watermark }, caption: '✅ TikTok video with watermark downloaded successfully.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ' },
+                            { quoted: mek }
+                        );
                         break;
                     case '2':
                         // Send the TikTok video without watermark
-                        if (!videoUrlWithoutWatermark) {
+                        if (!video_without_watermark) {
                             return reply("❌ Unable to fetch video without watermark.");
                         }
-                        await conn.sendMessage(from, { video: { url: videoUrlWithoutWatermark }, caption: 'TikTok video without watermark downloaded successfully.' }, { quoted: mek });
+                        await conn.sendMessage(
+                            from,
+                            { video: { url: video_without_watermark }, caption: '✅ TikTok video without watermark downloaded successfully.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ' },
+                            { quoted: mek }
+                        );
                         break;
                     case '3':
                         // Send the TikTok audio
-                        if (!audioUrl) {
+                        if (!audio) {
                             return reply("❌ Unable to fetch audio.");
                         }
-                        await conn.sendMessage(from, { audio: { url: audioUrl }, caption: 'TikTok audio downloaded successfully.' }, { quoted: mek });
+                        await conn.sendMessage(
+                            from,
+                            { audio: { url: audio }, mimetype: "audio/mpeg", caption: '✅ TikTok audio downloaded successfully.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ' },
+                            { quoted: mek }
+                        );
                         break;
                     default:
-                        reply("❌ Invalid option. Please select a valid option.");
+                        reply("❌ Invalid option. Please reply with 1, 2, or 3.");
                 }
             }
         });
-    } catch (e) {
-        console.error(e);
-        reply("❌ An error occurred while processing your request.");
+    } catch (error) {
+        console.error(error);
+        reply("❌ An error occurred while processing your request. Please try again later.");
     }
 });
