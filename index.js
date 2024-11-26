@@ -90,7 +90,7 @@ if (config.ALWAYS_TYPING === "true") {
         }
 
 
-        if (config.ALWAYS_RECORDING === "fals") {
+        if (config.ALWAYS_RECORDING === "false") {
             await conn.sendPresenceUpdate('recording', from)
         }
 
