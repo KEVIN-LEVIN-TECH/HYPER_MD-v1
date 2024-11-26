@@ -85,15 +85,6 @@ conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://i.ibb
 })
 conn.ev.on('creds.update', saveCreds)  
 
-if (config.ALWAYS_TYPING === "true") {
-            await conn.sendPresenceUpdate('composing', from)
-        }
-
-
-        if (config.ALWAYS_RECORDING === "false") {
-            await conn.sendPresenceUpdate('recording', from)
-        }
-
 conn.ev.on('messages.upsert', async(mek) => {
 mek = mek.messages[0]
 if (!mek.message) return	
@@ -238,7 +229,17 @@ if(!isOwner && config.MODE === "private") return
 if(!isOwner && isGroup && config.MODE === "inbox") return 
 if(!isOwner && !isGroup && config.MODE === "groups") return 
 //=====================================================================================
-        
+
+        //==========================================================
+        if (config.ALWAYS_TYPING === "true") {
+            await conn.sendPresenceUpdate('composing', from)
+        }
+
+
+        if (config.ALWAYS_RECORDING === "false") {
+            await conn.sendPresenceUpdate('recording', from)
+        }
+
 const events = require('./command')
 const cmdName = isCmd ? body.slice(1).trim().split(" ")[0].toLowerCase() : false;
 if (isCmd) {
