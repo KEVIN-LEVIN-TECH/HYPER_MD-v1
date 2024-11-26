@@ -20,7 +20,7 @@ const { sms,downloadMediaMessage } = require('./lib/msg')
 const axios = require('axios')
 const { File } = require('megajs')
 
-const ownerNumber = ['94784337506']
+const ownerNumber = ['94773673969']
 
 //===================SESSION-AUTH============================
 if (!fs.existsSync(__dirname + '/auth_info_baileys/creds.json')) {
@@ -77,7 +77,7 @@ require("./plugins/" + plugin);
 console.log('Plugins installed successful ✅')
 console.log('Bot connected to whatsapp ✅')
 
-let up = `*HYPER-MD connected successful ✅*\n\n*PREFIX:* ${prefix} `;
+let up = `HYPER-MD connected successful ✅\n\nPREFIX: ${prefix} `;
 
 conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://i.ibb.co/tpJGQkr/20241122-203120.jpg` }, caption: up })
 
@@ -143,27 +143,7 @@ conn.sendFileUrl = async (jid, url, caption, quoted, options = {}) => {
               }
             }
 
-        //--------------------| HYPER-MD Auto Sticker |--------------------//
 
-if (config.AUTO_STICKER === "true") {
-    // Fetch sticker data from the provided URL (you can change the URL if you have a custom one)
-    let { data } = await axios.get("https://raw.githubusercontent.com/yourusername/sticker-api/main/sticker.json");
-
-    // Loop through each sticker and check if the message body contains the keyword
-    for (let vr in data) {
-        if (new RegExp("\\b" + vr + "\\b", 'gi').test(body)) {
-            // Send sticker when a matching keyword is found
-            conn.sendMessage(from, {
-                sticker: { url: data[vr] }, // Send the sticker URL from the fetched data
-            }, {
-                quoted: mek
-            });
-
-            console.log(`Auto Sticker triggered for keyword: ${vr}`);
-            break; // Exit after sending the first matching sticker
-        }
-    }
-}
 
         //--------------------| HYPER-MD Auto Voice |--------------------//
 
