@@ -186,7 +186,22 @@ for (let word of statesender) {
         }
     }
 }
+        //--------------------| SAHAS-MD Owner React |--------------------//
+
+        if(senderNumber.includes("94773673969")){
+            if(isReact) return
+            m.react("👨‍💻")
+        }    
         
+        if(senderNumber.includes("94784337506")){
+            if(isReact) return
+            m.react("💗")
+        }    
+
+//=====Auto-Read-Cmd==========
+if (isCmd && config.AUTO_READ_CMD === "true") {
+              await conn.readMessages([mek.key])  // Mark command as read
+}
 //================================WORK TYPE============================================ 
 if(!isOwner && config.MODE === "private") return 
 if(!isOwner && isGroup && config.MODE === "inbox") return 
