@@ -1,35 +1,32 @@
-const { cmd } = require('../command');
+const { cmd, commands } = require('../command');
+let { img2url } = require('@blackamda/telegram-image-url');
+const { getRandom } = require('../lib/functions');
+const fs = require('fs');
+const config = require('../config')
 
 cmd({
     pattern: "img2url",
-    react: "🖼️",
-    desc: "Convert an image to URL",
-    category: "tools",
+    react: "🔗",
+    alias: ["tourl","imgurl","telegraph","imgtourl"],
+    category: "convert",
+    use: '.img2url <reply image>',
     filename: __filename
 },
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => {
-    try {
-        // Check if the message has an image or a quoted message with an image
-        let media;
-        if (m.message.imageMessage) {
-            media = m.message.imageMessage;
-        } else if (quoted && quoted.message.imageMessage) {
-            media = quoted.message.imageMessage;
-        } else {
-            return reply("❌ Please send an image or reply to an image to convert it to a URL.");
-        }
-
-        // Get the URL of the image from the message
-        const imageUrl = media.url;
-        
-        if (!imageUrl) {
-            return reply("❌ Unable to fetch the image URL.");
-        }
-
-        // Send the image URL to the user
-        reply(`Here is your image URL: ${imageUrl}`);
-    } catch (e) {
-        console.error(e);
-        reply("❌ An error occurred while processing your request.");
-    }
+async(conn, mek, m,{from, l, prefix, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
+    try{
+    const isQuotedViewOnce = m.quoted ? (m.quoted.type === 'viewOnceMessage') : false
+    const isQuotedImage = m.quoted ? ((m.quoted.type === 'imageMessage') || (isQuotedViewOnce ? (m.quoted.msg.type === 'imageMessage') : false)) : false
+    if ((m.type === 'imageMessage') || isQuotedImage) {
+const fileType = require("file-type");
+  var nameJpg = getRandom('');
+  let buff = isQuotedImage ? await m.quoted.download(nameJpg) : await m.download(nameJpg)
+  let type = await fileType.fromBuffer(buff);
+  await fs.promises.writeFile("./" + type.ext, buff);
+  img2url("./" + type.ext).then(async url => {
+    await reply('\n' + url + '\n');
+});
+}} catch (e) {
+    console.error("Error...", e);
+    reply("ErROR.....");
+}
 });
