@@ -29,6 +29,7 @@
     "fb-video-downloader": "1.0.3",
     "@adiwajshing/baileys": "5.0.0",
     "googleapis": "144.0.0",
-    "ytdl-core": "4.11.5"
+    "ytdl-core": "4.11.5",
+    "@blackamda/telegram-image-url": "1.0.0"
   }
 }
