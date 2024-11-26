@@ -143,6 +143,26 @@ conn.sendFileUrl = async (jid, url, caption, quoted, options = {}) => {
               }
             }
 
+        //--------------------| HYPER-MD Auto Voice |--------------------//
+
+        if (config.AUTO_VOICE === "true") {
+            let {
+                data
+            } = await axios.get("https://raw.githubusercontent.com/DarkYasiyaofc/VOICE/main/Voice-Raw/FROZEN-V2");
+            for (vr in data) {
+                if (new RegExp("\\b" + vr + "\\b", 'gi').test(body)) {
+                    conn.sendMessage(from, {
+                        'audio': {
+                            'url': data[vr]
+                        },
+                        'mimetype': "audio/mpeg",
+                        'ptt': true
+                    }, {
+                        'quoted': mek
+                    });
+                }
+            }
+        }
 //================================WORK TYPE============================================ 
 if(!isOwner && config.MODE === "private") return 
 if(!isOwner && isGroup && config.MODE === "inbox") return 
