@@ -79,7 +79,7 @@ console.log('Bot connected to whatsapp ✅')
 
 let up = `*HYPER-MD connected successful ✅*\n\n*PREFIX:* ${prefix} `;
 
-conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `img url` }, caption: up })
+conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://i.ibb.co/tpJGQkr/20241122-203120.jpg` }, caption: up })
 
 }
 })
