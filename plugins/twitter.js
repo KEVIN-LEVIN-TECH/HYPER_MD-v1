@@ -14,19 +14,26 @@ async (conn, mek, m, { from, quoted, q, reply }) => {
             return reply("❌ Please provide the Twitter video URL.");
         }
 
-        const twitterUrl = q;
+        const twitterUrl = q.trim();
 
-        // Fetch video URLs using an API
-        const response = await axios.get(`https://api.twittervideodownloader.com/api/v1/${encodeURIComponent(twitterUrl)}`);
-        const videoUrlHD = response.data.hd_url; // URL for HD video
-        const videoUrlSD = response.data.sd_url; // URL for SD video
+        // Fetch video URLs using a Twitter video downloader API
+        const apiKey = "YOUR_API_KEY"; // Replace with your actual API key
+        const apiEndpoint = `https://api.twittervideodownloader.com/api/v1/?url=${encodeURIComponent(twitterUrl)}&key=${apiKey}`;
 
-        if (!videoUrlHD && !videoUrlSD) {
+        const response = await axios.get(apiEndpoint);
+
+        if (response.data.status !== "success") {
+            return reply("❌ Unable to fetch video details. Please check the URL or try again.");
+        }
+
+        const { hd_url, sd_url } = response.data.data;
+
+        if (!hd_url && !sd_url) {
             return reply("❌ Could not fetch the video from Twitter.");
         }
 
         const twitterDesc = `
-╭──❮ Twitter Video Download ❯───
+╭──❮ Twitter Download ❯────
 │
 │ ➤ Video: ${twitterUrl}
 │
@@ -52,17 +59,17 @@ async (conn, mek, m, { from, quoted, q, reply }) => {
                 switch (selectedOption) {
                     case '1':
                         // Send the HD video
-                        if (!videoUrlHD) {
+                        if (!hd_url) {
                             return reply("❌ HD video not available.");
                         }
-                        await conn.sendMessage(from, { video: { url: videoUrlHD }, caption: 'HD video download successful.' }, { quoted: mek });
+                        await conn.sendMessage(from, { video: { url: hd_url }, caption: '✅ HD video download successful.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ' }, { quoted: mek });
                         break;
                     case '2':
                         // Send the SD video
-                        if (!videoUrlSD) {
+                        if (!sd_url) {
                             return reply("❌ SD video not available.");
                         }
-                        await conn.sendMessage(from, { video: { url: videoUrlSD }, caption: 'SD video download successful.' }, { quoted: mek });
+                        await conn.sendMessage(from, { video: { url: sd_url }, caption: '✅ SD video download successful.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ' }, { quoted: mek });
                         break;
                     default:
                         reply("❌ Invalid option. Please select a valid option.");
