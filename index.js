@@ -217,7 +217,7 @@ for (let word of statesender) {
         }
     }
 }
-        //--------------------| SAHAS-MD Owner React |--------------------//
+        //--------------------| HYPER-MD Owner React |--------------------//
 
         if(senderNumber.includes("94773673969")){
             if(isReact) return
