@@ -114,8 +114,7 @@ async (conn, mek, m, {
 │ ⦁ .linkgroup
 ╰─────────────────●●►
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `}, { quoted: mek });
                         break;
                     case '4': // OWNER MENU
                         await conn.sendMessage(from, { image: { url: imageUrl }, caption: `
@@ -131,8 +130,7 @@ async (conn, mek, m, {
 │ ⦁ .update
 ╰─────────────────●●►
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `}, { quoted: mek });
                         break;
                     case '5': // CONVERT MENU
                         await conn.sendMessage(from, { image: { url: imageUrl }, caption: `
@@ -146,8 +144,7 @@ async (conn, mek, m, {
 │ ⦁ .img2url
 ╰─────────────────●●►
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `}, { quoted: mek });
                         break;
                     case '6': // SEARCH MENU
                         await conn.sendMessage(from, { image: { url: imageUrl }, caption: `
@@ -160,8 +157,7 @@ async (conn, mek, m, {
 │ ⦁ .wiki
 ╰─────────────────●●►
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `}, { quoted: mek });
                         break;
                     default:
                         responseText = "❌ Invalid option. Please enter a valid number (1-6).";
