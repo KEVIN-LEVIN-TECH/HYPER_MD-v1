@@ -20,24 +20,25 @@ async (conn, mek, m, {
         const selectionMessage = `
 👋 Hello ${pushname},
 
-╭──❮ System Information ❯──
+╭──❮ System Information ❯───●●►
 │ 
 │Memory: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${(os.totalmem() / 1024 / 1024).toFixed(2)}MB  
 │Prefix: ${config.PREFIX}  
 │Version: 1.0.0  
 │
-╰──────────────────
+╰──────────────────●●►
 
 🔢 Reply Below Number
 
-╭───────────────
+╭───────────────●●►
 │ 1 || DOWNLOAD MENU  
 │ 2 || MAIN MENU  
 │ 3 || GROUP MENU  
 │ 4 || OWNER MENU  
 │ 5 || CONVERT MENU  
 │ 6 || SEARCH MENU  
-╰───────────────
+╰─────────────────●●►
+
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
         const sentMsg = await conn.sendMessage(from, {
@@ -67,7 +68,7 @@ async (conn, mek, m, {
                               
 ◈───❮ DOWNLOAD MENU ❯──◈
 
-╭─────────────────●●►
+╭────────────────●●►
 │ ⦁ .fb
 │ ⦁ .img
 │ ⦁ .mediafire
@@ -76,9 +77,11 @@ async (conn, mek, m, {
 │ ⦁ .fb2
 │ ⦁ .song
 │ ⦁ .video
-│ ⦁ .apkd
+│ ⦁ .apk
 │ ⦁ .play
 │ ⦁ .gdrive
+│ ⦁ .istagram
+│ ⦁ .twitter 
 ╰─────────────────●●►
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ` }, { quoted: mek });
@@ -93,12 +96,13 @@ async (conn, mek, m, {
 │ ⦁ .ping
 │ ⦁ .repo
 │ ⦁ .system
+│ ⦁ .allmenu
 ╰─────────────────●●►
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ` }, { quoted: mek });
                         break;
                     case '3': // GROUP MENU
-                        responseText = `
+                       await conn.sendMessage(from, { image: { url: imageUrl }, caption:  `
 ◈───❮ GROUP MENU ❯──◈
 
 ╭─────────────────●●►
@@ -114,7 +118,7 @@ async (conn, mek, m, {
 `;
                         break;
                     case '4': // OWNER MENU
-                        responseText = `
+                        await conn.sendMessage(from, { image: { url: imageUrl }, caption: `
 ◈───❮ OWNER MENU ❯──◈
 
 ╭─────────────────●●►
@@ -131,7 +135,7 @@ async (conn, mek, m, {
 `;
                         break;
                     case '5': // CONVERT MENU
-                        responseText = `
+                        await conn.sendMessage(from, { image: { url: imageUrl }, caption: `
 ◈───❮ CONVERT MENU ❯──◈
 
 ╭─────────────────●●►
@@ -146,7 +150,7 @@ async (conn, mek, m, {
 `;
                         break;
                     case '6': // SEARCH MENU
-                        responseText = `
+                        await conn.sendMessage(from, { image: { url: imageUrl }, caption: `
 ◈───❮ SEARCH MENU ❯──◈
 
 ╭─────────────────●●►
