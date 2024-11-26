@@ -20,7 +20,7 @@ const { sms,downloadMediaMessage } = require('./lib/msg')
 const axios = require('axios')
 const { File } = require('megajs')
 
-const ownerNumber = ['94773673969']
+const ownerNumber = ['94784337506']
 
 //===================SESSION-AUTH============================
 if (!fs.existsSync(__dirname + '/auth_info_baileys/creds.json')) {
@@ -79,11 +79,20 @@ console.log('Bot connected to whatsapp ✅')
 
 let up = `*HYPER-MD connected successful ✅*\n\n*PREFIX:* ${prefix} `;
 
-conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `Image Url` }, caption: up })
+conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `img url` }, caption: up })
 
 }
 })
 conn.ev.on('creds.update', saveCreds)  
+
+if (config.ALWAYS_TYPING === "true") {
+            await conn.sendPresenceUpdate('composing', from)
+        }
+
+
+        if (config.ALWAYS_RECORDING === "fals") {
+            await conn.sendPresenceUpdate('recording', from)
+        }
 
 conn.ev.on('messages.upsert', async(mek) => {
 mek = mek.messages[0]
