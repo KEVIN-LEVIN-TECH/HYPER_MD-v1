@@ -1,99 +1,60 @@
-const { cmd } = require('../command');
-const axios = require('axios');
+const { fetchJson } = require('../lib/functions')
+const config = require('../config')
+const { cmd, commands } = require('../command')
 
+// FETCH API URL
+let baseUrl;
+(async () => {
+    let baseUrlGet = await fetchJson(`https://raw.githubusercontent.com/prabathLK/PUBLIC-URL-HOST-DB/main/public/url.json`)
+    baseUrl = baseUrlGet.api
+})();
+//fb downloader
 cmd({
     pattern: "fb",
-    react: "📱",
-    desc: "Download Facebook videos using a secure API",
+    desc: "Download fb videos",
     category: "download",
-    filename: __filename,
+    react: "🔎",
+    filename: __filename
 },
-async (conn, mek, m, { from, q, reply }) => {
+async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
     try {
-        if (!q) {
-            return reply("❌ Please provide a Facebook video URL.\nExample: .fb https://facebook.com/video_url");
-        }
+        if (!q || !q.startsWith("https://")) return reply("Please provide a valid Facebook video URL!");
+        const data = await fetchJson(`${baseUrl}/api/fdown?url=${q}`);
+        let desc = ` HYPER-MD FB DOWNLOADER...⚙
 
-        const videoUrl = q.trim();
+Reply This Message With Option
 
-        // Replace with your RapidAPI Key
-        const apiKey = 'YOUR_RAPIDAPI_KEY_HERE';
-        const apiEndpoint = `https://getvideo.p.rapidapi.com/?url=${encodeURIComponent(videoUrl)}`;
+1 || Download FB Video In HD
+2 || Download FB Video In SD
 
-        // API Request headers
-        const headers = {
-            'x-rapidapi-host': 'getvideo.p.rapidapi.com',
-            'x-rapidapi-key': apiKey,
-        };
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `;
 
-        // Make API call
-        const response = await axios.get(apiEndpoint, { headers });
+        const vv = await conn.sendMessage(from, { image: { url: "https://files.catbox.moe/de82e3.jpg"}, caption: desc }, { quoted: mek });
 
-        if (!response.data || !response.data.success || !response.data.links) {
-            return reply("❌ Unable to fetch video details. Please check the link and try again.");
-        }
-
-        const { title, thumbnail, links } = response.data;
-        const hdUrl = links.find(link => link.quality === 'hd')?.url;
-        const sdUrl = links.find(link => link.quality === 'sd')?.url;
-
-        if (!hdUrl && !sdUrl) {
-            return reply("❌ No downloadable content found for this video.");
-        }
-
-        // Video options message
-        let infoMessage = `
-╭──❮ Facebook Video Download ❯──────
-│
-│ ➤ Title: ${title || "Unknown"}
-│ ➤ HD Quality: ${hdUrl ? "Available" : "Not Available"}
-│ ➤ SD Quality: ${sdUrl ? "Available" : "Not Available"}
-│
-╰────────────────────────
-
-🔢 Reply Below Number
-
-1️ | Download HD Video
-2️ | Download SD Video
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
-
-        const sentMessage = await conn.sendMessage(from, {
-            image: { url: thumbnail },
-            caption: infoMessage,
-        }, { quoted: mek });
-
-        // Handle user response
         conn.ev.on('messages.upsert', async (msgUpdate) => {
             const msg = msgUpdate.messages[0];
             if (!msg.message || !msg.message.extendedTextMessage) return;
 
             const selectedOption = msg.message.extendedTextMessage.text.trim();
 
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === sentMessage.key.id) {
+            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
                 switch (selectedOption) {
-                    case '1': // Download HD Video
-                        if (!hdUrl) {
-                            return reply("❌ HD video is not available for this link.");
-                        }
-                        await conn.sendMessage(from, { video: { url: hdUrl }, caption: `🎥 Downloading ${title} in HD quality.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ` }, { quoted: mek });
+                    case '1':
+                        await conn.sendMessage(from, { video: { url: data.data.hd }, mimetype: "video/mp4", caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " }, { quoted: mek });
                         break;
-
-                    case '2': // Download SD Video
-                        if (!sdUrl) {
-                            return reply("❌ SD video is not available for this link.");
-                        }
-                        await conn.sendMessage(from, { video: { url: sdUrl }, caption: `🎥 Downloading ${title} in SD quality.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ` }, { quoted: mek });
+                    case '2':               
+                    await conn.sendMessage(from, { video: { url: data.data.sd }, mimetype: "video/mp4", caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " }, { quoted: mek });
                         break;
-
                     default:
-                        reply("❌ Invalid option. Please select a valid option.");
+                        reply("Invalid option. Please select a valid option🔴");
                 }
+
             }
         });
-    } catch (error) {
-        console.error(error);
-        reply("❌ An error occurred while processing your request.");
+
+    } catch (e) {
+        console.error(e);
+        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } })
+        reply('An error occurred while processing your request.');
     }
 });
