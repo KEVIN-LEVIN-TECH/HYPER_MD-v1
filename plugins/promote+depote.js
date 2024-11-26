@@ -26,14 +26,14 @@ async (conn, mek, m, { from, isGroup, reply, isAdmin, isBotAdmin }) => {
         }
 
         // Check if a member is tagged
-        const mentioned = mek.message.extendedTextMessage?.mentionedJid || [];
+        const mentioned = mek.message?.extendedTextMessage?.mentionedJid || [];
         if (mentioned.length === 0) {
             return reply("❌ Please tag the member you want to promote.");
         }
 
         // Promote the tagged member
         await conn.groupParticipantsUpdate(from, mentioned, "promote");
-        reply(`✅ Successfully promoted: ${mentioned.map(id => `@${id.split("@")[0]}`).join(", ")}`);
+        reply(`✅ Successfully promoted: ${mentioned.map(id => `@${id.split("@")[0]}`).join(", ")}`, { mentions: mentioned });
     } catch (error) {
         console.error(error);
         reply("❌ An error occurred while promoting the member.");
@@ -66,14 +66,14 @@ async (conn, mek, m, { from, isGroup, reply, isAdmin, isBotAdmin }) => {
         }
 
         // Check if a member is tagged
-        const mentioned = mek.message.extendedTextMessage?.mentionedJid || [];
+        const mentioned = mek.message?.extendedTextMessage?.mentionedJid || [];
         if (mentioned.length === 0) {
             return reply("❌ Please tag the admin you want to demote.");
         }
 
         // Demote the tagged member
         await conn.groupParticipantsUpdate(from, mentioned, "demote");
-        reply(`✅ Successfully demoted: ${mentioned.map(id => `@${id.split("@")[0]}`).join(", ")}`);
+        reply(`✅ Successfully demoted: ${mentioned.map(id => `@${id.split("@")[0]}`).join(", ")}`, { mentions: mentioned });
     } catch (error) {
         console.error(error);
         reply("❌ An error occurred while demoting the member.");
