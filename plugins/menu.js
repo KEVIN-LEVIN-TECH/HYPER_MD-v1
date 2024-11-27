@@ -2,6 +2,21 @@ const { readEnv } = require('../lib/database');
 const { cmd } = require('../command');
 const os = require('os');
 const imageUrl = 'https://i.ibb.co/1zTvSVj/20241123-121425.jpg';
+
+// Function to determine greeting based on the time
+function getTimeBasedGreeting() {
+    const currentHour = new Date().getHours();
+    if (currentHour >= 5 && currentHour < 12) {
+        return "Good Morning 🌅";
+    } else if (currentHour >= 12 && currentHour < 17) {
+        return "Good Afternoon ☀️";
+    } else if (currentHour >= 17 && currentHour < 21) {
+        return "Good Evening 🌇";
+    } else {
+        return "Good Night 🌙";
+    }
+}
+
 // Menu command
 cmd({
     pattern: "menu",
@@ -15,10 +30,11 @@ async (conn, mek, m, {
 }) => {
     try {
         const config = await readEnv();
+        const greeting = getTimeBasedGreeting();
 
         // Menu selection message
         const selectionMessage = `
-👋 Hello ${pushname},
+👋 ${greeting} ${pushname},
 
 ╭──❮ System Information ❯─◈
 │Memory: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${(os.totalmem() / 1024 / 1024).toFixed(2)}MB  
@@ -30,23 +46,13 @@ async (conn, mek, m, {
 │Reply Below Number
 ╰────────────────◈
 
-╭─────────────◈
-│ 1 || DOWNLOAD MENU  
-╰─────────────────◈
-╭───────────◈
-│ 2 || MAIN MENU  
-╰─────────────────◈
-╭───────────◈
-│ 3 || GROUP MENU  
-╰─────────────────◈
-╭───────────◈
-│ 4 || OWNER MENU  
-╰─────────────────◈
-╭───────────◈
-│ 5 || CONVERT MENU  
-╰─────────────────◈
-╭───────────◈
-│ 6 || SEARCH MENU  
+╭──────────────◈
+│ ◈ 1 . DOWNLOAD MENU  
+│ ◈ 2 . MAIN MENU 
+│ ◈ 3 . GROUP MENU 
+│ ◈ 4 . OWNER MENU  
+│ ◈ 5 . CONVERT MENU  
+│ ◈ 6 . SEARCH MENU  
 ╰─────────────────◈
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
