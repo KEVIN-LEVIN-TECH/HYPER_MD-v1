@@ -60,7 +60,16 @@ async (conn, mek, m, {
         const sentMsg = await conn.sendMessage(from, {
             image: { url: imageUrl },
             caption: selectionMessage,
-            contextInfo: { forwardingScore: 999, isForwarded: true },
+            contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterName: "HYPER-MD-V1",
+                    serverMessageId: 143
+                }
+                    }
         }, { quoted: mek });
 
         // Send the selection message
