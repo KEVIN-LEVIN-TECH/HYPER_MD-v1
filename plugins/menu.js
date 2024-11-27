@@ -129,6 +129,20 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `; 
+        // Send the DOWNLOAD MENU with contextInfo
+        await conn.sendMessage(from, { 
+            text: responseText, 
+            contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterName: "HYPER-MD-V1",
+                    serverMessageId: 143
+                }
+            } 
+        }, { quoted: mek });
                         break;
                     case '2': // MAIN MENU
                         responseText = `
@@ -151,7 +165,21 @@ async (conn, mek, m, {
 ╰────────────────◈
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`; 
+`;
+                        // Send the MAIN MENU with contextInfo
+        await conn.sendMessage(from, { 
+            text: responseText, 
+            contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterName: "HYPER-MD-V1",
+                    serverMessageId: 143
+                }
+            } 
+        }, { quoted: mek });
                         break;
                     case '3': // GROUP MENU
                         responseText = `
@@ -235,6 +263,20 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
+                // Send the GRUOP MENU with contextInfo
+        await conn.sendMessage(from, { 
+            text: responseText, 
+            contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterName: "HYPER-MD-V1",
+                    serverMessageId: 143
+                }
+            } 
+        }, { quoted: mek });
                         break;
                     case '4': // OWNER MENU
                         responseText = `
@@ -264,6 +306,20 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
+// Send the GRUOP MENU with contextInfo
+        await conn.sendMessage(from, { 
+            text: responseText, 
+            contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterName: "HYPER-MD-V1",
+                    serverMessageId: 143
+                }
+            } 
+        }, { quoted: mek });
                         break;
                     case '5': // CONVERT MENU
                         responseText = `
@@ -287,6 +343,21 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
+// Send the GRUOP MENU with contextInfo
+        await conn.sendMessage(from, { 
+            text: responseText, 
+            contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterName: "HYPER-MD-V1",
+                    serverMessageId: 143
+                }
+            } 
+        }, { quoted: mek });
+
                         break;
                     case '6': // SEARCH MENU
                         responseText = `
@@ -307,6 +378,21 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
+// Send the GRUOP MENU with contextInfo
+        await conn.sendMessage(from, { 
+            text: responseText, 
+            contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterName: "HYPER-MD-V1",
+                    serverMessageId: 143
+                }
+            } 
+        }, { quoted: mek });
+
                         break;
                     default:
                         responseText = "❌ Invalid option. Please enter a valid number (1-6).";
