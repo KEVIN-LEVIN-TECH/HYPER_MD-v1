@@ -113,7 +113,7 @@ async (conn, mek, m, {
 ╰────────────────◈
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-`}; 
+`; 
                         break;
                     case '2': // MAIN MENU
                         responseText = `
