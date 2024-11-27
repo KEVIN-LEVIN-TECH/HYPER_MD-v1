@@ -112,7 +112,8 @@ async (conn, mek, m, {
 │ ⦁ .gdrive
 ╰────────────────◈
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ` }; { quoted: mek });
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+`}; 
                         break;
                     case '2': // MAIN MENU
                         responseText = `
@@ -134,7 +135,8 @@ async (conn, mek, m, {
 │ ⦁ .system
 ╰────────────────◈
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ` }; { quoted: mek });
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+`; 
                         break;
                     case '3': // GROUP MENU
                         responseText = `
