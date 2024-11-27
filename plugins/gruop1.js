@@ -45,7 +45,7 @@ cmd({
 Group Name: ${groupMetadata.subject}
 Group Description: ${groupMetadata.desc || 'No description'}
 Members: ${groupMetadata.participants.length}
-Created At: ${new Date(groupMetadata.creation  1000).toLocaleString()}
+Created At: ${new Date(groupMetadata.caption  1000).toLocaleString()}
         `;
 
         await conn.sendMessage(from, { text: groupInfo }, { quoted: mek });
