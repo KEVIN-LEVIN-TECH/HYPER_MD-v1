@@ -1,4 +1,5 @@
 const { readEnv } = require('../lib/database');
+const { prepareWAMessageMedia } = require('@whiskeysockets/baileys'); 
 const { cmd } = require('../command');
 const os = require('os');
 const imageUrl = 'https://i.ibb.co/1zTvSVj/20241123-121425.jpg';
@@ -65,7 +66,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
+                    newsletterJid: '120363312962611506@newsletter',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -129,21 +130,28 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `; 
-        // Send the DOWNLOAD MENU with contextInfo
-        await conn.sendMessage(from, { 
-            text: responseText, 
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
-                    newsletterName: "HYPER-MD-V1",
-                    serverMessageId: 143
-                }
-            } 
-        }, { quoted: mek });
-                        break;
+           const mediaMessage = await prepareWAMessageMedia({
+        image: { url: `https://i.ibb.co/1zTvSVj/20241123-121425.jpg` }
+    }, { upload: conn.waUploadToServer });
+
+    
+    const messageContent = {
+        imageMessage: mediaMessage.imageMessage,
+        caption: responseText,
+        contextInfo: {
+            mentionedJid: [m.sender],
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363312962611506@newsletter',
+                newsletterName: "HYPER-MD-V1",
+                serverMessageId: 143
+            }
+        }
+    };
+
+    await conn.sendMessage(from, messageContent, { quoted: mek });
+    break;
                     case '2': // MAIN MENU
                         responseText = `
 ◈───❮ MAIN MENU ❯──◈
@@ -174,7 +182,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
+                    newsletterJid: '120363312962611506@newsletter',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -271,7 +279,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
+                    newsletterJid: '120363312962611506@newsletter',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -314,7 +322,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
+                    newsletterJid: '120363312962611506@newsletter',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -351,7 +359,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
+                    newsletterJid: '120363312962611506@newsletter',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -386,7 +394,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
+                    newsletterJid: '120363312962611506@newsletter',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
