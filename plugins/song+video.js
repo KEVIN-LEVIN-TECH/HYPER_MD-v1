@@ -121,8 +121,24 @@ async (conn, mek, m, {
 
 🔢 Reply Below Number
 
-1 || Video Type
-2 || Document Type
+╭───────────◈
+│ Video Type Quality 
+│──────────
+│1.1 || 240q
+│1.2 || 320q
+│1.3 || 480q
+│1.4 || 720q
+│1.5 || 1080q
+╰────────────────◈
+╭───────────◈
+│ Document Type Quality 
+│──────────
+│2.1 || 240q
+│2.2 || 320q
+│2.3 || 480q
+│2.4 || 720q
+│2.5 || 1080q
+╰────────────────◈
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
@@ -137,39 +153,51 @@ async (conn, mek, m, {
 
             // Validate the user response
             if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
+                let quality;
+                let fileType;
+
                 switch (selectedOption) {
-                    case '1': {
-                        // Download video as a file
-                        const down = await fg.ytv(url);
-                        const downloadUrl = down.dl_url;
-                        if (!downloadUrl) return reply("Failed to fetch the video file. Please try again.");
+                    // Video Type Quality
+                    case '1.1': quality = '240p'; fileType = 'video'; break;
+                    case '1.2': quality = '320p'; fileType = 'video'; break;
+                    case '1.3': quality = '480p'; fileType = 'video'; break;
+                    case '1.4': quality = '720p'; fileType = 'video'; break;
+                    case '1.5': quality = '1080p'; fileType = 'video'; break;
 
-                        await conn.sendMessage(from, { 
-                            video: { url: downloadUrl },
-                            mimetype: "video/mp4",
-                            caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
-                        }, { quoted: mek });
-                        break;
-                    }
-                    case '2': {
-                        // Download video as a document
-                        const downDoc = await fg.ytv(url);
-                        const downloadDocUrl = downDoc.dl_url;
-                        if (!downloadDocUrl) return reply("Failed to fetch the video document. Please try again.");
+                    // Document Type Quality
+                    case '2.1': quality = '240p'; fileType = 'document'; break;
+                    case '2.2': quality = '320p'; fileType = 'document'; break;
+                    case '2.3': quality = '480p'; fileType = 'document'; break;
+                    case '2.4': quality = '720p'; fileType = 'document'; break;
+                    case '2.5': quality = '1080p'; fileType = 'document'; break;
 
-                        await conn.sendMessage(from, { 
-                            document: { url: downloadDocUrl },
-                            mimetype: "video/mp4",
-                            fileName: `${data.title}.mp4`,
-                            caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
-                        }, { quoted: mek });
-
-                        await conn.sendMessage(from, { react: { text: '✅', key: mek.key } });
-                        break;
-                    }
                     default:
                         reply("Invalid option. Please select a valid option 🔴");
+                        return;
                 }
+
+                // Fetch video in the selected quality
+                const down = await fg.ytv(url, quality); // Ensure 'fg.ytv()' supports quality parameter
+                const downloadUrl = down.dl_url;
+
+                if (!downloadUrl) return reply("Failed to fetch the video file. Please try again.");
+
+                if (fileType === 'video') {
+                    await conn.sendMessage(from, { 
+                        video: { url: downloadUrl },
+                        mimetype: "video/mp4",
+                        caption: `🎬 Downloaded in ${quality}\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`,
+                    }, { quoted: mek });
+                } else if (fileType === 'document') {
+                    await conn.sendMessage(from, { 
+                        document: { url: downloadUrl },
+                        mimetype: "video/mp4",
+                        fileName: `${data.title} (${quality}).mp4`,
+                        caption: `🎬 Downloaded in ${quality}\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`,
+                    }, { quoted: mek });
+                }
+
+                await conn.sendMessage(from, { react: { text: '✅', key: mek.key } });
             }
         });
 
