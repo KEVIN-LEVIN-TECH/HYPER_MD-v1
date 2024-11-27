@@ -65,7 +65,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -137,7 +137,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -174,7 +174,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -271,7 +271,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -314,7 +314,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -351,7 +351,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
@@ -386,7 +386,7 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '0029VamA19KFCCoY1q9cvn2I@g.us',
+                    newsletterJid: 'https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I',
                     newsletterName: "HYPER-MD-V1",
                     serverMessageId: 143
                 }
