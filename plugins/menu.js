@@ -175,20 +175,20 @@ async (conn, mek, m, {
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
                         // Send the MAIN MENU with contextInfo
-        const sentMsg = await conn.sendMessage(from, {
-    image: { url: imageUrl },
-    caption: selectionMessage,
-    contextInfo: { 
-        mentionedJid: [m.sender],
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
-            newsletterName: "HYPER-MD-V1",
-            serverMessageId: "143"
+        contextInfo: {
+            mentionedJid: [m.sender],
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363312962611506@newsletter',
+                newsletterName: "HYPER-MD-V1",
+                serverMessageId: 143
+            }
         }
-    }
-}, mek ? { quoted: mek } : {});
+    };
+
+    await conn.sendMessage(from, messageContent, { quoted: mek });
+    break;
 
                         break;
                     case '3': // GROUP MENU
