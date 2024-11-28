@@ -59,19 +59,20 @@ async (conn, mek, m, {
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
         const sentMsg = await conn.sendMessage(from, {
-            image: { url: imageUrl },
-            caption: selectionMessage,
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363044298432735@g.us', 
-                    newsletterName: "HYPER-MD-V1",
-                    serverMessageId: "143"
-                }
-            }
-        }, { quoted: mek });
+    image: { url: imageUrl },
+    caption: selectionMessage,
+    contextInfo: { 
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
+            newsletterName: "HYPER-MD-V1",
+            serverMessageId: "143"
+        }
+    }
+}, mek ? { quoted: mek } : {});
+
 
         // Send the selection message
         // const sentMessage = await conn.sendMessage(from, {
@@ -135,20 +136,21 @@ async (conn, mek, m, {
     }, { upload: conn.waUploadToServer });
 
     
-    const messageContent = {
-        imageMessage: mediaMessage.imageMessage,
-        caption: responseText,
-        contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
-                    newsletterName: "HYPER-MD-V1",
-                    serverMessageId: "143"
-                }
-            }
-        }, { quoted: mek });
+    const sentMsg = await conn.sendMessage(from, {
+    image: { url: imageUrl },
+    caption: selectionMessage,
+    contextInfo: { 
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
+            newsletterName: "HYPER-MD-V1",
+            serverMessageId: "143"
+        }
+    }
+}, mek ? { quoted: mek } : {});
+
     break;
                     case '2': // MAIN MENU
                         responseText = `
@@ -173,19 +175,21 @@ async (conn, mek, m, {
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
                         // Send the MAIN MENU with contextInfo
-        await conn.sendMessage(from, { 
-            text: responseText, 
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
-                    newsletterName: "HYPER-MD-V1",
-                    serverMessageId: "143"
-                }
-            }
-        }, { quoted: mek });
+        const sentMsg = await conn.sendMessage(from, {
+    image: { url: imageUrl },
+    caption: selectionMessage,
+    contextInfo: { 
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
+            newsletterName: "HYPER-MD-V1",
+            serverMessageId: "143"
+        }
+    }
+}, mek ? { quoted: mek } : {});
+
                         break;
                     case '3': // GROUP MENU
                         responseText = `
@@ -270,19 +274,21 @@ async (conn, mek, m, {
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
                 // Send the GRUOP MENU with contextInfo
-        await conn.sendMessage(from, { 
-            text: responseText, 
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363312962611506@newsletter',
-                    newsletterName: "HYPER-MD-V1",
-                    serverMessageId: 143
-                }
-            } 
-        }, { quoted: mek });
+        const sentMsg = await conn.sendMessage(from, {
+    image: { url: imageUrl },
+    caption: selectionMessage,
+    contextInfo: { 
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
+            newsletterName: "HYPER-MD-V1",
+            serverMessageId: "143"
+        }
+    }
+}, mek ? { quoted: mek } : {});
+
                         break;
                     case '4': // OWNER MENU
                         responseText = `
@@ -312,19 +318,21 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-await conn.sendMessage(from, { 
-            text: responseText, 
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
-                    newsletterName: "HYPER-MD-V1",
-                    serverMessageId: "143"
-                }
-            }
-        }, { quoted: mek });
+const sentMsg = await conn.sendMessage(from, {
+    image: { url: imageUrl },
+    caption: selectionMessage,
+    contextInfo: { 
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
+            newsletterName: "HYPER-MD-V1",
+            serverMessageId: "143"
+        }
+    }
+}, mek ? { quoted: mek } : {});
+
                         break;
                     case '5': // CONVERT MENU
                         responseText = `
@@ -348,19 +356,21 @@ await conn.sendMessage(from, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-await conn.sendMessage(from, { 
-            text: responseText, 
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
-                    newsletterName: "HYPER-MD-V1",
-                    serverMessageId: "143"
-                }
-            }
-        }, { quoted: mek });
+const sentMsg = await conn.sendMessage(from, {
+    image: { url: imageUrl },
+    caption: selectionMessage,
+    contextInfo: { 
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
+            newsletterName: "HYPER-MD-V1",
+            serverMessageId: "143"
+        }
+    }
+}, mek ? { quoted: mek } : {});
+
 
                         break;
                     case '6': // SEARCH MENU
@@ -382,19 +392,21 @@ await conn.sendMessage(from, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-await conn.sendMessage(from, { 
-            text: responseText, 
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
-                    newsletterName: "HYPER-MD-V1",
-                    serverMessageId: "143"
-                }
-            }
-        }, { quoted: mek });
+const sentMsg = await conn.sendMessage(from, {
+    image: { url: imageUrl },
+    caption: selectionMessage,
+    contextInfo: { 
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
+            newsletterName: "HYPER-MD-V1",
+            serverMessageId: "143"
+        }
+    }
+}, mek ? { quoted: mek } : {});
+
                         break;
                     default:
                         responseText = "❌ Invalid option. Please enter a valid number (1-6).";
