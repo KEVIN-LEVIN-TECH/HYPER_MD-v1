@@ -27,6 +27,20 @@ I'm Hyper-MD WhatsApp Bot!
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `;
+const sentMsg = await conn.sendMessage(from, {
+    image: { url: imageUrl },
+    caption: selectionMessage,
+    contextInfo: { 
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
+            newsletterName: "HYPER-MD-V1",
+            serverMessageId: "143"
+        }
+    }
+}, mek ? { quoted: mek } : {});
 
         // Sending Image with Alive Message
         const sentMsg = await conn.sendMessage(
@@ -63,7 +77,22 @@ I'm Hyper-MD WhatsApp Bot!
 ╰─────────────────
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-                        `;
+`;
+                        const sentMsg = await conn.sendMessage(from, {
+    image: { url: imageUrl },
+    caption: selectionMessage,
+    contextInfo: { 
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
+            newsletterName: "HYPER-MD-V1",
+            serverMessageId: "143"
+        }
+    }
+}, mek ? { quoted: mek } : {});
+
                         await conn.sendMessage(from, { text: botStatus }, { quoted: userMsg });
                         break;
                     }
