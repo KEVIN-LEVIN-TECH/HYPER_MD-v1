@@ -39,7 +39,7 @@ I'm Hyper-MD WhatsApp Bot!
                     forwardingScore: 999,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363044298432735@g.us', // Channel-specific JID
+                        newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // Channel-specific JID
                         newsletterName: "HYPER-MD-V1",
                         serverMessageId: "143"
                     }
@@ -82,7 +82,7 @@ I'm Hyper-MD WhatsApp Bot!
                                     forwardingScore: 999,
                                     isForwarded: true,
                                     forwardedNewsletterMessageInfo: {
-                                        newsletterJid: '120363044298432735@g.us', // Channel-specific JID
+                                        newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // Channel-specific JID
                                         newsletterName: "HYPER-MD-V1",
                                         serverMessageId: "143"
                                     }
