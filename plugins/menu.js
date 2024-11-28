@@ -66,11 +66,11 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363312962611506@newsletter',
+                    newsletterJid: '120363044298432735@g.us', 
                     newsletterName: "HYPER-MD-V1",
-                    serverMessageId: 143
+                    serverMessageId: "143"
                 }
-                    }
+            }
         }, { quoted: mek });
 
         // Send the selection message
@@ -138,19 +138,17 @@ async (conn, mek, m, {
     const messageContent = {
         imageMessage: mediaMessage.imageMessage,
         caption: responseText,
-        contextInfo: {
-            mentionedJid: [m.sender],
-            forwardingScore: 999,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363312962611506@newsletter',
-                newsletterName: "HYPER-MD-V1",
-                serverMessageId: 143
+        contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
+                    newsletterName: "HYPER-MD-V1",
+                    serverMessageId: "143"
+                }
             }
-        }
-    };
-
-    await conn.sendMessage(from, messageContent, { quoted: mek });
+        }, { quoted: mek });
     break;
                     case '2': // MAIN MENU
                         responseText = `
@@ -182,11 +180,11 @@ async (conn, mek, m, {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363312962611506@newsletter',
+                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
                     newsletterName: "HYPER-MD-V1",
-                    serverMessageId: 143
+                    serverMessageId: "143"
                 }
-            } 
+            }
         }, { quoted: mek });
                         break;
                     case '3': // GROUP MENU
@@ -314,19 +312,18 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-// Send the GRUOP MENU with contextInfo
-        await conn.sendMessage(from, { 
+await conn.sendMessage(from, { 
             text: responseText, 
             contextInfo: { 
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363312962611506@newsletter',
+                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
                     newsletterName: "HYPER-MD-V1",
-                    serverMessageId: 143
+                    serverMessageId: "143"
                 }
-            } 
+            }
         }, { quoted: mek });
                         break;
                     case '5': // CONVERT MENU
@@ -351,19 +348,18 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-// Send the GRUOP MENU with contextInfo
-        await conn.sendMessage(from, { 
+await conn.sendMessage(from, { 
             text: responseText, 
             contextInfo: { 
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363312962611506@newsletter',
+                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
                     newsletterName: "HYPER-MD-V1",
-                    serverMessageId: 143
+                    serverMessageId: "143"
                 }
-            } 
+            }
         }, { quoted: mek });
 
                         break;
@@ -386,21 +382,19 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-// Send the GRUOP MENU with contextInfo
-        await conn.sendMessage(from, { 
+await conn.sendMessage(from, { 
             text: responseText, 
             contextInfo: { 
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363312962611506@newsletter',
+                    newsletterJid: '120363044298432735@g.us', // Channel-specific JID
                     newsletterName: "HYPER-MD-V1",
-                    serverMessageId: 143
+                    serverMessageId: "143"
                 }
-            } 
+            }
         }, { quoted: mek });
-
                         break;
                     default:
                         responseText = "❌ Invalid option. Please enter a valid number (1-6).";
