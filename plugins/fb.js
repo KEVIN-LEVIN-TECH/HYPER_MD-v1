@@ -5,7 +5,7 @@ const { cmd, commands } = require('../command')
 // FETCH API URL
 let baseUrl;
 (async () => {
-    let baseUrlGet = await fetchJson(`https://raw.githubusercontent.com/prabathLK/PUBLIC-URL-HOST-DB/main/public/url.json`)
+    let baseUrlGet = await fetchJson(`https://www.dark-yasiya-api.site/download/fbdl1?url=https://www.facebook.com/watch?v=272591278381388`)
     baseUrl = baseUrlGet.api
 })();
 //fb downloader
