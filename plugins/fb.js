@@ -1,60 +1,69 @@
-const { fetchJson } = require('../lib/functions')
-const config = require('../config')
-const { cmd, commands } = require('../command')
+const { fetchJson } = require('../lib/functions');
+const { cmd } = require('../command');
 
-// FETCH API URL
-let baseUrl;
-(async () => {
-    let baseUrlGet = await fetchJson(`https://www.dark-yasiya-api.site/download/fbdl1?url=https://www.facebook.com/watch?v=272591278381388`)
-    baseUrl = baseUrlGet.api
-})();
-//fb downloader
+// Fetch API URL dynamically
+let baseUrl = 'https://api.dark-yasiya.site';
+
 cmd({
     pattern: "fb",
-    desc: "Download fb videos",
+    desc: "Download Facebook videos",
     category: "download",
     react: "🔎",
     filename: __filename
-},
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
+}, 
+async (conn, mek, m, { from, quoted, args, q, reply }) => {
     try {
-        if (!q || !q.startsWith("https://")) return reply("Please provide a valid Facebook video URL!");
-        const data = await fetchJson(`${baseUrl}/api/fdown?url=${q}`);
-        let desc = ` HYPER-MD FB DOWNLOADER...⚙
+        // Validate input
+        if (!q || !q.startsWith("https://")) {
+            return reply("Please provide a valid Facebook video URL!");
+        }
 
-Reply This Message With Option
+        // Fetch video data
+        const apiEndpoint = `${baseUrl}/download/fbdl1?url=${q}`;
+        const data = await fetchJson(apiEndpoint);
 
-1 || Download FB Video In HD
-2 || Download FB Video In SD
+        // Check response validity
+        if (!data || !data.data) {
+            return reply("Failed to fetch video details. Please try again later!");
+        }
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `;
+        // Options for download
+        const desc = `
+📥 Facebook Video Downloader 📥
 
-        const vv = await conn.sendMessage(from, { image: { url: "https://files.catbox.moe/de82e3.jpg"}, caption: desc }, { quoted: mek });
+Reply This Message With Your Option
 
+1️ || Download Video in HD
+2️ || Download Video in SD
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+        `;
+        const msgOptions = await conn.sendMessage(from, { image: { url: "https://files.catbox.moe/de82e3.jpg" }, caption: desc }, { quoted: mek });
+
+        // Handle option reply
         conn.ev.on('messages.upsert', async (msgUpdate) => {
             const msg = msgUpdate.messages[0];
             if (!msg.message || !msg.message.extendedTextMessage) return;
 
             const selectedOption = msg.message.extendedTextMessage.text.trim();
+            const contextInfo = msg.message.extendedTextMessage.contextInfo;
 
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
+            if (contextInfo && contextInfo.stanzaId === msgOptions.key.id) {
                 switch (selectedOption) {
-                    case '1':
-                        await conn.sendMessage(from, { video: { url: data.data.hd }, mimetype: "video/mp4", caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " }, { quoted: mek });
+                    case '1': // HD Video
+                        await conn.sendMessage(from, { video: { url: data.data.hd }, mimetype: "video/mp4", caption: "✅ HD Video Downloaded Successful!\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " }, { quoted: mek });
                         break;
-                    case '2':               
-                    await conn.sendMessage(from, { video: { url: data.data.sd }, mimetype: "video/mp4", caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " }, { quoted: mek });
+                    case '2': // SD Video
+                        await conn.sendMessage(from, { video: { url: data.data.sd }, mimetype: "video/mp4", caption: "✅ SD Video Downloaded Successful!\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " }, { quoted: mek });
                         break;
                     default:
-                        reply("Invalid option. Please select a valid option🔴");
+                        reply("Invalid option selected. Please try again!");
                 }
-
             }
         });
 
     } catch (e) {
         console.error(e);
-        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } })
-        reply('An error occurred while processing your request.');
+        reply("❌ An error occurred while processing your request.");
     }
 });
