@@ -12,7 +12,7 @@ cmd({
 async (conn, mek, m, { from, reply, pushname }) => {
     try {
         // Image URL (Replace this with your actual image URL)
-        const imageUrl = 'https://i.ibb.co/QdCxSQ6/20241123-121529.jpg';  // Change with your image URL
+        const imageUrl = 'https://i.ibb.co/QdCxSQ6/20241123-121529.jpg'; // Replace with your image URL
 
         // Alive Message Content
         const aliveDesc = `
@@ -20,36 +20,32 @@ async (conn, mek, m, { from, reply, pushname }) => {
 
 I'm Hyper-MD WhatsApp Bot!
 
-🔢 Reply Below Number:
+🔢 Reply with a number:
 
 1 || View Bot Status
 2 || Contact Bot Owner
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `;
-const sentMsg = await conn.sendMessage(from, {
-    image: { url: imageUrl },
-    caption: selectionMessage,
-    contextInfo: { 
-        mentionedJid: [m.sender],
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
-            newsletterName: "HYPER-MD-V1",
-            serverMessageId: "143"
-        }
-    }
-}, mek ? { quoted: mek } : {});
 
-        // Sending Image with Alive Message
+        // Sending Alive Message
         const sentMsg = await conn.sendMessage(
             from,
             {
-                image: { url: imageUrl }, // Load image from URL
-                caption: aliveDesc, // Add caption with instructions
+                image: { url: imageUrl },
+                caption: aliveDesc,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    forwardingScore: 999,
+                    isForwarded: true,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: '120363044298432735@g.us', // Channel-specific JID
+                        newsletterName: "HYPER-MD-V1",
+                        serverMessageId: "143"
+                    }
+                }
             },
-            { quoted: mek }
+            mek ? { quoted: mek } : {}
         );
 
         // Listen for User Response
@@ -68,49 +64,49 @@ const sentMsg = await conn.sendMessage(from, {
                     case '1': {
                         // Option 1: Show Bot Status
                         const botStatus = `
-╭────❮ Bot Status ❯─────
-│
-│ ✅Bot Status: Online
+╭────❮ Bot Status ❯───◈
+│ ✅ Bot Status: Online
 │ 📅 Date: ${new Date().toLocaleDateString()}
 │ 🕒 Time: ${new Date().toLocaleTimeString()}
-│
-╰─────────────────
+╰───────────────────◈
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `;
-                        const sentMsg = await conn.sendMessage(from, {
-    image: { url: imageUrl },
-    caption: selectionMessage,
-    contextInfo: { 
-        mentionedJid: [m.sender],
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-            newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // WhatsApp Channel Link ID
-            newsletterName: "HYPER-MD-V1",
-            serverMessageId: "143"
-        }
-    }
-}, mek ? { quoted: mek } : {});
 
-                        await conn.sendMessage(from, { text: botStatus }, { quoted: userMsg });
+                        await conn.sendMessage(
+                            from,
+                            {
+                                text: botStatus,
+                                contextInfo: {
+                                    mentionedJid: [m.sender],
+                                    forwardingScore: 999,
+                                    isForwarded: true,
+                                    forwardedNewsletterMessageInfo: {
+                                        newsletterJid: '120363044298432735@g.us', // Channel-specific JID
+                                        newsletterName: "HYPER-MD-V1",
+                                        serverMessageId: "143"
+                                    }
+                                }
+                            },
+                            { quoted: userMsg }
+                        );
                         break;
                     }
                     case '2': {
-                        const vcard = 'BEGIN:VCARD\n' // metadata of the contact card
-            + 'VERSION:3.0\n' 
-            + 'FN:Mr. Senesh\n'
-            + 'ORG:Mr. Senesh\n'
-            + 'TEL;type=CELL;type=VOICE;waid=94784337506:+94 78 433 7506\n'
-            + 'EMAIL:senesh@gmail.com\n'
-            + 'END:VCARD';
-                        await conn.sendMessage(from, { 
-        contacts: { 
-            displayName: 'Mr. Senesh', 
-            contacts: [{ vcard }] 
-        }
-    }
-);
+                        // Option 2: Send Bot Owner Contact
+                        const vcard = 'BEGIN:VCARD\n'
+                            + 'VERSION:3.0\n'
+                            + 'FN:Mr. Senesh\n'
+                            + 'ORG:Mr. Senesh\n'
+                            + 'TEL;type=CELL;type=VOICE;waid=94784337506:+94 78 433 7506\n'
+                            + 'EMAIL:senesh@gmail.com\n'
+                            + 'END:VCARD';
+                        await conn.sendMessage(from, {
+                            contacts: {
+                                displayName: 'Mr. Senesh',
+                                contacts: [{ vcard }]
+                            }
+                        });
                         break;
                     }
                     default: {
@@ -126,3 +122,4 @@ const sentMsg = await conn.sendMessage(from, {
         reply("❌ An error occurred while processing your request.");
     }
 });
+
