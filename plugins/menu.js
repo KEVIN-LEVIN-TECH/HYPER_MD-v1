@@ -273,22 +273,7 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-                // Send the GRUOP MENU with contextInfo
-        const messageContent = {
-        text: responseText,
-        contextInfo: {
-            mentionedJid: [m.sender],
-            forwardingScore: 999,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363312962611506@newsletter',
-                newsletterName: "HYPER-MD-V1",
-                serverMessageId: 143
-            }
-        }
-    };
-
-    await conn.sendMessage(from, messageContent, { quoted: mek });
+                
     break;
                     case '4': // OWNER MENU
                         responseText = `
@@ -318,21 +303,7 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-const messageContent = {
-        text: responseText,
-        contextInfo: {
-            mentionedJid: [m.sender],
-            forwardingScore: 999,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363312962611506@newsletter',
-                newsletterName: "HYPER-MD-V1",
-                serverMessageId: 143
-            }
-        }
-    };
 
-    await conn.sendMessage(from, messageContent, { quoted: mek });
     break;
                     case '5': // CONVERT MENU
                         responseText = `
@@ -356,21 +327,7 @@ const messageContent = {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-const messageContent = {
-        text: responseText,
-        contextInfo: {
-            mentionedJid: [m.sender],
-            forwardingScore: 999,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363312962611506@newsletter',
-                newsletterName: "HYPER-MD-V1",
-                serverMessageId: 143
-            }
-        }
-    };
 
-    await conn.sendMessage(from, messageContent, { quoted: mek });
     break;
                     case '6': // SEARCH MENU
                         responseText = `
@@ -391,21 +348,7 @@ const messageContent = {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-const messageContent = {
-        text: responseText,
-        contextInfo: {
-            mentionedJid: [m.sender],
-            forwardingScore: 999,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363312962611506@newsletter',
-                newsletterName: "HYPER-MD-V1",
-                serverMessageId: 143
-            }
-        }
-    };
 
-    await conn.sendMessage(from, messageContent, { quoted: mek });
     break;
                     default:
                         responseText = "❌ Invalid option. Please enter a valid number (1-6).";
