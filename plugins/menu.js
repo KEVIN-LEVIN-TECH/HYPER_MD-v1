@@ -152,8 +152,8 @@ async (conn, mek, m, {
 }, mek ? { quoted: mek } : {});
 
     break;
-                    case '2': // MAIN MENU
-                        responseText = `
+                    case '2':
+    responseText = `
 ◈───❮ MAIN MENU ❯──◈
 
 ╭───────────◈
@@ -174,7 +174,9 @@ async (conn, mek, m, {
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
 `;
-                        // Send the MAIN MENU with contextInfo
+
+    const messageContent = {
+        text: responseText,
         contextInfo: {
             mentionedJid: [m.sender],
             forwardingScore: 999,
@@ -189,8 +191,6 @@ async (conn, mek, m, {
 
     await conn.sendMessage(from, messageContent, { quoted: mek });
     break;
-
-                        break;
                     case '3': // GROUP MENU
                         responseText = `
 ◈───❮ GROUP MENU ❯──◈
