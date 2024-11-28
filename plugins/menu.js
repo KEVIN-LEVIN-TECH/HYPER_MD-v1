@@ -33,6 +33,19 @@ async (conn, mek, m, {
         const config = await readEnv();
         const greeting = getTimeBasedGreeting();
 
+        const contactCard = {
+            contacts: {
+                displayName: contactName,
+                contacts: [{ vcard: `
+BEGIN:VCARD
+VERSION:3.0
+FN:${contactName}
+TEL;type=CELL;waid=94784337506:+94 78 433 7506
+END:VCARD
+                `.trim() }]
+            }
+        };
+
         // Menu selection message
         const selectionMessage = `
 👋 ${greeting} ${pushname},
