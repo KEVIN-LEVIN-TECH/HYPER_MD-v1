@@ -2,7 +2,7 @@ const { fetchJson } = require('../lib/functions');
 const { cmd } = require('../command');
 
 // Base API URL
-let baseUrl = 'https://api.dark-yasiya.site'; // Replace with your TikTok API
+let baseUrl = 'https://www.dark-yasiya-api.site/download/tiktok?url=https://vt.tiktok.com/ZSje1Vkup'; 
 
 cmd({
     pattern: "tiktok",
