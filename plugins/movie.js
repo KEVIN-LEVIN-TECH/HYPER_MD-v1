@@ -9,7 +9,7 @@ cmd({
     pattern: "movie",
     react: "🎥",
     desc: "Search movies and suggest streaming/download links",
-    category: "search",
+    category: "movie",
     use: ".movie <movie name>",
     filename: __filename,
 },
