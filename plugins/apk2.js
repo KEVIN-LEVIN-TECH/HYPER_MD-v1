@@ -12,19 +12,17 @@ cmd({
 },
 async (conn, mek, m, { args, reply }) => {
     try {
-        // Validate input
         const query = args.join(" ").trim();
         if (!query) {
             return reply("❌ Please provide an app name. Example: `.apk telegram`");
         }
 
-        reply("_Searching for APKs..._");
+        reply("Searching for APKs...");
 
-        // Search APKs from APKPure
         const response = await axios.get(`https://apkpure.com/search?q=${encodeURIComponent(query)}`);
         const html = response.data;
 
-        // Extract APK details
+        // Extract APK details using regex
         const regex = /<a href="(\/[a-z-]+\/[a-z0-9-]+)" title="(.+?)"/g;
         let match;
         let results = [];
@@ -32,22 +30,20 @@ async (conn, mek, m, { args, reply }) => {
             const link = `https://apkpure.com${match[1]}`;
             const title = match[2];
             results.push({ title, link });
-            if (results.length >= 10) break; // Limit to 10 results
+            if (results.length >= 10) break;
         }
 
-        // If no results
         if (results.length === 0) {
             return reply(`❌ No results found for "${query}".`);
         }
 
-        // Prepare interactive menu
-        let menuText = `🔍 APK Results for: ${query}\n\n`;
+        // Prepare and send interactive menu
+        let menuText = `🔍 **APK Results for:** ${query}\n\n`;
         results.forEach((item, index) => {
             menuText += `${index + 1}. ${item.title}\n`;
         });
-        menuText += `\n🗂 Reply with a number (1-10) to download the APK.`;
+        menuText += `\n🗂 Reply with a number (1-10) to get the APK link.`;
 
-        // Send menu
         const sentMessage = await conn.sendMessage(m.chat, { text: menuText }, { quoted: mek });
 
         // Listen for user reply
@@ -60,7 +56,6 @@ async (conn, mek, m, { args, reply }) => {
                 return conn.sendMessage(m.chat, { text: "❌ Invalid option. Please reply with a number between 1 and 10." }, { quoted: userMsg });
             }
 
-            // Get selected APK
             const selectedAPK = results[selectedOption - 1];
             await conn.sendMessage(m.chat, {
                 text: `📥 Download your APK here: [${selectedAPK.title}](${selectedAPK.link}\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ )`,
@@ -69,7 +64,7 @@ async (conn, mek, m, { args, reply }) => {
         });
 
     } catch (error) {
-        console.error("Error in APK plugin:", error);
+        console.error("Error in APK plugin:", error); // Log error for debugging
         reply("❌ An error occurred while processing your request.");
     }
 });
