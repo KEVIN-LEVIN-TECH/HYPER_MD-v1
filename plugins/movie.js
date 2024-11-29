@@ -1,8 +1,8 @@
 const { cmd } = require('../command');
 const axios = require('axios');
 
-const OMDB_API_KEY = "your_omdb_api_key"; // Replace with your OMDb API Key
-const OMDB_API_URL = "https://www.omdbapi.com/";
+const OMDB_API_KEY = "http://www.omdbapi.com/?i=tt3896198&apikey=b20bb70"; 
+const OMDB_API_URL = "http://www.omdbapi.com/apikey.aspx?VERIFYKEY=352521ac-e9dd-496a-bd35-99d31edf5129";
 
 cmd({
     pattern: "movie",
@@ -33,15 +33,17 @@ async (conn, mek, m, { args, reply }) => {
 
         // Prepare movie details
         const movieDetails = `
-🎬 *Title*: ${movie.Title}
-🗓 *Year*: ${movie.Year}
-⭐ *IMDB Rating*: ${movie.imdbRating}
-📚 *Genre*: ${movie.Genre}
-🎭 *Actors*: ${movie.Actors}
-📝 *Plot*: ${movie.Plot}
-🌐 *IMDB Link*: https://www.imdb.com/title/${movie.imdbID}/
+🎬 Title: ${movie.Title}
+🗓 Year: ${movie.Year}
+⭐ IMDB Rating: ${movie.imdbRating}
+📚 Genre: ${movie.Genre}
+🎭 Actors: ${movie.Actors}
+📝 Plot: ${movie.Plot}
+🌐 IMDB Link: https://www.imdb.com/title/${movie.imdbID}/
 
-🔗 *Download Suggestion*: Try searching on platforms like YTS or other movie download sites.
+🔗 Download Suggestion: Try searching on platforms like YTS or other movie download sites.
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
         `;
 
         // Send movie details
