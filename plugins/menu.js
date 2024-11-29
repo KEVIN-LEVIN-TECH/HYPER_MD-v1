@@ -84,6 +84,7 @@ cmd({
 │ ⦁ .song
 │ ⦁ .video
 │ ⦁ .apk
+│ ⦁ .apk2
 │ ⦁ .play
 │ ⦁ .gdrive
 ╰────────────────◈
