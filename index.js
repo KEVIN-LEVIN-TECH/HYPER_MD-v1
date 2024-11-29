@@ -77,7 +77,26 @@ require("./plugins/" + plugin);
 console.log('Plugins installed successful ✅')
 console.log('Bot connected to whatsapp ✅')
 
-let up = `HYPER-MD connected successful ✅\n\nPREFIX: ${prefix} `;
+let up = `🚀 HYPER-MD Connected Successfully! ✅ 
+
+--- 👨‍💻🎉 Welcome to HYPER-MD!🎉💗 
+
+🔹 PREFIX: ${prefix}
+
+🔹 OWNER: ${ownerNumber}
+
+
+Thank you for using 👨‍💻HYPER-MD💗.
+We're here to make your experience enjoyable and seamless.
+If you need any help or have questions, don't hesitate to ask. 🌝💗
+
+🖇️Join My WhatsApp Channel✓💗  : https://whatsapp.com/channel/0029VamA19KFCCoY1q9cvn2I
+
+🖇️Subscribe My Youtube Channel✓💗 :
+
+👨‍💻 Enjoy your time with us! 😊
+
+> ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `;`;
 
 conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://i.ibb.co/tpJGQkr/20241122-203120.jpg` }, caption: up })
 
@@ -91,6 +110,11 @@ if (!mek.message) return
 mek.message = (getContentType(mek.message) === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
 if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_READ_STATUS === "true"){
 await conn.readMessages([mek.key])
+}
+//=========autobio=======//
+if (config.AUTO_BIO === 'true'){
+               await
+conn.updateProfileStatus(`𝗛𝗬𝗣𝗘𝗥 𝗠𝗗💗 𝗦𝘂𝗰𝗰𝗲𝘀𝗳𝘂𝗹𝗹𝘆 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱➤ 𝗧𝗵𝗶𝘀 𝗗𝗲𝘃𝗶𝗰𝗲 𝗜𝘁 𝗛𝗮𝘃𝗲 𝗕𝗲𝗲𝗻 𝗥𝘂𝗻𝗻𝗶𝗻𝗴 𝗙𝗼𝗿 ⚡💻`)
 }
 const m = sms(conn, mek)
 const type = getContentType(mek.message)
