@@ -5,7 +5,7 @@ const axios = require('axios');
 cmd({
     pattern: "apk2",
     desc: "Search and download APKs",
-    use: ".apk <app_name>",
+    use: ".apk2 <app_name>",
     react: "📥",
     category: "download",
     filename: __filename,
