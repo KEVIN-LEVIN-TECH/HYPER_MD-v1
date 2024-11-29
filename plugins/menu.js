@@ -50,6 +50,7 @@ cmd({
 │ ◈ 4 . OWNER MENU  
 │ ◈ 5 . CONVERT MENU  
 │ ◈ 6 . SEARCH MENU  
+│ ◈ 7 . MOVIE MENU
 ╰─────────────────◈
 
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
@@ -193,6 +194,16 @@ cmd({
 `;
                         break;
 
+                       case '7':
+                        responseText = `◈───❮ MOVIE MENU ❯──◈
+
+╭───────────◈
+│ ⦁ .movie
+╰────────────────◈
+
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+`;
+                        break;
                     default:
                         responseText = "❌ Invalid option. Please enter a valid number (1-6).";
                 }
