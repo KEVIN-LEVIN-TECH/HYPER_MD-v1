@@ -1,32 +1,45 @@
-const { cmd, commands } = require('../command');
-let { img2url } = require('@blackamda/telegram-image-url');
+const { cmd } = require('../command');
+const { img2url } = require('@blackamda/telegram-image-url');
 const { getRandom } = require('../lib/functions');
 const fs = require('fs');
-const config = require('../config')
 
+// Define the img2url command
 cmd({
     pattern: "img2url",
     react: "🔗",
-    alias: ["tourl","imgurl","telegraph","imgtourl"],
+    alias: ["tourl", "imgurl", "telegraph", "imgtourl"],
     category: "convert",
     use: '.img2url <reply image>',
     filename: __filename
 },
-async(conn, mek, m,{from, l, prefix, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-    try{
-    const isQuotedViewOnce = m.quoted ? (m.quoted.type === 'viewOnceMessage') : false
-    const isQuotedImage = m.quoted ? ((m.quoted.type === 'imageMessage') || (isQuotedViewOnce ? (m.quoted.msg.type === 'imageMessage') : false)) : false
-    if ((m.type === 'imageMessage') || isQuotedImage) {
-const fileType = require("file-type");
-  var nameJpg = getRandom('');
-  let buff = isQuotedImage ? await m.quoted.download(nameJpg) : await m.download(nameJpg)
-  let type = await fileType.fromBuffer(buff);
-  await fs.promises.writeFile("./" + type.ext, buff);
-  img2url("./" + type.ext).then(async url => {
-    await reply('\n' + url + '\n');
-});
-}} catch (e) {
-    console.error("Error...", e);
-    reply("ErROR.....");
-}
+async (conn, mek, m, { reply }) => {
+    try {
+        // Check if the message is an image or a quoted image
+        const isQuotedImage = m.quoted ? (m.quoted.type === 'imageMessage') : false;
+
+        if (m.type === 'imageMessage' || isQuotedImage) {
+            const fileType = require("file-type");
+            const nameJpg = getRandom(''); // Generate a random name for the image
+            const buffer = isQuotedImage ? await m.quoted.download() : await m.download(); // Download the image
+
+            const type = await fileType.fromBuffer(buffer); // Identify the file type
+            const fileName = `${nameJpg}.${type.ext}`; // Create a filename with the appropriate extension
+            await fs.promises.writeFile(fileName, buffer); // Save the image locally
+
+            // Upload the image and get the URL
+            img2url(fileName).then(async url => {
+                await reply(`✅ Image successfully uploaded!\n🔗 URL: ${url}`);
+                await fs.promises.unlink(fileName); // Delete the local file after uploading
+            }).catch(async error => {
+                console.error("Upload Error: ", error);
+                await reply("❌ Failed to upload image. Please try again.");
+            });
+        } else {
+            // If no image is provided
+            await reply("❌ Please reply to an image or send an image directly.");
+        }
+    } catch (e) {
+        console.error("Error: ", e);
+        await reply("❌ An error occurred while processing your request.");
+    }
 });
