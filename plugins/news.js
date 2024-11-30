@@ -1,96 +1,73 @@
-const config = require('../config')
-const { cmd } = require('../command')
-const { fetchJson } = require('../lib/functions')
+const config = require('../config');
+const { cmd } = require('../command');
+const { fetchJson } = require('../lib/functions');
 
-const apilink = 'https://dark-yasiya-news-apis.vercel.app/api' // API LINK
+const apilink = 'https://dark-yasiya-news-apis.vercel.app/api'; // API LINK
 
-// ================================ DYNAMIC NEWS COMMAND ================================
-const sendNewsToGroup = async (conn, from, mek, reply, newsData, groupJid) => {
-    const msg = `
-           ⭐ ${newsData.source.toUpperCase()} NEWS ⭐
+// Function to Send News to a Group
+const sendNewsToGroup = async (conn, mek, reply, newsData, groupJid) => {
+    try {
+        const msg = `
+           ⭐ *${newsData.source.toUpperCase()} NEWS* ⭐
 
-• Title - ${newsData.result.title}
+• *Title* - ${newsData.result.title || 'N/A'}
+• *News* - ${newsData.result.desc || 'N/A'}
+• *Date* - ${newsData.result.date || 'N/A'}
+• *Link* - ${newsData.result.url || 'N/A'}
+        `;
 
-• News - ${newsData.result.desc}
+        await conn.sendMessage(
+            groupJid,
+            {
+                image: { url: newsData.result.image || '' },
+                caption: msg,
+            },
+            { quoted: mek }
+        );
 
-• Date - ${newsData.result.date || 'N/A'}
-
-• Link - ${newsData.result.url}
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `;
-
-    await conn.sendMessage(
-        groupJid,
-        { image: { url: newsData.result.image || '' }, caption: msg },
-        { quoted: mek }
-    );
-
-    reply(`✅ ${newsData.source} News shared successfully to the group (${groupJid})!`);
+        reply(`✅ *${newsData.source} News* shared successfully to the group (${groupJid})!`);
+    } catch (e) {
+        console.error(`Error sending ${newsData.source} news to group:`, e);
+        reply(`❌ Failed to share *${newsData.source} News* to the group. Please try again.`);
+    }
 };
 
-// News Commands with Dynamic Group JID
-cmd({
-    pattern: "hirunews",
-    alias: ["hiru", "news1"],
-    react: "⭐",
-    desc: "Share HIRU news to a group",
-    category: "news",
-    use: '.hirunews <group_jid>',
-    filename: __filename
-},
-async (conn, mek, m, { from, quoted, args, reply }) => {
-    if (args.length === 0) return reply("❌ Please provide a group JID. Example: `.hirunews 1234567890-123456789@g.us`");
+// News Commands for Specific Sources
+const createNewsCommand = (pattern, alias, sourceName, apiPath) => {
+    cmd({
+        pattern: pattern,
+        alias: alias,
+        react: "📰",
+        desc: `Share ${sourceName} news to a group`,
+        category: "news",
+        use: `.${pattern} <group_jid>`,
+        filename: __filename,
+    },
+    async (conn, mek, m, { args, reply }) => {
+        if (args.length === 0) {
+            return reply(`❌ Please provide a group JID.\nExample: .${pattern} 1234567890-123456789@g.us`);
+        }
 
-    const groupJid = args[0];
-    try {
-        const news = await fetchJson(`${apilink}/hiru`);
-        await sendNewsToGroup(conn, from, mek, reply, { source: "Hiru", result: news.result }, groupJid);
-    } catch (e) {
-        console.error(e);
-        reply("❌ An error occurred while fetching HIRU news.");
-    }
-});
+        const groupJid = args[0];
+        try {
+            const news = await fetchJson(`${apilink}/${apiPath}`);
+            if (!news.result || !news.result.title) {
+                return reply(`❌ No ${sourceName} news available right now.`);
+            }
 
-cmd({
-    pattern: "sirasanews",
-    alias: ["sirasa", "news2"],
-    react: "🔺",
-    desc: "Share Sirasa news to a group",
-    category: "news",
-    use: '.sirasanews <group_jid>',
-    filename: __filename
-},
-async (conn, mek, m, { from, quoted, args, reply }) => {
-    if (args.length === 0) return reply("❌ Please provide a group JID. Example: `.sirasanews 1234567890-123456789@g.us`");
+            await sendNewsToGroup(conn, mek, reply, { source: sourceName, result: news.result }, groupJid);
+        } catch (e) {
+            console.error(`Error fetching ${sourceName} news:`, e);
+            reply(`❌ An error occurred while fetching ${sourceName} news.`);
+        }
+    });
+};
 
-    const groupJid = args[0];
-    try {
-        const news = await fetchJson(`${apilink}/sirasa`);
-        await sendNewsToGroup(conn, from, mek, reply, { source: "Sirasa", result: news.result }, groupJid);
-    } catch (e) {
-        console.error(e);
-        reply("❌ An error occurred while fetching Sirasa news.");
-    }
-});
+// Hiru News Command
+createNewsCommand("hirunews", ["hiru", "news1"], "Hiru", "hiru");
 
-cmd({
-    pattern: "derananews",
-    alias: ["derana", "news3"],
-    react: "📑",
-    desc: "Share Derana news to a group",
-    category: "news",
-    use: '.derananews <group_jid>',
-    filename: __filename
-},
-async (conn, mek, m, { from, quoted, args, reply }) => {
-    if (args.length === 0) return reply("❌ Please provide a group JID. Example: `.derananews 1234567890-123456789@g.us`");
+// Sirasa News Command
+createNewsCommand("sirasanews", ["sirasa", "news2"], "Sirasa", "sirasa");
 
-    const groupJid = args[0];
-    try {
-        const news = await fetchJson(`${apilink}/derana`);
-        await sendNewsToGroup(conn, from, mek, reply, { source: "Derana", result: news.result }, groupJid);
-    } catch (e) {
-        console.error(e);
-        reply("❌ An error occurred while fetching Derana news.");
-    }
-});
+// Derana News Command
+createNewsCommand("derananews", ["derana", "news3"], "Derana", "derana");
