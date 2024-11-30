@@ -12,49 +12,57 @@ cmd(
     },
     async (conn, mek, m, { from, reply, pushname }) => {
         try {
-            // Image URL
-            const imageUrl = 'https://i.ibb.co/QdCxSQ6/20241123-121529.jpg'; // ඔබේ ඡායාරූපය මෙහි දමන්න.
+            // Image URL (Replace this with your actual image URL)
+            const imageUrl = 'https://i.ibb.co/QdCxSQ6/20241123-121529.jpg'; // Replace with your image URL
 
-            // Alive message content
-            const aliveMessage = `
+            // Alive Message Content
+            const aliveDesc = `
 👋 Hello, ${pushname || "User"}!
 
-I'm *Hyper-MD* WhatsApp Bot!
+I'm Hyper-MD WhatsApp Bot!
 
-🔢 *Choose an option below:*
+🔢 Reply with a number:
 
-1️ View Bot Status  
-2️ Contact Bot Owner  
+1 || View Bot Status  
+2 || Contact Bot Owner  
 
-© Powered by Mr. Senesh
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `;
 
-            // Send alive message with image and buttons
-            const sentMsg = await conn.sendMessage(from, {
-                image: { url: imageUrl },
-                caption: aliveMessage,
-                buttons: [
-                    { buttonId: 'bot_status', buttonText: { displayText: '1️⃣ View Bot Status' }, type: 1 },
-                    { buttonId: 'contact_owner', buttonText: { displayText: '2️⃣ Contact Bot Owner' }, type: 1 },
-                ],
-                headerType: 4,
-            });
+            // Sending Alive Message
+            const sentMsg = await conn.sendMessage(
+                from,
+                {
+                    image: { url: imageUrl },
+                    caption: aliveDesc,
+                    contextInfo: {
+                        mentionedJid: [m.sender],
+                        forwardingScore: 999,
+                        isForwarded: true,
+                        forwardedNewsletterMessageInfo: {
+                            newsletterName: "HYPER-MD-V1",
+                            newsletterJid: "0029VamA19KFCCoY1q9cvn2I@broadcast",
+                        },
+                    },
+                },
+                mek ? { quoted: mek } : {}
+            );
 
-            // Handle Button Responses
+            // Listen for User Response
             conn.ev.on('messages.upsert', async (msgUpdate) => {
                 const userMsg = msgUpdate.messages[0];
-                if (!userMsg.message || !userMsg.message.buttonsResponseMessage) return;
+                if (!userMsg.message || !userMsg.message.extendedTextMessage) return;
 
-                const buttonId = userMsg.message.buttonsResponseMessage.selectedButtonId;
+                const selectedOption = userMsg.message.extendedTextMessage.text.trim();
 
-                // Validate response
+                // Validate if the response matches the `.alive` message
                 if (
-                    userMsg.message.buttonsResponseMessage.contextInfo &&
-                    userMsg.message.buttonsResponseMessage.contextInfo.stanzaId === sentMsg.key.id
+                    userMsg.message.extendedTextMessage.contextInfo &&
+                    userMsg.message.extendedTextMessage.contextInfo.stanzaId === sentMsg.key.id
                 ) {
-                    switch (buttonId) {
-                        case 'bot_status': {
-                            // Option 1: Bot Status
+                    switch (selectedOption) {
+                        case '1': {
+                            // Option 1: Show Bot Status
                             const botStatus = `
 ╭────❮ *Bot Status* ❯─────╮
 │ ✅ *Bot Status*: Online
@@ -62,11 +70,26 @@ I'm *Hyper-MD* WhatsApp Bot!
 │ 🕒 *Time*: ${new Date().toLocaleTimeString()}
 ╰─────────────────────────╯
 `;
-                            await conn.sendMessage(from, { text: botStatus }, { quoted: userMsg });
+                            await conn.sendMessage(
+                                from,
+                                {
+                                    text: botStatus,
+                                    contextInfo: {
+                                        mentionedJid: [m.sender],
+                                        forwardingScore: 999,
+                                        isForwarded: true,
+                                        forwardedNewsletterMessageInfo: {
+                                            newsletterName: "HYPER-MD-V1",
+                                            newsletterJid: "0029VamA19KFCCoY1q9cvn2I@broadcast",
+                                        },
+                                    },
+                                },
+                                { quoted: userMsg }
+                            );
                             break;
                         }
-                        case 'contact_owner': {
-                            // Option 2: Contact Bot Owner
+                        case '2': {
+                            // Option 2: Send Bot Owner Contact
                             const vcard = `BEGIN:VCARD
 VERSION:3.0
 FN:Mr. Senesh
@@ -86,7 +109,7 @@ END:VCARD`;
                             // Invalid Option
                             await conn.sendMessage(
                                 from,
-                                { text: "❌ Invalid option. Please choose 1️⃣ or 2️⃣." },
+                                { text: "❌ Invalid option. Please select a valid number." },
                                 { quoted: userMsg }
                             );
                             break;
@@ -94,8 +117,8 @@ END:VCARD`;
                     }
                 }
             });
-        } catch (error) {
-            console.error(error);
+        } catch (e) {
+            console.error(e);
             reply("❌ An error occurred while processing your request.");
         }
     }
