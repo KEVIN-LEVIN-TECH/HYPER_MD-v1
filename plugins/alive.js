@@ -2,124 +2,101 @@ const { readEnv } = require('../lib/database');
 const { cmd } = require('../command');
 
 // ========== ALIVE COMMAND ==========
-cmd({
-    pattern: "alive",
-    react: "👋",
-    desc: "Check bot status and display interactive menu",
-    category: "main",
-    filename: __filename,
-},
-async (conn, mek, m, { from, reply, pushname }) => {
-    try {
-        // Image URL (Replace this with your actual image URL)
-        const imageUrl = 'https://i.ibb.co/QdCxSQ6/20241123-121529.jpg'; // Replace with your image URL
+cmd(
+    {
+        pattern: "alive",
+        react: "👋",
+        desc: "Check bot status and display interactive menu",
+        category: "main",
+        filename: __filename,
+    },
+    async (conn, mek, m, { from, reply, pushname }) => {
+        try {
+            // Image URL
+            const imageUrl = 'https://i.ibb.co/QdCxSQ6/20241123-121529.jpg'; // ඔබේ ඡායාරූපය මෙහි දමන්න.
 
-        // Alive Message Content
-        const aliveDesc = `
-👋 Hello, ${pushname || "User"}
+            // Alive message content
+            const aliveMessage = `
+👋 Hello, ${pushname || "User"}!
 
-I'm Hyper-MD WhatsApp Bot!
+I'm *Hyper-MD* WhatsApp Bot!
 
-🔢 Reply with a number:
+🔢 *Choose an option below:*
 
-1 || View Bot Status
-2 || Contact Bot Owner
+1️ View Bot Status  
+2️ Contact Bot Owner  
 
-© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+© Powered by Mr. Senesh
 `;
 
-        // Sending Alive Message
-        const sentMsg = await conn.sendMessage(
-            from,
-            {
+            // Send alive message with image and buttons
+            const sentMsg = await conn.sendMessage(from, {
                 image: { url: imageUrl },
-                caption: aliveDesc,
-                contextInfo: {
-                    mentionedJid: [m.sender],
-                    forwardingScore: 999,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // Channel-specific JID
-                        newsletterName: "HYPER-MD-V1",
-                        serverMessageId: "143"
-                    }
-                }
-            },
-            mek ? { quoted: mek } : {}
-        );
+                caption: aliveMessage,
+                buttons: [
+                    { buttonId: 'bot_status', buttonText: { displayText: '1️⃣ View Bot Status' }, type: 1 },
+                    { buttonId: 'contact_owner', buttonText: { displayText: '2️⃣ Contact Bot Owner' }, type: 1 },
+                ],
+                headerType: 4,
+            });
 
-        // Listen for User Response
-        conn.ev.on('messages.upsert', async (msgUpdate) => {
-            const userMsg = msgUpdate.messages[0];
-            if (!userMsg.message || !userMsg.message.extendedTextMessage) return;
+            // Handle Button Responses
+            conn.ev.on('messages.upsert', async (msgUpdate) => {
+                const userMsg = msgUpdate.messages[0];
+                if (!userMsg.message || !userMsg.message.buttonsResponseMessage) return;
 
-            const selectedOption = userMsg.message.extendedTextMessage.text.trim();
+                const buttonId = userMsg.message.buttonsResponseMessage.selectedButtonId;
 
-            // Validate if the response matches the `.alive` message
-            if (
-                userMsg.message.extendedTextMessage.contextInfo &&
-                userMsg.message.extendedTextMessage.contextInfo.stanzaId === sentMsg.key.id
-            ) {
-                switch (selectedOption) {
-                    case '1': {
-                        // Option 1: Show Bot Status
-                        const botStatus = `
-╭────❮ Bot Status ❯───◈
-│ ✅ Bot Status: Online
-│ 📅 Date: ${new Date().toLocaleDateString()}
-│ 🕒 Time: ${new Date().toLocaleTimeString()}
-╰───────────────────◈
-
-© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+                // Validate response
+                if (
+                    userMsg.message.buttonsResponseMessage.contextInfo &&
+                    userMsg.message.buttonsResponseMessage.contextInfo.stanzaId === sentMsg.key.id
+                ) {
+                    switch (buttonId) {
+                        case 'bot_status': {
+                            // Option 1: Bot Status
+                            const botStatus = `
+╭────❮ *Bot Status* ❯─────╮
+│ ✅ *Bot Status*: Online
+│ 📅 *Date*: ${new Date().toLocaleDateString()}
+│ 🕒 *Time*: ${new Date().toLocaleTimeString()}
+╰─────────────────────────╯
 `;
-
-                        await conn.sendMessage(
-                            from,
-                            {
-                                text: botStatus,
-                                contextInfo: {
-                                    mentionedJid: [m.sender],
-                                    forwardingScore: 999,
-                                    isForwarded: true,
-                                    forwardedNewsletterMessageInfo: {
-                                        newsletterJid: '0029VamA19KFCCoY1q9cvn2I@broadcast', // Channel-specific JID
-                                        newsletterName: "HYPER-MD-V1",
-                                        serverMessageId: "143"
-                                    }
-                                }
-                            },
-                            { quoted: userMsg }
-                        );
-                        break;
-                    }
-                    case '2': {
-                        // Option 2: Send Bot Owner Contact
-                        const vcard = 'BEGIN:VCARD\n'
-                            + 'VERSION:3.0\n'
-                            + 'FN:Mr. Senesh\n'
-                            + 'ORG:Mr. Senesh\n'
-                            + 'TEL;type=CELL;type=VOICE;waid=94784337506:+94 78 433 7506\n'
-                            + 'EMAIL:senesh@gmail.com\n'
-                            + 'END:VCARD';
-                        await conn.sendMessage(from, {
-                            contacts: {
-                                displayName: 'Mr. Senesh',
-                                contacts: [{ vcard }]
-                            }
-                        });
-                        break;
-                    }
-                    default: {
-                        // Invalid Option
-                        await conn.sendMessage(from, { text: "❌ Invalid option. Please select a valid number." }, { quoted: userMsg });
-                        break;
+                            await conn.sendMessage(from, { text: botStatus }, { quoted: userMsg });
+                            break;
+                        }
+                        case 'contact_owner': {
+                            // Option 2: Contact Bot Owner
+                            const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Mr. Senesh
+ORG:Hyper-MD
+TEL;type=CELL;type=VOICE;waid=94784337506:+94 78 433 7506
+EMAIL:senesh@gmail.com
+END:VCARD`;
+                            await conn.sendMessage(from, {
+                                contacts: {
+                                    displayName: 'Mr. Senesh',
+                                    contacts: [{ vcard }],
+                                },
+                            });
+                            break;
+                        }
+                        default: {
+                            // Invalid Option
+                            await conn.sendMessage(
+                                from,
+                                { text: "❌ Invalid option. Please choose 1️⃣ or 2️⃣." },
+                                { quoted: userMsg }
+                            );
+                            break;
+                        }
                     }
                 }
-            }
-        });
-    } catch (e) {
-        console.error(e);
-        reply("❌ An error occurred while processing your request.");
+            });
+        } catch (error) {
+            console.error(error);
+            reply("❌ An error occurred while processing your request.");
+        }
     }
-});
-
+);
