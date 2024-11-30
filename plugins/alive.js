@@ -1,5 +1,5 @@
 const { readEnv } = require('../lib/database');
-const { cmd, menu } = require('../command');
+const { cmd } = require('../command');
 
 // ========== ALIVE COMMAND ==========
 cmd({
@@ -20,9 +20,9 @@ async (conn, mek, m, { from, reply, pushname }) => {
                 newsletterJid: "120363296605464049@newsletter",
             },
             externalAdReply: {
-                title: "HYPER-MD",
+                title: "HYPER-MD Gdrive Downloader",
                 body: "File Info: Powered by HYPER-MD",
-                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg",
+                thumbnailUrl: "https://pomf2.lain.la/f/41i00kdh.png",
                 mediaType: 1,
                 renderLargerThumbnail: true,
             },
@@ -106,12 +106,4 @@ END:VCARD
         console.error("Error in Alive Command: ", e);
         reply("❌ An error occurred while processing your request.");
     }
-});
-
-// Add to Menu Plugin
-menu.add({
-    name: "alive",
-    description: "Check bot status and access the interactive menu.",
-    usage: "Type .alive",
-    category: "Main",
 });
