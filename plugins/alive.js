@@ -1,125 +1,116 @@
-const { readEnv } = require('../lib/database');
-const { cmd } = require('../command');
+const { cmd, menu } = require('../command');
 
 // ========== ALIVE COMMAND ==========
-cmd(
-    {
-        pattern: "alive",
-        react: "👋",
-        desc: "Check bot status and display interactive menu",
-        category: "main",
-        filename: __filename,
-    },
-    async (conn, mek, m, { from, reply, pushname }) => {
-        try {
-            // Image URL (Replace this with your actual image URL)
-            const imageUrl = 'https://i.ibb.co/QdCxSQ6/20241123-121529.jpg'; // Replace with your image URL
+cmd({
+    pattern: "alive",
+    react: "👋",
+    desc: "Check bot status and display interactive menu",
+    category: "main",
+    filename: __filename,
+},
+async (conn, mek, m, { from, reply, pushname }) => {
+    try {
+        // Forwarding Metadata
+        const contextInfo = {
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterName: "HYPER-MD",
+                newsletterJid: "120363296605464049@newsletter",
+            },
+            externalAdReply: {
+                title: "HYPER-MD",
+                body: "File Info: Powered by HYPER-MD",
+                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg",
+                mediaType: 1,
+                renderLargerThumbnail: true,
+            },
+        };
 
-            // Alive Message Content
-            const aliveDesc = `
-👋 Hello, ${pushname || "User"}!
+        // Alive Menu Content
+        const aliveMenu = `
+👋 Hello, ${pushname || "User"}
 
 I'm Hyper-MD WhatsApp Bot!
 
-🔢 Reply with a number:
-
-1 || View Bot Status  
-2 || Contact Bot Owner  
+🔢 Choose an option below:
+1 || Get Menu
+2 || Contact Bot Owner
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-`;
+        `;
 
-            // Sending Alive Message
-            const sentMsg = await conn.sendMessage(
-                from,
-                {
-                    image: { url: imageUrl },
-                    caption: aliveDesc,
-                    contextInfo: {
-                        mentionedJid: [m.sender],
-                        forwardingScore: 999,
-                        isForwarded: true,
-                        forwardedNewsletterMessageInfo: {
-                            newsletterName: "HYPER-MD-V1",
-                            newsletterJid: "0029VamA19KFCCoY1q9cvn2I@broadcast",
-                        },
-                    },
-                },
-                mek ? { quoted: mek } : {}
-            );
+        // Send Menu with ContextInfo
+        const sentMsg = await conn.sendMessage(
+            from,
+            {
+                text: aliveMenu,
+                contextInfo,
+            },
+            { quoted: mek }
+        );
 
-            // Listen for User Response
-            conn.ev.on('messages.upsert', async (msgUpdate) => {
+        // Listen for User Responses
+        conn.ev.on('messages.upsert', async (msgUpdate) => {
+            try {
                 const userMsg = msgUpdate.messages[0];
                 if (!userMsg.message || !userMsg.message.extendedTextMessage) return;
 
                 const selectedOption = userMsg.message.extendedTextMessage.text.trim();
 
-                // Validate if the response matches the `.alive` message
+                // Validate if user is responding to the Alive Message
                 if (
                     userMsg.message.extendedTextMessage.contextInfo &&
                     userMsg.message.extendedTextMessage.contextInfo.stanzaId === sentMsg.key.id
                 ) {
                     switch (selectedOption) {
                         case '1': {
-                            // Option 1: Show Bot Status
-                            const botStatus = `
-╭────❮ *Bot Status* ❯─────╮
-│ ✅ *Bot Status*: Online
-│ 📅 *Date*: ${new Date().toLocaleDateString()}
-│ 🕒 *Time*: ${new Date().toLocaleTimeString()}
-╰─────────────────────────╯
-`;
-                            await conn.sendMessage(
-                                from,
-                                {
-                                    text: botStatus,
-                                    contextInfo: {
-                                        mentionedJid: [m.sender],
-                                        forwardingScore: 999,
-                                        isForwarded: true,
-                                        forwardedNewsletterMessageInfo: {
-                                            newsletterName: "HYPER-MD-V1",
-                                            newsletterJid: "0029VamA19KFCCoY1q9cvn2I@broadcast",
-                                        },
-                                    },
-                                },
-                                { quoted: userMsg }
-                            );
+                            // Option 1: Trigger Menu Plugin
+                            const menuTrigger = ".menu"; // Replace with your actual menu command
+                            await conn.sendMessage(from, { text: `🔄 Redirecting to the bot menu...\n\n${menuTrigger}` }, { quoted: userMsg });
+                            // Simulate Menu Command Execution
+                            conn.emit('cmd', menuTrigger, userMsg.key.remoteJid, userMsg);
                             break;
                         }
                         case '2': {
-                            // Option 2: Send Bot Owner Contact
-                            const vcard = `BEGIN:VCARD
+                            // Option 2: Contact Owner
+                            const vcard = `
+BEGIN:VCARD
 VERSION:3.0
 FN:Mr. Senesh
-ORG:Hyper-MD
+ORG:Mr. Senesh
 TEL;type=CELL;type=VOICE;waid=94784337506:+94 78 433 7506
 EMAIL:senesh@gmail.com
-END:VCARD`;
-                            await conn.sendMessage(from, {
-                                contacts: {
-                                    displayName: 'Mr. Senesh',
-                                    contacts: [{ vcard }],
-                                },
-                            });
+END:VCARD
+                            `;
+                            await conn.sendMessage(
+                                from,
+                                { contacts: { displayName: 'Mr. Senesh', contacts: [{ vcard }] } },
+                                { quoted: userMsg }
+                            );
                             break;
                         }
                         default: {
                             // Invalid Option
-                            await conn.sendMessage(
-                                from,
-                                { text: "❌ Invalid option. Please select a valid number." },
-                                { quoted: userMsg }
-                            );
+                            await conn.sendMessage(from, { text: "❌ Invalid option. Please select a valid number (1 or 2)." }, { quoted: userMsg });
                             break;
                         }
                     }
                 }
-            });
-        } catch (e) {
-            console.error(e);
-            reply("❌ An error occurred while processing your request.");
-        }
+            } catch (error) {
+                console.error("Error handling response: ", error);
+            }
+        });
+    } catch (e) {
+        console.error("Error in Alive Command: ", e);
+        reply("❌ An error occurred while processing your request.");
     }
-);
+});
+
+// Add to Menu Plugin
+menu.add({
+    name: "alive",
+    description: "Check bot status and access the interactive menu.",
+    usage: "Type .alive",
+    category: "Main",
+});
