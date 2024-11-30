@@ -1,3 +1,4 @@
+const { readEnv } = require('../lib/database');
 const { cmd, menu } = require('../command');
 
 // ========== ALIVE COMMAND ==========
