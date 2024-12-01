@@ -21,7 +21,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
     try {
         if (!q || !q.startsWith("https://")) return reply("Please provide a valid Tiktok video URL!");
         const data = await fetchJson(`${baseUrl}/api/tiktokdl?url=${q}`);
-        let desc = ` HYPER-MD TikTok DOWNLOADER...⚙️
+        let desc = ` HYPER-MD TikTok DOWNLOADER...⚙
 
 Reply This Message With Option
 
@@ -31,7 +31,7 @@ Reply This Message With Option
 
 > ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `;
 
-        const vv = await conn.sendMessage(from, { image: { url: "https://files.catbox.moe/de82e3.jpg" }, caption: desc }, { quoted: mek });
+        const vv = await conn.sendMessage(from, { image: { url: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg" }, caption: desc }, { quoted: mek });
 
         conn.ev.on('messages.upsert', async (msgUpdate) => {
             const msg = msgUpdate.messages[0];
