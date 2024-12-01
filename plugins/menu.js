@@ -42,6 +42,7 @@ async (conn, mek, m, { from, reply, pushname }) => {
 ├ 5 || Convert Commands
 ├ 6 || Search Functions
 ├ 7 || Movie Commands
+├ 8 || Other Commands
 ╰────────────────────◈
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
@@ -190,6 +191,7 @@ async (conn, mek, m, { from, reply, pushname }) => {
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
                             `;
                             break;
+                            }
                         default: {
                             responseText = "❌ Invalid option. Please select a valid number (1-7).";
                         }
