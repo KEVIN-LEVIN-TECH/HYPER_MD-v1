@@ -1,6 +1,5 @@
 const { cmd } = require('../command');
-const axios = require('axios');
-const { getBuffer, isUrl } = require('../lib/utils'); // Import helper functions from utils.js
+const { facebookdl } = require('@bochilteam/scraper'); // Import facebook downloader from bochilteam package
 
 cmd({
     pattern: "fb",
@@ -9,7 +8,7 @@ cmd({
     category: "download",
     filename: __filename,
 }, async (conn, mek, m, { from, reply, args }) => {
-    if (args.length === 0 || !isUrl(args[0])) {
+    if (args.length === 0 || !args[0].startsWith("http")) {
         return reply("❌ Please provide a valid Facebook video URL.");
     }
 
@@ -17,24 +16,23 @@ cmd({
     reply("⏳ Fetching video details...");
 
     try {
-        // Use axios to fetch video data from a Facebook downloader API
-        const apiUrl = `https://raw.githubusercontent.com/prabathLK/PUBLIC-URL-HOST-DB/main/public/url.json`;
-        const response = await axios.get(apiUrl);
+        // Fetch video details using bochilteam's facebook downloader
+        const videoDetails = await facebookdl(url);
+        if (videoDetails.video) {
+            const { url: videoUrl, isHd } = videoDetails.video[0]; // Get the first video URL
+            const quality = isHd ? "HD" : "SD";
 
-        if (response.data && response.data.success) {
-            const videoUrl = response.data.download_url;
-            if (!videoUrl) {
-                return reply("❌ Video URL not found. Please check the link or try again later.");
-            }
-
-            // Send the video file to the user
+            // Send the video to the user
             await conn.sendMessage(
                 from,
-                { video: { url: videoUrl }, caption: "✅ Here is your Facebook video.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ" },
+                {
+                    video: { url: videoUrl },
+                    caption: `✅ Here is your Facebook video (${quality} Quality).\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`,
+                },
                 { quoted: mek }
             );
         } else {
-            reply("❌ Failed to fetch video details. Ensure the provided URL is correct.");
+            reply("❌ Failed to fetch video details. Please ensure the provided URL is correct.");
         }
     } catch (error) {
         console.error("Error fetching video:", error);
