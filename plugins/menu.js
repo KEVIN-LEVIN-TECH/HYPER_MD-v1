@@ -1,239 +1,187 @@
 const { readEnv } = require('../lib/database');
-const { prepareWAMessageMedia } = require('@whiskeysockets/baileys'); 
 const { cmd } = require('../command');
-const os = require('os');
 
-// Function to determine greeting based on the time
-function getTimeBasedGreeting() {
-    const currentHour = new Date().getHours();
-    if (currentHour >= 5 && currentHour < 12) {
-        return "Good Morning 🌅";
-    } else if (currentHour >= 12 && currentHour < 17) {
-        return "Good Afternoon ☀️";
-    } else if (currentHour >= 17 && currentHour < 21) {
-        return "Good Evening 🌇";
-    } else {
-        return "Good Night 🌙";
-    }
-}
-
-// Menu command
+// ========== MENU COMMAND ==========
 cmd({
     pattern: "menu",
-    react: '📜',
-    desc: "Get the list of commands",
+    react: "📜",
+    desc: "Display interactive bot menu",
     category: "main",
-    filename: __filename
-}, async (conn, mek, m, { from, quoted, pushname, reply }) => {
+    filename: __filename,
+},
+async (conn, mek, m, { from, reply, pushname }) => {
     try {
-        const config = await readEnv();
-        const greeting = getTimeBasedGreeting();
-
+        // Forwarding Metadata
         const contextInfo = {
             forwardingScore: 999,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
                 newsletterName: "HYPER-MD",
-                newsletterJid: "0029VamA19KFCCoY1q9cvn2I@g.us", // Updated to your channel JID
+                newsletterJid: "0029VamA19KFCCoY1q9cvn2I@g.us",
             },
             externalAdReply: {
-                title: "HYPER-MD Main Menu",
-                body: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
-                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg", // Default Thumbnail
+                title: "HYPER-MD Bot Menu",
+                body: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ",
+                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg",
                 mediaType: 1,
                 renderLargerThumbnail: true,
             },
         };
 
-        // Menu selection message
-        const selectionMessage = `
-👋 ${greeting} ${pushname || 'User'},
+        // Bot Menu Content
+        const botMenu = `
+👋 Hello, ${pushname || "User"}
 
-╭──❮ System Information ❯─◈
-│Memory: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${(os.totalmem() / 1024 / 1024).toFixed(2)}MB  
-│Prefix: ${config.PREFIX || '.'}  
-│Version: 1.0.0  
+╭─────────────────◈
+│🔢 Please select a menu
+├───────────────
+├ 1 || Download Menu
+├ 2 || Main Commands
+├ 3 || Group Management
+├ 4 || Owner Tools
+├ 5 || Convert Commands
+├ 6 || Search Functions
+├ 7 || Movie Commands
 ╰────────────────────◈
 
-╭───────────◈
-│Reply Below Number
-╰────────────────◈
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+        `;
 
-╭──────────────◈
-│ ◈ 1 . DOWNLOAD MENU  
-│ ◈ 2 . MAIN MENU 
-│ ◈ 3 . GROUP MENU 
-│ ◈ 4 . OWNER MENU  
-│ ◈ 5 . CONVERT MENU  
-│ ◈ 6 . SEARCH MENU  
-│ ◈ 7 . MOVIE MENU
-╰─────────────────◈
+        // Send Menu with ContextInfo
+        const sentMsg = await conn.sendMessage(
+            from,
+            {
+                text: botMenu,
+                contextInfo,
+            },
+            { quoted: mek }
+        );
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
-
-        // Send the selection message
-        const sentMsg = await conn.sendMessage(from, { text: selectionMessage, contextInfo }, { quoted: mek });
-
-        // Wait for the user's response
+        // Listen for User Responses
         conn.ev.on('messages.upsert', async (msgUpdate) => {
-            const msg = msgUpdate.messages[0];
-            if (!msg.message || !msg.message.extendedTextMessage) return;
+            try {
+                const userMsg = msgUpdate.messages[0];
+                if (!userMsg.message || !userMsg.message.extendedTextMessage) return;
 
-            const userResponse = msg.message.extendedTextMessage.text.trim();
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === sentMsg.key.id) {
-                let responseText;
+                const selectedOption = userMsg.message.extendedTextMessage.text.trim();
 
-                // Command templates with contextInfo
-                switch (userResponse) {
-                    case '1':
-                        responseText = `
-◈───❮ DOWNLOAD MENU ❯──◈
+                // Validate if user is responding to the Menu Message
+                if (
+                    userMsg.message.extendedTextMessage.contextInfo &&
+                    userMsg.message.extendedTextMessage.contextInfo.stanzaId === sentMsg.key.id
+                ) {
+                    let responseText = "";
+                    switch (selectedOption) {
+                        case '1': {
+                            responseText = `╭─────────────────◈
+│📥 Download Menu
+├───────────
+├ .fb : Facebook Video
+├ .tiktok : TikTok Video
+├ .img : Image Search
+├ .song : Download Song
+├ .apk : APK Downloader
+├ .gdrive : Google Drive File
+╰────────────────────◈
 
-╭───────────◈
-│ ⦁ .fb
-│ ⦁ .img
-│ ⦁ .mediafire
-│ ⦁ .tiktok
-│ ⦁ .mfire
-│ ⦁ .fb2
-│ ⦁ .song
-│ ⦁ .video
-│ ⦁ .apk
-│ ⦁ .apk2
-│ ⦁ .play
-│ ⦁ .gdrive
-╰────────────────◈
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+                            `;
+                            break;
+                        }
+                        case '2': {
+                            responseText = `╭─────────────────◈
+│🛠 Main Commands
+├───────────
+├ .alive : Check Bot Status
+├ .ping : Bot Latencyi
+├ .menu : Display Menu
+╰────────────────────◈
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-`;
-                        break;
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+                            `;
+                            break;
+                        }
+                        case '3': {
+                            responseText = `╭─────────────────◈
+│👥 Group Management
+├─────────────
+├ .tagall : Mention Everyone
+├ .add : Add Member
+├ .kick : Remove Member
+├ .promote : Make Admin
+├ .demote : Remove Admin
+├ .lock : Lock Group
+╰────────────────────◈
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+                            `;
+                            break;
+                        }
+                        case '4': {
+                            responseText = `╭─────────────────◈            
+│👑 Owner Tools
+├─────────
+├ .ban : Ban User
+├ .unban : Unban User
+├ .restart : Restart Bot
+├ .setppbot : Change Bot DP
+╰────────────────────◈
 
-                    case '2':
-                        responseText = `
-◈───❮ MAIN MENU ❯──◈
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+                            `;
+                            break;
+                        }
+                        case '5': {
+                            responseText = `╭─────────────────◈
+│🔄 Convert Commands
+├─────────────
+├ .toimg : Sticker to Image
+├ .sticker : Image to Sticker
+├ .tomp3 : Video to MP3
+├ .tomp4 : Sticker to Video
+╰────────────────────◈
 
-╭───────────◈
-│ ⦁ .alive
-│ ⦁ .menu
-│ ⦁ .ping
-│ ⦁ .repo
-│ ⦁ .system
-╰────────────────◈
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+                            `;
+                            break;
+                        }
+                        case '6': {
+                            responseText = `╭─────────────────◈
+│🔍 Search Functions
+├─────────────
+├ .ytsearch : YouTube Search
+├ .lyrics : Song Lyrics
+├ .wiki : Wikipedia Search
+╰────────────────────◈
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-`;
-                        break;
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+                            `;
+                            break;
+                        }
+                        case '7': {
+                            responseText = `╭─────────────────◈
+│ 🎬 Movie Commands
+├─────────────
+├ .movie : Find Movie Info
+╰────────────────────◈
 
-                    case '3':
-                        responseText = `
-◈───❮ GROUP MENU ❯──◈
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+                            `;
+                            break;
+                        }
+                        default: {
+                            responseText = "❌ Invalid option. Please select a valid number (1-7).";
+                        }
+                    }
 
-╭───────────◈
-│ ⦁ .mute
-│ ⦁ .unmute
-│ ⦁ .promote
-│ ⦁ .demote
-│ ⦁ .del
-│ ⦁ .add
-│ ⦁ .setgoodbye
-│ ⦁ .setwelcome
-│ ⦁ .admins
-│ ⦁ .groupdesc
-│ ⦁ .groupinfo
-│ ⦁ .grouplink
-│ ⦁ .gname
-│ ⦁ .setsubject
-│ ⦁ .tagall
-│ ⦁ .requests
-│ ⦁ .accept
-│ ⦁ .reject
-│ ⦁ .hidetag
-│ ⦁ .kick
-│ ⦁ .unlock
-│ ⦁ .lock
-│ ⦁ .approve
-│ ⦁ .poll
-│ ⦁ .getpic
-│ ⦁ .jid
-╰────────────────◈
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-`;
-                        break;
-
-                    case '4':
-                        responseText = `
-◈───❮ OWNER MENU ❯──◈
-
-╭───────────◈
-│ ⦁ .ban
-│ ⦁ .unban
-│ ⦁ .block
-│ ⦁ .unblock
-│ ⦁ .setppbot
-│ ⦁ .restart
-│ ⦁ .update
-╰────────────────◈
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-`;
-                        break;
-
-                    case '5':
-                        responseText = `
-◈───❮ CONVERT MENU ❯──◈
-
-╭───────────◈
-│ ⦁ .toimg
-│ ⦁ .sticker
-│ ⦁ .tomp3
-│ ⦁ .tomp4
-│ ⦁ .img2url
-╰────────────────◈
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-`;
-                        break;
-
-                    case '6':
-                        responseText = `
-◈───❮ SEARCH MENU ❯──◈
-
-╭───────────◈
-│ ⦁ .ytsearch
-│ ⦁ .play
-│ ⦁ .lyrics
-│ ⦁ .wiki
-╰────────────────◈
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-`;
-                        break;
-
-                    case '7':
-                        responseText = `
-◈───❮ MOVIE MENU ❯──◈
-
-╭───────────◈
-│ ⦁ .movie
-╰────────────────◈
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
-`;
-                        break;
-
-                    default:
-                        responseText = "❌ Invalid option. Please enter a valid number (1-7).";
+                    // Send Selected Menu
+                    await conn.sendMessage(from, { text: responseText, contextInfo }, { quoted: userMsg });
                 }
-
-                // Show the selected menu
-                await conn.sendMessage(from, { text: responseText, contextInfo }, { quoted: mek });
+            } catch (error) {
+                console.error("Error handling response: ", error);
             }
         });
-
     } catch (e) {
-        console.error(e);
-        reply(`An error occurred: ${e.message}`);
+        console.error("Error in Menu Command: ", e);
+        reply("❌ An error occurred while processing your request.");
     }
 });
