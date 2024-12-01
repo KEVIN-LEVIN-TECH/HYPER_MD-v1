@@ -3,6 +3,14 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
 
+// Replace YOUR_GOOGLE_AUTH with the appropriate Google Drive API authentication
+const auth = new google.auth.GoogleAuth({
+    keyFile: 'path/to/your/credentials.json',
+    scopes: ['https://www.googleapis.com/auth/drive'],
+});
+
+const drive = google.drive({ version: 'v3', auth });
+
 // ========== GOOGLE DRIVE PLUGIN ==========
 cmd({
     pattern: "gdrive",
@@ -13,39 +21,54 @@ cmd({
 },
 async (conn, mek, m, { from, reply }) => {
     try {
-        // Display menu to user
         const menu = `
+📂 Google Drive Downloader 📂
+
 🔢 Reply Below Number
 
-1 || Upload a File to Google Drive
-2 || Download a File from Google Drive
+1️ || Upload a File to Google Drive  
+2️ || Download a File from Google Drive  
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
         `;
 
-        const msg = await conn.sendMessage(from, { text: menu }, { quoted: mek });
+        const contextInfo = {
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterName: "HYPER-MD",
+                newsletterJid: "0029VamA19KFCCoY1q9cvn2I@g.us", // Updated to your channel JID
+            },
+            externalAdReply: {
+                title: "HYPER-MD Gdrive Downloader",
+                body: "File Info: Powered by HYPER-MD",
+                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg", // Default Thumbnail
+                mediaType: 1,
+                renderLargerThumbnail: true,
+            },
+        };
 
-        // Handle user response
+        const msg = await conn.sendMessage(from, { text: menu, contextInfo }, { quoted: mek });
+
+        // Handle user responses
         conn.ev.on('messages.upsert', async (msgUpdate) => {
             const userResponse = msgUpdate.messages[0];
-            if (!userResponse.message || !userResponse.message.extendedTextMessage) return;
+            if (!userResponse.message || !userResponse.message.conversation) return;
 
-            const selectedOption = userResponse.message.extendedTextMessage.text.trim();
+            const selectedOption = userResponse.message.conversation.trim();
 
             if (
-                userResponse.message.extendedTextMessage.contextInfo &&
-                userResponse.message.extendedTextMessage.contextInfo.stanzaId === mek.key.id
+                userResponse.message.contextInfo &&
+                userResponse.message.contextInfo.stanzaId === msg.key.id
             ) {
                 switch (selectedOption) {
                     case '1': {
-                        // Upload File Option
-                        const uploadMessage = `
+                        const uploadPrompt = `
 📤 Please reply to this message with the file you want to upload to Google Drive.
 (Ensure it's a document, image, or video file.)
                         `;
-                        await conn.sendMessage(from, { text: uploadMessage }, { quoted: userResponse });
+                        const uploadMsg = await conn.sendMessage(from, { text: uploadPrompt, contextInfo }, { quoted: userResponse });
 
-                        // Wait for the file message
                         conn.ev.on('messages.upsert', async (fileMsgUpdate) => {
                             const fileMsg = fileMsgUpdate.messages[0];
                             if (!fileMsg.message || !fileMsg.message.documentMessage) return;
@@ -54,15 +77,11 @@ async (conn, mek, m, { from, reply }) => {
                             const fileName = document.fileName || "uploaded_file";
                             const filePath = path.join(__dirname, fileName);
 
-                            // Download the file locally
+                            // Download file locally
                             const stream = await conn.downloadMediaMessage(fileMsg);
                             fs.writeFileSync(filePath, stream);
 
-                            // Get file size
-                            const fileSize = (fs.statSync(filePath).size / (1024 * 1024)).toFixed(2) + " MB";
-
-                            // Authenticate and upload to Google Drive
-                            const drive = google.drive({ version: 'v3', auth: YOUR_GOOGLE_AUTH });
+                            // Upload to Google Drive
                             const fileMetadata = { name: fileName };
                             const media = { body: fs.createReadStream(filePath) };
 
@@ -72,58 +91,58 @@ async (conn, mek, m, { from, reply }) => {
                                 fields: 'id',
                             });
 
-                            fs.unlinkSync(filePath); // Delete local file after upload
+                            fs.unlinkSync(filePath); // Remove local file
 
                             const driveLink = `https://drive.google.com/file/d/${uploadedFile.data.id}/view`;
                             const successMessage = `
-✅ File uploaded successfully!
+✅ File Uploaded Successfully!
 
-- 📄 File Name: ${fileName}
-- 📦 File Size: ${fileSize}
-- 🔗 [Download/Access File](${driveLink})
+📄 File Name: ${fileName}  
+🔗 [View File](${driveLink})  
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
                             `;
-                            await conn.sendMessage(from, { text: successMessage }, { quoted: fileMsg });
+                            await conn.sendMessage(from, { text: successMessage, contextInfo }, { quoted: fileMsg });
                         });
                         break;
                     }
                     case '2': {
-                        // Download File Option
-                        const downloadMessage = `
-📥 Please reply with the Google Drive file ID you want to download.
+                        const downloadPrompt = `
+📥 Please reply with the Google Drive File ID you want to download.  
 (Example: If the link is https://drive.google.com/file/d/FILE_ID/view, reply with "FILE_ID")
                         `;
-                        await conn.sendMessage(from, { text: downloadMessage }, { quoted: userResponse });
+                        const downloadMsg = await conn.sendMessage(from, { text: downloadPrompt, contextInfo }, { quoted: userResponse });
 
-                        // Wait for the file ID
                         conn.ev.on('messages.upsert', async (idMsgUpdate) => {
                             const idMsg = idMsgUpdate.messages[0];
                             if (!idMsg.message || !idMsg.message.conversation) return;
 
                             const fileId = idMsg.message.conversation.trim();
 
-                            // Authenticate and download from Google Drive
-                            const drive = google.drive({ version: 'v3', auth: YOUR_GOOGLE_AUTH });
-                            const dest = fs.createWriteStream(path.join(__dirname, `${fileId}.download`));
+                            const destPath = path.join(__dirname, `${fileId}.download`);
+                            const dest = fs.createWriteStream(destPath);
 
-                            drive.files.get({ fileId: fileId, alt: 'media' }, { responseType: 'stream' },
+                            drive.files.get({ fileId, alt: 'media' }, { responseType: 'stream' },
                                 (err, res) => {
                                     if (err) return reply("❌ Error downloading file: " + err.message);
-                                    res.data.pipe(dest);
 
+                                    res.data.pipe(dest);
                                     dest.on('finish', async () => {
-                                        const fileBuffer = fs.readFileSync(dest.path);
-                                        await conn.sendMessage(from, { document: fileBuffer, fileName: `${fileId}.download` }, { quoted: idMsg });
-                                        fs.unlinkSync(dest.path); // Delete local file after sending
+                                        const fileBuffer = fs.readFileSync(destPath);
+                                        await conn.sendMessage(
+                                            from,
+                                            { document: fileBuffer, fileName: `${fileId}.download`, contextInfo },
+                                            { quoted: idMsg }
+                                        );
+                                        fs.unlinkSync(destPath); // Remove local file
                                     });
-                                });
+                                }
+                            );
                         });
                         break;
                     }
                     default: {
-                        await conn.sendMessage(from, { text: "❌ Invalid option. Please select a valid number." }, { quoted: userResponse });
-                        break;
+                        reply("❌ Invalid option. Please select 1 or 2.");
                     }
                 }
             }
