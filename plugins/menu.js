@@ -29,6 +29,22 @@ cmd({
         const config = await readEnv();
         const greeting = getTimeBasedGreeting();
 
+        const contextInfo = {
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterName: "HYPER-MD",
+                newsletterJid: "0029VamA19KFCCoY1q9cvn2I@g.us", // Updated to your channel JID
+            },
+            externalAdReply: {
+                title: "HYPER-MD Main Menu",
+                body: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
+                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg", // Default Thumbnail
+                mediaType: 1,
+                renderLargerThumbnail: true,
+            },
+        };
+
         // Menu selection message
         const selectionMessage = `
 👋 ${greeting} ${pushname || 'User'},
@@ -57,7 +73,7 @@ cmd({
 `;
 
         // Send the selection message
-        const sentMsg = await conn.sendMessage(from, { text: selectionMessage }, { quoted: mek });
+        const sentMsg = await conn.sendMessage(from, { text: selectionMessage, contextInfo }, { quoted: mek });
 
         // Wait for the user's response
         conn.ev.on('messages.upsert', async (msgUpdate) => {
@@ -68,7 +84,7 @@ cmd({
             if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === sentMsg.key.id) {
                 let responseText;
 
-                // Command templates
+                // Command templates with contextInfo
                 switch (userResponse) {
                     case '1':
                         responseText = `
@@ -195,8 +211,9 @@ cmd({
 `;
                         break;
 
-                       case '7':
-                        responseText = `◈───❮ MOVIE MENU ❯──◈
+                    case '7':
+                        responseText = `
+◈───❮ MOVIE MENU ❯──◈
 
 ╭───────────◈
 │ ⦁ .movie
@@ -205,12 +222,13 @@ cmd({
 ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
 `;
                         break;
+
                     default:
-                        responseText = "❌ Invalid option. Please enter a valid number (1-6).";
+                        responseText = "❌ Invalid option. Please enter a valid number (1-7).";
                 }
 
                 // Show the selected menu
-                await conn.sendMessage(from, { text: responseText }, { quoted: mek });
+                await conn.sendMessage(from, { text: responseText, contextInfo }, { quoted: mek });
             }
         });
 
