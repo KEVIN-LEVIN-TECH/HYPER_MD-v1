@@ -1,6 +1,6 @@
 const { cmd } = require('../command');
 const axios = require('axios');
-const { getBuffer, isUrl } = require('./utils'); // Import helper functions from utils.js
+const { getBuffer, isUrl } = require('../lib/utils'); // Import helper functions from utils.js
 
 cmd({
     pattern: "fb",
