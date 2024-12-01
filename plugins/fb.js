@@ -18,7 +18,7 @@ cmd({
 
     try {
         // Use axios to fetch video data from a Facebook downloader API
-        const apiUrl = `https://fbdownloader.online/api?url=${encodeURIComponent(url)}`;
+        const apiUrl = `https://raw.githubusercontent.com/prabathLK/PUBLIC-URL-HOST-DB/main/public/url.json`;
         const response = await axios.get(apiUrl);
 
         if (response.data && response.data.success) {
