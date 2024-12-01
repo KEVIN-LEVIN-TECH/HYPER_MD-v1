@@ -76,12 +76,13 @@ async (conn, mek, m, { from, reply, pushname }) => {
                             responseText = `╭─────────────────◈
 │📥 Download Menu
 ├───────────
-├ .fb : Facebook Video
-├ .tiktok : TikTok Video
-├ .img : Image Search
-├ .song : Download Song
-├ .apk : APK Downloader
-├ .gdrive : Google Drive File
+├ .fb 
+├ .tiktok 
+├ .img
+├ .song 
+├ .apk 
+├ .gdrive
+├ .play
 ╰────────────────────◈
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
@@ -92,9 +93,9 @@ async (conn, mek, m, { from, reply, pushname }) => {
                             responseText = `╭─────────────────◈
 │🛠 Main Commands
 ├───────────
-├ .alive : Check Bot Status
-├ .ping : Bot Latencyi
-├ .menu : Display Menu
+├ .alive 
+├ .ping
+├ .menu 
 ╰────────────────────◈
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
@@ -105,13 +106,13 @@ async (conn, mek, m, { from, reply, pushname }) => {
                             responseText = `╭─────────────────◈
 │👥 Group Management
 ├─────────────
-├ .tagall : Mention Everyone
-├ .add : Add Member
-├ .kick : Remove Member
-├ .promote : Make Admin
-├ .demote : Remove Admin
-├ .lock : Lock Group
-├ .getjid : Channel And Gruop Jid
+├ .tagall 
+├ .add 
+├ .kick
+├ .promote 
+├ .demote 
+├ .lock
+├ .getjid
 ╰────────────────────◈
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
                             `;
@@ -121,10 +122,16 @@ async (conn, mek, m, { from, reply, pushname }) => {
                             responseText = `╭─────────────────◈            
 │👑 Owner Tools
 ├─────────
-├ .ban : Ban User
-├ .unban : Unban User
-├ .restart : Restart Bot
-├ .setppbot : Change Bot DP
+├ .shutdown
+├ .broadcast
+├ .setpp
+├ .block
+├ .unblock
+├ .clearchats
+├ .jid
+├ .gjid
+├ .restart
+├ .update 
 ╰────────────────────◈
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
@@ -135,10 +142,10 @@ async (conn, mek, m, { from, reply, pushname }) => {
                             responseText = `╭─────────────────◈
 │🔄 Convert Commands
 ├─────────────
-├ .toimg : Sticker to Image
-├ .sticker : Image to Sticker
-├ .tomp3 : Video to MP3
-├ .tomp4 : Sticker to Video
+├ .toimg 
+├ .sticker
+├ .tomp3 
+├ .tomp4 
 ╰────────────────────◈
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
@@ -149,9 +156,9 @@ async (conn, mek, m, { from, reply, pushname }) => {
                             responseText = `╭─────────────────◈
 │🔍 Search Functions
 ├─────────────
-├ .ytsearch : YouTube Search
-├ .lyrics : Song Lyrics
-├ .wiki : Wikipedia Search
+├ .ytsearch 
+├ .lyrics 
+├ .wiki 
 ╰────────────────────◈
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
@@ -162,7 +169,7 @@ async (conn, mek, m, { from, reply, pushname }) => {
                             responseText = `╭─────────────────◈
 │ 🎬 Movie Commands
 ├─────────────
-├ .movie : Find Movie Info
+├ .movie 
 ╰────────────────────◈
 
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
