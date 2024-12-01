@@ -35,7 +35,7 @@ function startAutoBio(conn) {
         const time = new Date().toLocaleTimeString();  // Get the current time
         const bioText = `𝗛𝗬𝗣𝗘𝗥-𝗠𝗗💗✅ 𝗦𝘂𝗰𝗰𝗲𝘀𝗳𝘂𝗹𝗹𝘆 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱➤ 𝗧𝗵𝗶𝘀 𝗗𝗲𝘃𝗶𝗰𝗲 𝗜𝘁 𝗛𝗮𝘃𝗲 𝗕𝗲𝗲𝗻 𝗥𝘂𝗻𝗻𝗶𝗻𝗴 𝗙𝗼𝗿 [${time}] ⚡💻`;  // Set the bio text with time
         await conn.updateProfileStatus(bioText);  // Update the bot's bio
-    }, 60  1000);  // 1 minute interval
+    }, 60 * 1000);  // 1 minute interval
 }
 
 // 3. Stop AutoBIO
