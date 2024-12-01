@@ -34,6 +34,7 @@
     "pixaldrain-sinhalasub": "git+https://github.com/DarkMakerofc/pixaldrain-sinhalasub.git",
     "@sl-code-lords/movie-api": "1.0.0",
     "@bochilteam/scraper": "5.0.1",
-    "whois": "2.14.2"
+    "whois": "2.14.2",
+    "tiktokdl": "0.0.5"
   }
 }
