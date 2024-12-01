@@ -17,7 +17,7 @@ async (conn, mek, m, { from, reply, pushname }) => {
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
                 newsletterName: "HYPER-MD",
-                newsletterJid: "0029VamA19KFCCoY1q9cvn2I@g.us",
+                newsletterJid: "120363325937635174@newsletter",
             },
             externalAdReply: {
                 title: "HYPER-MD Bot Menu",
