@@ -33,6 +33,6 @@
     "@blackamda/telegram-image-url": "1.0.0",
     "pixaldrain-sinhalasub": "git+https://github.com/DarkMakerofc/pixaldrain-sinhalasub.git",
     "@sl-code-lords/movie-api": "1.0.0",
-    "fb-downloader": "1.0.3"
+    "@bochilteam/scraper": "5.0.1"
   }
 }
