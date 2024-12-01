@@ -176,6 +176,20 @@ async (conn, mek, m, { from, reply, pushname }) => {
                             `;
                             break;
                         }
+                            case '8': {
+                            responseText = `╭─────────────────◈
+│ 👨‍💻 Other Commands
+├─────────────
+├ .anime1
+├ .anime2
+├ .anime3
+├ .anime4
+├ .anime5
+╰────────────────────◈
+
+© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
+                            `;
+                            break;
                         default: {
                             responseText = "❌ Invalid option. Please select a valid number (1-7).";
                         }
