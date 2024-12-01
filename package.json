@@ -43,6 +43,7 @@
     "9gag": "4.0.0",
     "buffer": "6.0.3",
     "mathjs": "14.0.0",
-    "wa-sticker-formatter": "4.4.4"
+    "wa-sticker-formatter": "4.4.4",
+    "@sl-code-lords/esana-news": "1.1.0"
   }
 }
