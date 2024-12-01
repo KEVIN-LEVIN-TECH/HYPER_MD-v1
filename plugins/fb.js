@@ -1,13 +1,15 @@
 const { cmd } = require('../command');
-const fbDownloader = require('fb-downloader'); // Import the fb-downloader package
+const axios = require('axios');
+const { getBuffer, isUrl } = require('./utils'); // Import helper functions from utils.js
 
 cmd({
     pattern: "fb",
     desc: "Download Facebook video",
+    react: "🌐",
     category: "download",
     filename: __filename,
 }, async (conn, mek, m, { from, reply, args }) => {
-    if (args.length === 0) {
+    if (args.length === 0 || !isUrl(args[0])) {
         return reply("❌ Please provide a valid Facebook video URL.");
     }
 
@@ -15,21 +17,27 @@ cmd({
     reply("⏳ Fetching video details...");
 
     try {
-        // Use the fb-downloader package to fetch the video
-        const videoDetails = await fbDownloader(url);
+        // Use axios to fetch video data from a Facebook downloader API
+        const apiUrl = `https://fbdownloader.online/api?url=${encodeURIComponent(url)}`;
+        const response = await axios.get(apiUrl);
 
-        if (videoDetails && videoDetails.url) {
+        if (response.data && response.data.success) {
+            const videoUrl = response.data.download_url;
+            if (!videoUrl) {
+                return reply("❌ Video URL not found. Please check the link or try again later.");
+            }
+
             // Send the video file to the user
             await conn.sendMessage(
                 from,
-                { video: { url: videoDetails.url }, caption: "✅ Here is your Facebook video.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " },
+                { video: { url: videoUrl }, caption: "✅ Here is your Facebook video.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ" },
                 { quoted: mek }
             );
         } else {
-            reply("❌ Failed to fetch video details. Please ensure the URL is correct.");
+            reply("❌ Failed to fetch video details. Ensure the provided URL is correct.");
         }
     } catch (error) {
         console.error("Error fetching video:", error);
-        reply("❌ Failed to fetch video details. Please try again later!");
+        reply("❌ Error fetching video details. Please try again later!");
     }
 });
