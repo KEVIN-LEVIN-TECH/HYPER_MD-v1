@@ -111,6 +111,7 @@ async (conn, mek, m, { from, reply, pushname }) => {
 ├ .promote : Make Admin
 ├ .demote : Remove Admin
 ├ .lock : Lock Group
+├ .getjid : Channel And Gruop Jid
 ╰────────────────────◈
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
                             `;
