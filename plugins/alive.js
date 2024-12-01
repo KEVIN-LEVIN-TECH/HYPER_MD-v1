@@ -67,7 +67,7 @@ I'm Hyper-MD WhatsApp Bot!
                     switch (selectedOption) {
                         case '1': {
                             // Option 1: Trigger Menu Plugin
-                            const menuTrigger = ".menu"; // Replace with your actual menu command
+                            const menuTrigger = ".menu\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ "; // Replace with your actual menu command
                             await conn.sendMessage(from, { text: `🔄 Redirecting to the bot menu...\n\n${menuTrigger}` }, { quoted: userMsg });
                             // Simulate Menu Command Execution
                             conn.emit('cmd', menuTrigger, userMsg.key.remoteJid, userMsg);
