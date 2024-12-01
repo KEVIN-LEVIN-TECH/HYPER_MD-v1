@@ -36,6 +36,7 @@
     "@bochilteam/scraper": "5.0.1",
     "whois": "2.14.2",
     "tiktokdl": "0.0.5",
-    "zxcvbn": "4.4.2"
+    "zxcvbn": "4.4.2",
+    "cheerio": "1.0.0"
   }
 }
