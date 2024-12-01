@@ -85,126 +85,69 @@ async (conn, mek, m, {
 
 // ============ VIDEO DOWNLOAD COMMAND ============
 cmd({
-    pattern: "video",
+    pattern: 'video',
+    desc: 'download videos',
     react: "📽️",
-    desc: "Download videos",
-    category: "download",
-    filename: __filename,
-}, 
-async (conn, mek, m, {
-    from, quoted, body, isCmd, command, args, q, reply
-}) => {
+    category: 'download',
+    filename: __filename
+},
+async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
     try {
-        if (!q) return reply("Please provide a URL or title to download the video.");
+        if (!q) return reply('Please enter a query or a url !');
 
-        // Search for the video using yts
         const search = await yts(q);
         const data = search.videos[0];
-        if (!data) return reply("No results found for your query. Please try again.");
-
         const url = data.url;
 
-        let desc = `
-🎬 HYPER-MD VIDEO DOWNLOADER 🎬
+        let desc = `📽️ HYPER-MD VIDEO DOWNLOADER . .📽️
 
-| ➤ ‎Title: ${data.title}
+| ➤ TITLE - ${data.title}
 
-| ➤ Duration: ${data.timestamp}
+| ➤ VIEWS - ${data.views}
 
-| ➤ Uploaded: ${data.ago}
+| ➤ DESCRIPTION - ${data.description}
 
-| ➤ Views: ${data.views}
+| ➤ TIME - ${data.timestamp}
 
-| ➤ Author: ${data.author.name}
+| ➤ AGO - ${data.ago}
 
-| ➤ URL: ${data.url}
+Reply This Message With Option
 
-🔢 Reply Below Number
+1 || Video With Normal Format
+2 || Video With Document Format
 
-╭───────────◈
-│ Video Type Quality 
-│──────────
-│1.1 || 240q
-│1.2 || 320q
-│1.3 || 480q
-│1.4 || 720q
-│1.5 || 1080q
-╰────────────────◈
-╭───────────◈
-│ Document Type Quality 
-│──────────
-│2.1 || 240q
-│2.2 || 320q
-│2.3 || 480q
-│2.4 || 720q
-│2.5 || 1080q
-╰────────────────◈
+> ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `;
 
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
         const vv = await conn.sendMessage(from, { image: { url: data.thumbnail }, caption: desc }, { quoted: mek });
 
-        // Wait for user response
         conn.ev.on('messages.upsert', async (msgUpdate) => {
             const msg = msgUpdate.messages[0];
             if (!msg.message || !msg.message.extendedTextMessage) return;
 
             const selectedOption = msg.message.extendedTextMessage.text.trim();
 
-            // Validate the user response
             if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
-                let quality;
-                let fileType;
-
                 switch (selectedOption) {
-                    // Video Type Quality
-                    case '1.1': quality = '240p'; fileType = 'video'; break;
-                    case '1.2': quality = '320p'; fileType = 'video'; break;
-                    case '1.3': quality = '480p'; fileType = 'video'; break;
-                    case '1.4': quality = '720p'; fileType = 'video'; break;
-                    case '1.5': quality = '1080p'; fileType = 'video'; break;
-
-                    // Document Type Quality
-                    case '2.1': quality = '240p'; fileType = 'document'; break;
-                    case '2.2': quality = '320p'; fileType = 'document'; break;
-                    case '2.3': quality = '480p'; fileType = 'document'; break;
-                    case '2.4': quality = '720p'; fileType = 'document'; break;
-                    case '2.5': quality = '1080p'; fileType = 'document'; break;
-
+                    case '1':
+                        let downvid = await fg.ytv(url);
+                        let downloadvUrl = downvid.dl_url;
+                        await conn.sendMessage(from, { video : { url:downloadvUrl }, caption: '> ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ', mimetype: 'video/mp4'},{ quoted: mek });
+                        break;
+                    case '2':
+                        let downviddoc = await fg.ytv(url);
+                        let downloadvdocUrl = downviddoc.dl_url;
+                        await conn.sendMessage(from, { document: { url:downloadvdocUrl }, caption: '> ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ', mimetype: 'video/mp4', fileName:data.title + ".mp4" }, { quoted: mek });
+                        break;
                     default:
-                        reply("Invalid option. Please select a valid option 🔴");
-                        return;
+                        reply("Invalid option. Please select a valid option🔴");
                 }
 
-                // Fetch video in the selected quality
-                const down = await fg.ytv(url, quality); // Ensure 'fg.ytv()' supports quality parameter
-                const downloadUrl = down.dl_url;
-
-                if (!downloadUrl) return reply("Failed to fetch the video file. Please try again.");
-
-                if (fileType === 'video') {
-                    await conn.sendMessage(from, { 
-                        video: { url: downloadUrl },
-                        mimetype: "video/mp4",
-                        caption: `🎬 Downloaded in ${quality}\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`,
-                    }, { quoted: mek });
-                } else if (fileType === 'document') {
-                    await conn.sendMessage(from, { 
-                        document: { url: downloadUrl },
-                        mimetype: "video/mp4",
-                        fileName: `${data.title} (${quality}).mp4`,
-                        caption: `🎬 Downloaded in ${quality}\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`,
-                    }, { quoted: mek });
-                }
-
-                await conn.sendMessage(from, { react: { text: '✅', key: mek.key } });
             }
         });
 
     } catch (e) {
         console.error(e);
-        // Handle errors
-        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
+        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } })
         reply('An error occurred while processing your request.');
     }
 });
