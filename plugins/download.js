@@ -29,7 +29,7 @@ const {
     fetchJson,
     runtime,
     sleep,
-} = require("../DATABASE/functions");
+} = require("../lib/functions");
 const mysteryItems = [
     "A shiny new toy!",
     "A magical potion!",
