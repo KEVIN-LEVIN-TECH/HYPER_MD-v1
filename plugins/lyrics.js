@@ -11,59 +11,54 @@ cmd({
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => {
     try {
         if (!q) {
-            return reply("❌ Please provide a song name and artist.\nExample: .lyrics Shape of You Ed Sheeran");
+            return reply("❌ Please provide a song name.\nExample: .lyrics Love Me Like You Do");
         }
 
-        // The format for Lyrics.ovh API is 'song-name/artist-name'
-        const songQuery = q.replace(/\s+/g, '-').toLowerCase(); // Format input properly for API
+        // Encode the song name for the API request
+        const query = encodeURIComponent(q);
 
         // Make the API request
-        const response = await axios.get(`https://lyricsovh.eu/api/v1/${songQuery}`);
+        const apiUrl = `https://levanter.onrender.com/lyrics?name=${query}`;
+        const response = await axios.get(apiUrl);
         const data = response.data;
 
         if (!data || !data.lyrics) {
             return reply("❌ Sorry, I couldn't find the lyrics for the song.");
         }
 
-        // Extract the lyrics
+        // Extract the lyrics and title
         const lyrics = data.lyrics;
-        const songDetails = `
-🎤 Lyrics for: ${q}
+        const title = data.title || q;
 
-${lyrics.slice(0, 1000)}...  (Show more lyrics in the full message)
+        // Prepare the contextInfo object
+        const contextInfo = {
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterName: "HYPER-MD",
+                newsletterJid: "120363325937635174@newsletter",
+            },
+            externalAdReply: {
+                title: "HYPER-MD Alive",
+                body: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ",
+                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg",
+                mediaType: 1,
+                renderLargerThumbnail: true,
+            },
+        };
 
-🔢 Reply Below Number:
-
-1️ | Download Lyrics as Text
-2️ | View Lyrics
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-`;
-
-        // Send the preview of the lyrics and download options
-        const vv = await conn.sendMessage(from, { image: { url: 'https://i.imgur.com/4jUL6Fl.jpg' }, caption: songDetails }, { quoted: mek });
-
-        conn.ev.on('messages.upsert', async (msgUpdate) => {
-            const msg = msgUpdate.messages[0];
-            if (!msg.message || !msg.message.extendedTextMessage) return;
-
-            const selectedOption = msg.message.extendedTextMessage.text.trim();
-
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
-                switch (selectedOption) {
-                    case '1':
-                        // Send the lyrics as a document
-                        await conn.sendMessage(from, { document: { url: `data:text/plain;charset=utf-8,${encodeURIComponent(lyrics)}` }, caption: 'Here are the lyrics for your song.', fileName: `${q}.txt`, mimetype: 'text/plain' }, { quoted: mek });
-                        break;
-                    case '2':
-                        // Send the lyrics directly as text
-                        await conn.sendMessage(from, { text: `🎤 Lyrics for ${q}:\n\n${lyrics}` }, { quoted: mek });
-                        break;
-                    default:
-                        reply("❌ Invalid option. Please reply with '1' to download or '2' to view lyrics.");
-                }
-            }
-        });
+        // Send the lyrics as a document with the contextInfo
+        await conn.sendMessage(
+            from,
+            {
+                document: { url: `data:text/plain;charset=utf-8,${encodeURIComponent(lyrics)}` },
+                caption: `🎤 Here are the lyrics for ${title}\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`,
+                fileName: `${title}.txt`,
+                mimetype: 'text/plain',
+                contextInfo: contextInfo,
+            },
+            { quoted: mek }
+        );
 
     } catch (e) {
         console.error(e);
