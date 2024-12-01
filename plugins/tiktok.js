@@ -1,91 +1,67 @@
-const { fetchJson } = require('../lib/functions');
-const { cmd } = require('../command');
+const { fetchJson } = require('../lib/functions')
+const config = require('../config')
+const { cmd, commands } = require('../command')
 
-// Base API URL
-let baseUrl = 'https://www.dark-yasiya-api.site/download/tiktok?url=https://vt.tiktok.com/ZSje1Vkup'; 
-
+// FETCH API URL
+let baseUrl;
+(async () => {
+    let baseUrlGet = await fetchJson(`https://api-pink-venom.vercel.app/api/tiktok?url=https://www.tiktok.com/@rockinrefreshments/video/7381832164662431019`)
+    baseUrl = baseUrlGet.api
+})();
+//tiktok downloader
 cmd({
     pattern: "tiktok",
     alias: ["tt"],
-    desc: "Download TikTok videos",
+    desc: "Download tt videos",
     category: "download",
     react: "🔎",
     filename: __filename
 },
-async (conn, mek, m, { from, quoted, args, q, reply }) => {
+async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
     try {
-        // Validate URL
-        if (!q || !q.startsWith("https://")) {
-            return reply("Please provide a valid TikTok video URL!");
-        }
+        if (!q || !q.startsWith("https://")) return reply("Please provide a valid Tiktok video URL!");
+        const data = await fetchJson(`${baseUrl}/api/tiktokdl?url=${q}`);
+        let desc = ` HYPER-MD TikTok DOWNLOADER...⚙️
 
-        // Fetch TikTok video details
-        const apiEndpoint = `${baseUrl}/download/tiktok?url=${q}`;
-        const data = await fetchJson(apiEndpoint);
+Reply This Message With Option
 
-        // Validate API response
-        if (!data || !data.data) {
-            return reply("Failed to fetch video details. Please check the URL or try again later.");
-        }
+1 || Download TikTok Video With Watermark
+2 || Download TikTok Video Without Watermark
+3 || Download Audio
 
-        // Video Options Description
-        const desc = `
-🎬 TikTok Video Downloader 🎬
+> ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `;
 
-Reply with an option:
+        const vv = await conn.sendMessage(from, { image: { url: "https://files.catbox.moe/de82e3.jpg" }, caption: desc }, { quoted: mek });
 
-1️ || Download Video with Watermark  
-2️ || Download Video without Watermark  
-3️ || Download Audio Only  
-
-©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ 
-        `;
-
-        // Send thumbnail with description
-        const messageOptions = await conn.sendMessage(from, {
-            image: { url: data.data.thumb },
-            caption: desc,
-        }, { quoted: mek });
-
-        // Listen for user response
         conn.ev.on('messages.upsert', async (msgUpdate) => {
             const msg = msgUpdate.messages[0];
             if (!msg.message || !msg.message.extendedTextMessage) return;
 
             const selectedOption = msg.message.extendedTextMessage.text.trim();
 
-            // Verify reply context
-            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === messageOptions.key.id) {
+            if (msg.message.extendedTextMessage.contextInfo && msg.message.extendedTextMessage.contextInfo.stanzaId === vv.key.id) {
                 switch (selectedOption) {
-                    case '1': // Video with Watermark
-                        await conn.sendMessage(from, {
-                            video: { url: data.data.wm },
-                            mimetype: "video/mp4",
-                            caption: "✅ Video with Watermark\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
-                        }, { quoted: mek });
+                    case '1':
+                        await conn.sendMessage(from, { video: { url: data.data.wm }, mimetype: "video/mp4", caption: "> ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " }, { quoted: mek })  
                         break;
-                    case '2': // Video without Watermark
-                        await conn.sendMessage(from, {
-                            video: { url: data.data.no_wm },
-                            mimetype: "video/mp4",
-                            caption: "✅ Video without Watermark\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
-                        }, { quoted: mek });
+                    case '2':               
+                    await conn.sendMessage(from, { video: { url: data.data.no_wm }, mimetype: "video/mp4", caption: "> ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " }, { quoted: mek })
                         break;
-                    case '3': // Audio Only
-                        await conn.sendMessage(from, {
-                            audio: { url: data.data.audio },
-                            mimetype: "audio/mpeg",
-                            caption: "✅ TikTok Audio\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
-                        }, { quoted: mek });
+                    case '3':               
+                    await conn.sendMessage(from, { audio: { url: data.data.audio }, mimetype: "audio/mpeg" }, { quoted: mek })
                         break;
                     default:
-                        reply("Invalid option selected. Please try again!");
+                        reply("Invalid option. Please select a valid option🔴");
                 }
+
             }
         });
-    } catch (error) {
-        console.error(error);
-        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } });
-        reply("An error occurred while processing your request. Please try again later.");
+
+    } catch (e) {
+        console.error(e);
+        await conn.sendMessage(from, { react: { text: '❌', key: mek.key } })
+        reply('An error occurred while processing your request.');
     }
 });
+
+
