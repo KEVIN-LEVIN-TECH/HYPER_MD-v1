@@ -17,12 +17,12 @@ async (conn, mek, m, { from, reply, pushname }) => {
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
                 newsletterName: "HYPER-MD",
-                newsletterJid: "120363296605464049@newsletter",
+                newsletterJid: "0029VamA19KFCCoY1q9cvn2I@g.us",
             },
             externalAdReply: {
-                title: "HYPER-MD Gdrive Downloader",
-                body: "File Info: Powered by HYPER-MD",
-                thumbnailUrl: "https://pomf2.lain.la/f/41i00kdh.png",
+                title: "HYPER-MD Alive",
+                body: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
+                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg",
                 mediaType: 1,
                 renderLargerThumbnail: true,
             },
@@ -34,7 +34,7 @@ async (conn, mek, m, { from, reply, pushname }) => {
 
 I'm Hyper-MD WhatsApp Bot!
 
-🔢 Choose an option below:
+🔢 Choose an option below
 1 || Get Menu
 2 || Contact Bot Owner
 
