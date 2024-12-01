@@ -43,6 +43,7 @@
     "mathjs": "14.0.0",
     "wa-sticker-formatter": "4.4.4",
     "@sl-code-lords/esana-news": "1.1.0",
-    "gsmarena-api": "2.0.5"
+    "gsmarena-api": "2.0.5",
+    "ios-news": "1.0.1"
   }
 }
