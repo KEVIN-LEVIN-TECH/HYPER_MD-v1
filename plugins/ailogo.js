@@ -1,6 +1,6 @@
 const config = require('../config')
 const { cmd, commands } = require('../command')
-const { getBuffer, getGroupAdmins, getRandom, h2k, isUrl, Json, runtime, sleep, fetchJson} = require('../DATABASE/functions')
+const { getBuffer, getGroupAdmins, getRandom, h2k, isUrl, Json, runtime, sleep, fetchJson} = require('../lib/functions')
 const fetch = require('node-fetch')
 let wm = `©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `
 
@@ -48,7 +48,7 @@ async function generate(prompt) {
             }
         }
 
-        return { status: false, msg: '*Image Generation Timed Out :(* ' };
+        return { status: false, msg: 'Image Generation Timed Out :( ' };
 
     } catch (e) {
         console.error(e);
