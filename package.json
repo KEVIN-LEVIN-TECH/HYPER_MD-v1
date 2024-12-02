@@ -31,6 +31,7 @@
     "pixaldrain-sinhalasub": "git+https://github.com/DarkMakerofc/pixaldrain-sinhalasub.git",
     "@sl-code-lords/movie-api": "1.0.0",
     "@bochilteam/scraper": "5.0.1",
-    "@dark-yasiya/imgbb.js": "0.0.1"
+    "@dark-yasiya/imgbb.js": "0.0.1",
+    "google-tts-api": "2.0.2"
   }
 }
