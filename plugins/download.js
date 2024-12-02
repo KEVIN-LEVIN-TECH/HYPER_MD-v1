@@ -13,7 +13,7 @@ cmd({
 async (conn, mek, m, { from, quoted, body, command, args, q, reply }) => {
     try {
         if (!q || !q.startsWith("https://")) return reply("❌ Please provide a valid Facebook video URL!");
-        const data = await fetchJson(`<FB_API_URL>?url=${q}`); // Replace with your Facebook API
+        const data = await fetchJson(`<https://api-pink-venom.vercel.app/api/fbdl?url=https://www.facebook.com/share/v/96sTSx436kHcRmya/?mibextid=SphRi8>?url=${q}`); // Replace with your Facebook API
         reply("Downloading...");
         await conn.sendMessage(from, { video: { url: data.hd }, caption: "HD Video" }, { quoted: mek });
         await conn.sendMessage(from, { video: { url: data.sd }, caption: "SD Video" }, { quoted: mek });
