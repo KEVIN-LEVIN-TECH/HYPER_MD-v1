@@ -39,19 +39,22 @@ cmd({
         const response = await axios.get(downloadUrl);
         const audioUrl = response.data.result.download_url;
 
-        await conn.sendMessage(from, {
-            audio: { url: audioUrl },
-            mimetype: "audio/mpeg",
-            contextInfo: {
-                externalAdReply: {
-                    title: video.title,
-                    body: "YouTube Audio Downloader",
-                    mediaType: 1,
-                    sourceUrl: video.url,
-                    thumbnailUrl: video.thumbnail
-                }
-            }
-        }, { quoted: mek });
+        const contextInfo = {
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterName: "Ytmp3 Download By HYPER-MD",
+                newsletterJid: "120363325937635174@newsletter",
+            },
+            externalAdReply: {
+                title: "HYPER-MD YTMP3 DOWNLOAD",
+                body: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ ",
+                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg",
+                mediaType: 1,
+                renderLargerThumbnail: true,
+            },
+        };
+
 
         reply("✅ Successfully sent the MP3 file.");
     } catch (err) {
