@@ -300,7 +300,7 @@ cmd(
 
 cmd(
     {
-        pattern: "video",
+        pattern: "video2",
         desc: "To download songs.",
         react: "🎬",
         category: "download",
