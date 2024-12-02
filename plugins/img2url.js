@@ -1,5 +1,5 @@
 const { cmd, commands } = require('../command');
-let { img2url } = require('@dark-yasiya/imgbb.js');
+let { img2url } = require('@dark-yasiya/imgbb');
 const { getRandom } = require('../lib/functions');
 const fs = require('fs');
 const config = require('../config')
