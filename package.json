@@ -44,6 +44,7 @@
     "wa-sticker-formatter": "4.4.4",
     "@sl-code-lords/esana-news": "1.1.0",
     "gsmarena-api": "2.0.5",
-    "ios-news": "1.0.1"
+    "ios-news": "1.0.1",
+    "@dark-yasiya/imgbb": "0.0.1"
   }
 }
