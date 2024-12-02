@@ -58,7 +58,7 @@ cmd({
 async (conn, mek, m, { from, quoted, body, command, args, q, reply }) => {
     try {
         if (!q || !q.startsWith("https://")) return reply("❌ Please provide a valid Twitter video URL!");
-        const data = await fetchJson(`<TWITTER_API_URL>?url=${q}`); // Replace with your Twitter API
+        const data = await fetchJson(`<https://raw.githubusercontent.com/prabathLK/PUBLIC-URL-HOST-DB/main/public/url.json>?url=${q}`); // Replace with your Twitter API
         reply("Downloading...");
         await conn.sendMessage(from, { video: { url: data.hd }, caption: "HD Video" }, { quoted: mek });
         await conn.sendMessage(from, { video: { url: data.sd }, caption: "SD Video" }, { quoted: mek });
@@ -81,7 +81,7 @@ cmd({
 async (conn, mek, m, { from, quoted, body, command, args, q, reply }) => {
     try {
         if (!q || !q.startsWith("https://")) return reply("❌ Please provide a valid Google Drive URL!");
-        const data = await fetchJson(`<GDRIVE_API_URL>?url=${q}`); // Replace with your Google Drive API
+        const data = await fetchJson(`<https://raw.githubusercontent.com/prabathLK/PUBLIC-URL-HOST-DB/main/public/url.json>?url=${q}`); // Replace with your Google Drive API
         reply("Downloading...");
         await conn.sendMessage(from, { document: { url: data.download }, fileName: data.fileName, caption: data.fileName }, { quoted: mek });
     } catch (e) {
@@ -102,7 +102,7 @@ cmd({
 async (conn, mek, m, { from, quoted, body, command, args, q, reply }) => {
     try {
         if (!q || !q.startsWith("https://")) return reply("❌ Please provide a valid MediaFire URL!");
-        const data = await fetchJson(`<MEDIAFIRE_API_URL>?url=${q}`); // Replace with your MediaFire API
+        const data = await fetchJson(`<https://raw.githubusercontent.com/prabathLK/PUBLIC-URL-HOST-DB/main/public/url.json>?url=${q}`); // Replace with your MediaFire API
         reply("Downloading...");
         await conn.sendMessage(from, { document: { url: data.link }, fileName: data.fileName, caption: data.fileName }, { quoted: mek });
     } catch (e) {
