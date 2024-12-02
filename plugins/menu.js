@@ -114,6 +114,12 @@ async (conn, mek, m, { from, reply, pushname }) => {
 ├ .demote 
 ├ .lock
 ├ .getjid
+├ .setwelcome
+├ .setgoodbye
+├ .del
+├ .demote
+├ .unmute
+├ .mute
 ╰────────────────────◈
 © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ
                             `;
