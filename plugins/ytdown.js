@@ -77,25 +77,41 @@ cmd({
 
         const query = convertYouTubeLink(q);
         const searchResults = await yts(query);
+
+        if (!searchResults || !searchResults.videos || searchResults.videos.length === 0) {
+            return reply("❌ No video found for the given query.");
+        }
+
         const video = searchResults.videos[0];
-
-        if (!video) return reply("❌ No video found for the given query.");
-
         const downloadUrl = `https://api.giftedtech.my.id/api/download/ytmp4?apikey=gifted&url=${video.url}`;
+
+        if (!downloadUrl) {
+            return reply("❌ Could not generate the download URL.");
+        }
+
         reply(`🎥 Downloading MP4 for: ${video.title}`);
 
-        const response = await axios.get(downloadUrl);
-        const videoUrl = response.data.result.download_url;
+        try {
+            const response = await axios.get(downloadUrl);
+            const videoUrl = response?.data?.result?.download_url;
 
-        await conn.sendMessage(from, {
-            video: { url: videoUrl },
-            mimetype: "video/mp4",
-            caption: `🎥 ${video.title}\n\nDownloaded successfully.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `
-        }, { quoted: mek });
+            if (!videoUrl) {
+                throw new Error("Invalid API response.");
+            }
 
-        reply("✅ Successfully sent the video file.");
+            await conn.sendMessage(from, {
+                video: { url: videoUrl },
+                mimetype: "video/mp4",
+                caption: `🎥 ${video.title}\n\nDownloaded successfully.\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `
+            }, { quoted: mek });
+
+            reply("✅ Successfully sent the video file.");
+        } catch (apiError) {
+            console.error(apiError);
+            reply("❌ Failed to fetch the video download link.");
+        }
     } catch (err) {
         console.error(err);
-        reply("❌ Failed to download the video. Please try again.");
+        reply("❌ An unexpected error occurred. Please try again.");
     }
 });
