@@ -33,6 +33,6 @@
     "@bochilteam/scraper": "5.0.1",
     "@dark-yasiya/imgbb.js": "0.0.1",
     "google-tts-api": "2.0.2",
-    "ytdl-secktor": "0.0.1"
+    "ytdl-secktor": "latest"
   }
 }
