@@ -28,7 +28,6 @@
     "yt-search": "2.12.1",
     "@adiwajshing/baileys": "5.0.0",
     "googleapis": "144.0.0",
-    "@blackamda/telegram-image-url": "1.0.0",
     "pixaldrain-sinhalasub": "git+https://github.com/DarkMakerofc/pixaldrain-sinhalasub.git",
     "@sl-code-lords/movie-api": "1.0.0",
     "@bochilteam/scraper": "5.0.1",
