@@ -35,7 +35,7 @@ cmd({
 async (conn, mek, m, { from, quoted, body, command, args, q, reply }) => {
     try {
         if (!q || !q.startsWith("https://")) return reply("❌ Please provide a valid TikTok video URL!");
-        const data = await fetchJson(`<TIKTOK_API_URL>?url=${q}`); // Replace with your TikTok API
+        const data = await fetchJson(`<https://api-pink-venom.vercel.app/api/tiktok?url=https://www.tiktok.com/@rockinrefreshments/video/7381832164662431019>?url=${q}`); // Replace with your TikTok API
         reply("Downloading...");
         await conn.sendMessage(from, { video: { url: data.no_watermark }, caption: "No Watermark" }, { quoted: mek });
         await conn.sendMessage(from, { video: { url: data.watermark }, caption: "With Watermark" }, { quoted: mek });
