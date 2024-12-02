@@ -1,67 +1,48 @@
-const { cmd } = require('../command');
-const axios = require('axios'); // To make HTTP requests
+const config = require('../config')
+const { cmd, commands } = require('../command')
+const { getBuffer, getGroupAdmins, getRandom, h2k, isUrl, Json, runtime, sleep, fetchJson} = require('../DATABASE/functions')
+const { lyrics, lyricsv2 } = require('@bochilteam/scraper');
+
+var tmsg =''
+if(config.LANG === 'SI') tmsg = 'කරුණාකර මට ගීතයක නමක් දෙන්න. !'
+else tmsg = "Please give me a song name. !"
+var descg = ''
+if(config.LANG === 'SI') descg = "එය ලබා දී ඇති සංගීතයේ lyrics දෙයි."
+else descg = "It gives lyrics of given song name."
+var cantscg = ''
+if(config.LANG === 'SI') cantscg = "මට මේ ගීතයේ lyrics සොයාගත නොහැක !"
+else cantscg = "I cant find lyrics of this song !"
 
 cmd({
-    pattern: "lyrics",
-    react: "🎤",
-    desc: "Search and download lyrics of a song",
-    category: "download",
+    pattern: "lyric",
+    alias: ["lyrics"],
+    react: '🎙️',
+    desc: descg,
+    category: "search",
+    use: '.lyric <song name>',
     filename: __filename
 },
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, reply }) => {
-    try {
-        if (!q) {
-            return reply("❌ Please provide a song name.\nExample: .lyrics Love Me Like You Do");
-        }
+async(conn, mek, m,{from, l, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
+try{
+if(!q) return reply(tmsg)
+const result = await fetchJson(`https://some-random-api.com/lyrics?title=${text}`)
+if(result.lyrics) reply(`
+   [🎙️ HYPER - ＭＤ 🎙️]
 
-        // Encode the song name for the API request
-        const query = encodeURIComponent(q);
+┌──❮ LYRICS SEARCH ❯───◉
+   
+${result.title}
+${result.artist}
 
-        // Make the API request
-        const apiUrl = `https://levanter.onrender.com/lyrics?name=${query}`;
-        const response = await axios.get(apiUrl);
-        const data = response.data;
 
-        if (!data || !data.lyrics) {
-            return reply("❌ Sorry, I couldn't find the lyrics for the song.");
-        }
+${result.lyrics}
 
-        // Extract the lyrics and title
-        const lyrics = data.lyrics;
-        const title = data.title || q;
+└───────────────────◉
 
-        // Prepare the contextInfo object
-        const contextInfo = {
-            forwardingScore: 999,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterName: "HYPER-MD",
-                newsletterJid: "120363325937635174@newsletter",
-            },
-            externalAdReply: {
-                title: "HYPER-MD Alive",
-                body: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ",
-                thumbnailUrl: "https://telegra.ph/file/3c64b5608dd82d33dabe8.jpg",
-                mediaType: 1,
-                renderLargerThumbnail: true,
-            },
-        };
-
-        // Send the lyrics as a document with the contextInfo
-        await conn.sendMessage(
-            from,
-            {
-                document: { url: `data:text/plain;charset=utf-8,${encodeURIComponent(lyrics)}` },
-                caption: `🎤 Here are the lyrics for ${title}\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`,
-                fileName: `${title}.txt`,
-                mimetype: 'text/plain',
-                contextInfo: contextInfo,
-            },
-            { quoted: mek }
-        );
-
-    } catch (e) {
-        console.error(e);
-        reply("❌ An error occurred while fetching the lyrics.");
-    }
-});
+©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ `)
+else reply(cantscg)
+} catch (e) {
+reply(cantscg)
+l(e)
+}
+})
