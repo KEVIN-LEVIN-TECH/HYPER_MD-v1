@@ -37,25 +37,61 @@ cmd({
 
     )
      //---------------------------------------------------------------------------
-cmd({ 
-             pattern: "tiktok", 
-               alias :  ['tt','ttdl','ටික්ටොක්'], 
-             desc: "Downloads Tiktok Videos Via Url.", 
-             category: "downloader", 
-             react: "🎟️",
-             filename: __filename, 
-             use: '<add tiktok url.>' 
-         }, 
-  
-         async(Void, citel, text) => { 
-  if(!text) return await citel.reply(`*Uhh Please, Provide me tiktok Video Url*`); 
-  let txt = text ? text.split(" ")[0]:''; 
-  if (!/tiktok/.test(txt)) return await citel.reply(`*Uhh Please, Give me Valid Tiktok Video Url!*`); 
-  const { status ,thumbnail, video, audio } = await tiktokdl(txt) 
-  //console.log("url : " , video  ,"\nThumbnail : " , thumbnail ,"\n Audio url : " , audio ) 
-  if (status) return await Void.sendMessage(citel.chat, {video : {url : video } , caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ " } , {quoted : citel }); 
-  else return await citel.reply("Error While Downloading Your Video")  
- }) 
+cmd({
+    pattern: "tiktok",
+    alias: ['tt', 'ttdl', 'ටික්ටොක්'],
+    desc: "Downloads TikTok Videos Via Url.",
+    category: "downloader",
+    react: "🎟️",
+    filename: __filename,
+    use: '<add tiktok url>'
+},
+
+async (Void, citel, text) => {
+    if (!text) return await citel.reply(`*Uhh Please, Provide me TikTok Video URL*`);
+
+    let txt = text.split(" ")[0] || '';
+    if (!/tiktok/.test(txt)) return await citel.reply(`*Uhh Please, Give me a Valid TikTok Video URL!*`);
+
+    await citel.reply(`🔢 *Reply Below Number*\n\n1 | Download Video with Watermark\n2 | Download Video without Watermark\n3 | Download Audio Only\n\n©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ`);
+
+    Void.on('chat-update', async (response) => {
+        if (!response.isReply || response.reply.message !== citel.message) return;
+
+        const option = response.message.text;
+        const { status, thumbnail, video, audio, videoWM } = await tiktokdl(txt);
+
+        if (!status) return await citel.reply("Error While Downloading Your Video");
+
+        switch (option) {
+            case '1': // With Watermark
+                if (!videoWM) return await citel.reply("Watermarked Video Not Found!");
+                return await Void.sendMessage(citel.chat, {
+                    video: { url: videoWM },
+                    caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ"
+                }, { quoted: citel });
+
+            case '2': // Without Watermark
+                if (!video) return await citel.reply("Video Without Watermark Not Found!");
+                return await Void.sendMessage(citel.chat, {
+                    video: { url: video },
+                    caption: "©ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ"
+                }, { quoted: citel });
+
+            case '3': // Audio Only
+                if (!audio) return await citel.reply("Audio Not Found!");
+                return await Void.sendMessage(citel.chat, {
+                    audio: { url: audio },
+                    mimetype: "audio/mpeg",
+                    ptt: false,
+                    caption: "© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ꜱᴇɴᴇꜱʜ"
+                }, { quoted: citel });
+
+            default:
+                return await citel.reply(`*Invalid Option! Please Choose 1 (With Watermark), 2 (Without Watermark), or 3 (Audio)*`);
+        }
+    });
+});
      //---------------------------------------------------------------------------
 
      cmd({
